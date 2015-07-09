@@ -1,0 +1,19 @@
+{
+  "name": "trainings",
+  "version": "1.0.0",
+  "description": "Spec: http://bit.ly/1SaLLAG\r Rest api: http://bit.ly/1dO6Z9X",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrainingGroup2/trainings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrainingGroup2/trainings/issues"
+  },
+  "homepage": "https://github.com/TrainingGroup2/trainings#readme"
+}
