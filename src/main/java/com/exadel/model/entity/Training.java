@@ -1,7 +1,10 @@
 package com.exadel.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Training {
     private String id;
     private String name;
@@ -13,6 +16,8 @@ public class Training {
     private String targetAudience;
     private Double rating;
     private Integer numberOfFeedbacks;
+    private Integer maxNumber;
+    private Integer curNumber;
 
     public Training(String id, String name, String place, Date date, Date beginTime, Date endTime,
                     String trainer, String targetAudience, Double rating, Integer numberOfFeedbacks) {
@@ -106,5 +111,21 @@ public class Training {
 
     public void setNumberOfFeedbacks(Integer numberOfFeedbacks) {
         this.numberOfFeedbacks = numberOfFeedbacks;
+    }
+
+    public Integer getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setMaxNumber(Integer maxNumber) {
+        this.maxNumber = maxNumber;
+    }
+
+    public Integer getCurNumber() {
+        return curNumber;
+    }
+
+    public void setCurNumber(Integer curNumber) {
+        this.curNumber = curNumber;
     }
 }
