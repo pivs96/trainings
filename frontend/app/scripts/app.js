@@ -29,7 +29,15 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/userprofile', {
+        templateUrl: 'views/userprofile.html',
+        controller: 'UserProfileCtrl',
+        controllerAs: 'userprofile'
+      })
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }).run(function($rootScope) {
+    //TODO provide role from userService here
+      $rootScope.getRole = function (){return 'admin'};
+  });;
