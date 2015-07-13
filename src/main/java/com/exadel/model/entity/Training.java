@@ -14,13 +14,12 @@ public class Training {
     private Date endTime;
     private String trainer;
     private String targetAudience;
-    private Double rating;
-    private Integer numberOfFeedbacks;
-    private Integer maxNumber;
-    private Integer curNumber;
+    private double rating;
+    private int numberOfFeedbacks;
+    private int maxNumber;
+    private int currentNumber;
 
-    public Training(String id, String name, String place, Date date, Date beginTime, Date endTime,
-                    String trainer, String targetAudience, Double rating, Integer numberOfFeedbacks) {
+    public Training(String id, String name, String place, Date date, Date beginTime, Date endTime, String trainer, String targetAudience, double rating, int numberOfFeedbacks, int maxNumber, int currentNumber) {
         this.id = id;
         this.name = name;
         this.place = place;
@@ -31,6 +30,11 @@ public class Training {
         this.targetAudience = targetAudience;
         this.rating = rating;
         this.numberOfFeedbacks = numberOfFeedbacks;
+        this.maxNumber = maxNumber;
+        this.currentNumber = currentNumber;
+    }
+
+    public Training() {
     }
 
     public String getId() {
@@ -97,7 +101,7 @@ public class Training {
         this.targetAudience = targetAudience;
     }
 
-    public Double getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -105,7 +109,7 @@ public class Training {
         this.rating = rating;
     }
 
-    public Integer getNumberOfFeedbacks() {
+    public int getNumberOfFeedbacks() {
         return numberOfFeedbacks;
     }
 
@@ -113,7 +117,7 @@ public class Training {
         this.numberOfFeedbacks = numberOfFeedbacks;
     }
 
-    public Integer getMaxNumber() {
+    public int getMaxNumber() {
         return maxNumber;
     }
 
@@ -121,11 +125,11 @@ public class Training {
         this.maxNumber = maxNumber;
     }
 
-    public Integer getCurNumber() {
-        return curNumber;
+    public int getCurrentNumber() {
+        return currentNumber;
     }
 
-    public void setCurNumber(Integer curNumber) {
-        this.curNumber = curNumber;
+    public void setCurrentNumber(Integer currentNumber) {
+        this.currentNumber = currentNumber;
     }
 }
