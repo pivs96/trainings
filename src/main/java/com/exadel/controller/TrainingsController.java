@@ -28,7 +28,8 @@ public class TrainingsController {
     }
 
     @RequestMapping(value="/newTraining", method = RequestMethod.POST)
-    public Training createTraining(@RequestBody Training training){
+    public Training createTraining(@RequestBody Training training) {
+        trainings.add(training);
         return training;
     }
 }

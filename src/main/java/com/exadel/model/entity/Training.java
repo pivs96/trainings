@@ -15,11 +15,11 @@ public class Training {
     private String trainer;
     private String targetAudience;
     private double rating;
-    private int numberOfFeedbacks;
-    private int maxNumber;
-    private int currentNumber;
+    private int feedbackNumber;
+    private int membersCountMax;
+    private int membersCount;
 
-    public Training(String id, String name, String place, Date date, Date beginTime, Date endTime, String trainer, String targetAudience, double rating, int numberOfFeedbacks, int maxNumber, int currentNumber) {
+    public Training(String id, String name, String place, Date date, Date beginTime, Date endTime, String trainer, String targetAudience, double rating, int feedbackNumber, int membersCountMax, int membersCount) {
         this.id = id;
         this.name = name;
         this.place = place;
@@ -29,9 +29,9 @@ public class Training {
         this.trainer = trainer;
         this.targetAudience = targetAudience;
         this.rating = rating;
-        this.numberOfFeedbacks = numberOfFeedbacks;
-        this.maxNumber = maxNumber;
-        this.currentNumber = currentNumber;
+        this.feedbackNumber = feedbackNumber;
+        this.membersCountMax = membersCountMax;
+        this.membersCount = membersCount;
     }
 
     public Training() {
@@ -109,27 +109,27 @@ public class Training {
         this.rating = rating;
     }
 
-    public int getNumberOfFeedbacks() {
-        return numberOfFeedbacks;
+    public int getFeedbackNumber() {
+        return feedbackNumber;
     }
 
-    public void setNumberOfFeedbacks(Integer numberOfFeedbacks) {
-        this.numberOfFeedbacks = numberOfFeedbacks;
+    public void setFeedbackNumber(Integer feedbackNumber) {
+        this.feedbackNumber = feedbackNumber;
     }
 
-    public int getMaxNumber() {
-        return maxNumber;
+    public int getMembersCountMax() {
+        return membersCountMax;
     }
 
-    public void setMaxNumber(Integer maxNumber) {
-        this.maxNumber = maxNumber;
+    public void setMembersCountMax(Integer membersCountMax) {
+        this.membersCountMax = membersCountMax;
     }
 
-    public int getCurrentNumber() {
-        return currentNumber;
+    public int getMembersCount() {
+        return membersCount;
     }
 
-    public void setCurrentNumber(Integer currentNumber) {
-        this.currentNumber = currentNumber;
+    public void setMembersCount(Integer membersCount) {
+        this.membersCount = membersCount;
     }
 }
