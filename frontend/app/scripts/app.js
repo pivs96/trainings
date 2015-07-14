@@ -37,7 +37,19 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  }).run(function($rootScope) {
+  }).run(function ($rootScope) {
     //TODO provide role from userService here
-      $rootScope.getRole = function (){return 'admin'};
-  });;
+    $rootScope.isAdmin = function () {
+      return true;
+    };
+    $rootScope.isExternalTrainer = function () {
+      return false;
+    };
+
+    $rootScope.isEmployee = function () {
+      return false;
+    };
+
+  })
+;
+;

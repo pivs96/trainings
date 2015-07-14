@@ -2,9 +2,8 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', function ($rootScope, $location) {
+  .controller('HeaderCtrl', function ($location,  $scope) {
     this.companyName = companyName;
-    this.role = $rootScope.getRole();
 
     this.goToUserProfile = function (){
       $location.path('/userprofile');
@@ -14,6 +13,11 @@ angular.module('frontendApp')
       alert("we are working...");
       //TODO logout functionality
     }
+
+    $scope.isActive = function (page) {
+      var currentRoute = $location.path().substring(1) || 'home';
+      return page === currentRoute ? 'active' : '';
+    };
 
   });;
 

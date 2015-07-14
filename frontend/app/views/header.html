@@ -2,22 +2,27 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse"
-                >
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
 
-        <a class="navbar-brand" href="#/">{{headerController.companyName}}</a>
+        <!--a class="navbar-brand" href="#/">{{headerController.companyName}}</a-->
+
+        <a class="navbar-brand"  href="#/">
+          <img src="images/exadel-logo.png">
+        </a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li>
-            <a ng-href="#/">My Trainings</a></li>
-          <li>
-            <a ng-href="#/">All Trainings</a></li>
-          <li>
+          <li ng-class="{ active: isActive('main')}">
+            <a ng-href="#/main">My Trainings</a></li>
+          <li ng-class="{ active: isActive('userprofile')}"
+              ng-show="(isAdmin() || isEmployee())" >
+            <a ng-href="#/userprofile">All Trainings</a></li>
+          <li ng-class="{ active: isActive('about')}"
+              ng-show="isAdmin()" >
             <a ng-href="#/about">Users List</a></li>
         </ul>
 
