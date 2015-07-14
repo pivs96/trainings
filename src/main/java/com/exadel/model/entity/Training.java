@@ -3,27 +3,30 @@ package com.exadel.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Training {
     private String id;
     private String name;
     private String place;
-    private Date date;
     private Date beginTime;
     private Date endTime;
-    private String trainer;
+    private User trainer;
     private String targetAudience;
     private double rating;
     private int feedbackNumber;
     private int membersCountMax;
     private int membersCount;
+    private List<User> participants;
 
-    public Training(String id, String name, String place, Date date, Date beginTime, Date endTime, String trainer, String targetAudience, double rating, int feedbackNumber, int membersCountMax, int membersCount) {
+    public Training() {
+    }
+
+    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience, double rating, int feedbackNumber, int membersCountMax, int membersCount) {
         this.id = id;
         this.name = name;
         this.place = place;
-        this.date = date;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.trainer = trainer;
@@ -32,9 +35,6 @@ public class Training {
         this.feedbackNumber = feedbackNumber;
         this.membersCountMax = membersCountMax;
         this.membersCount = membersCount;
-    }
-
-    public Training() {
     }
 
     public String getId() {
@@ -61,14 +61,6 @@ public class Training {
         this.place = place;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Date getBeginTime() {
         return beginTime;
     }
@@ -83,14 +75,6 @@ public class Training {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public String getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(String trainer) {
-        this.trainer = trainer;
     }
 
     public String getTargetAudience() {
@@ -131,5 +115,37 @@ public class Training {
 
     public void setMembersCount(Integer membersCount) {
         this.membersCount = membersCount;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setFeedbackNumber(int feedbackNumber) {
+        this.feedbackNumber = feedbackNumber;
+    }
+
+    public void setMembersCountMax(int membersCountMax) {
+        this.membersCountMax = membersCountMax;
+    }
+
+    public void setMembersCount(int membersCount) {
+        this.membersCount = membersCount;
+    }
+
+    public void setTrainer(User trainer) {
+        this.trainer = trainer;
+    }
+
+    public User getTrainer() {
+        return trainer;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
     }
 }
