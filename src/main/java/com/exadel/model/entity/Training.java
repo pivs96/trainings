@@ -1,5 +1,6 @@
 package com.exadel.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -103,24 +104,17 @@ public class Training {
         return rating;
     }
 
-
-
     public int getFeedbackNumber() {
         return feedbackNumber;
     }
-
-
 
     public int getMembersCountMax() {
         return membersCountMax;
     }
 
-
     public int getMembersCount() {
         return membersCount;
     }
-
-
 
     public void setRating(double rating) {
         this.rating = rating;

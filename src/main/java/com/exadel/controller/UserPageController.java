@@ -2,6 +2,7 @@ package com.exadel.controller;
 
 import com.exadel.model.entity.Employee;
 import com.exadel.model.entity.Training;
+
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,7 +61,5 @@ public class UserPageController {
         Employee employee = getUserById(userId);
         return employee.getVisitingTrainings();
     }
-
-
 }
 
