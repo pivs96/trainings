@@ -1,9 +1,12 @@
 package com.exadel.model.entity;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 /**
  * Created by Виктория on 13.07.2015.
  */
-public abstract class User {
+public /*abstract*/ class User {
     private String id;
     private String name;
     private String secondName;
@@ -24,6 +27,11 @@ public abstract class User {
 
     public String getId() {
         return id;
+    }
+
+    public String generateId() {
+        Random random = new Random();
+        return new BigInteger(130,random).toString(32);
     }
 
     public void setId(String id) {

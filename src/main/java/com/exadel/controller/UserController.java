@@ -26,7 +26,15 @@ public class UserController {
             users.add(new Employee("1255", "Marina", "Aleksandrovna", "Ivanova","+375295655898", "marina@mail.ru"));
         }
 
-
+    public static User getUserById(String id)
+    {
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public  List<User> showUsers() {

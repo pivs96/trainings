@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Виктория on 10.07.2015.
  */
 public class Employee extends User {
-    @JsonIgnore
+   // @JsonIgnore
     private List<Training> visitingTrainings;
-    @JsonIgnore
+  //  @JsonIgnore
     private List<Training> mentoringTrainings;
 
     public Employee() {
@@ -26,6 +26,11 @@ public class Employee extends User {
 
     public Employee(String id, String name, String secondName, String surname, String phone, String email) {
         super(id, name, secondName, surname, phone, email);
+        this.mentoringTrainings = new ArrayList<>();
+        this.visitingTrainings = new ArrayList<>();
+    }
+    public Employee(User user) {
+        super(user.generateId(), user.getName(), user.getSecondName(), user.getSurname(),user.getPhone(),  user.getEmail());
         this.mentoringTrainings = new ArrayList<>();
         this.visitingTrainings = new ArrayList<>();
     }

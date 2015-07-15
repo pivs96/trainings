@@ -1,5 +1,6 @@
 package com.exadel.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,11 @@ public class ExternalVisitor extends User {
 
     public ExternalVisitor() {
         super();
+    }
+
+    public ExternalVisitor(ExternalVisitor externalVisitor) {
+        super(externalVisitor.generateId(), externalVisitor.getName(), externalVisitor.getSecondName(), externalVisitor.getSurname(), externalVisitor.getPhone(), externalVisitor.getEmail());
+        this.visitingTrainings = new ArrayList<>();
     }
 
     public List<Training> getVisitingTrainings() {

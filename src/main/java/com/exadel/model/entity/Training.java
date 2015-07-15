@@ -41,6 +41,20 @@ public class Training {
         return id;
     }
 
+    public void updateTraining(Training training)
+    {
+        this.setId(training.getId());
+        this.setName(training.getName());
+        this.setPlace(training.getPlace());
+        this.setBeginTime(training.getBeginTime());
+        this.setTrainer(training.getTrainer());
+        this.setTargetAudience(training.getTargetAudience());
+        this.setRating(training.getRating());
+        this.setFeedbackNumber(training.getFeedbackNumber());
+        this.setMembersCount(training.getMembersCount());
+        this.setMembersCountMax(training.getMembersCountMax());
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -89,33 +103,24 @@ public class Training {
         return rating;
     }
 
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
+
 
     public int getFeedbackNumber() {
         return feedbackNumber;
     }
 
-    public void setFeedbackNumber(Integer feedbackNumber) {
-        this.feedbackNumber = feedbackNumber;
-    }
+
 
     public int getMembersCountMax() {
         return membersCountMax;
     }
 
-    public void setMembersCountMax(Integer membersCountMax) {
-        this.membersCountMax = membersCountMax;
-    }
 
     public int getMembersCount() {
         return membersCount;
     }
 
-    public void setMembersCount(Integer membersCount) {
-        this.membersCount = membersCount;
-    }
+
 
     public void setRating(double rating) {
         this.rating = rating;

@@ -1,12 +1,11 @@
 package com.exadel.controller;
 
+import com.exadel.model.entity.Employee;
+import com.exadel.model.entity.ExternalVisitor;
 import com.exadel.model.entity.Training;
 import com.exadel.model.entity.User;
 import javafx.util.Pair;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +14,7 @@ import java.util.List;
 @RequestMapping("/trainings/training")
 public class TrainingPageController {
 
-    Training getTrainingById(String id) {
-        for(Training training: TrainingsController.trainings){
-            if (training.getId().equals((id))){
-                return training;
-            }
-        }
-        return null;
-    }
+
 
     @RequestMapping(value="participants", method = RequestMethod.GET)
     public List<User> getParticipants(@RequestParam String id) {
@@ -38,5 +30,32 @@ public class TrainingPageController {
         attachments.add(new Pair("lection 2", "http://..lections/lec2.ppt"));
         //later it will be request from db for attchmentss of this training
         return attachments;
+    }
+    @RequestMapping(value="/newUser", method = RequestMethod.POST)
+    public ExternalVisitor addExternalVisitor(@RequestBody ExternalVisitor visitor,@RequestParam String trainingId) {
+        List<Training> trainings = new ArrayList<>();
+        trainings.add(TrainingsController.getTrainingById(trainingId));
+        visitor.setVisitingTrainings(trainings);
+        return visitor;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Employee registerOnTraining(@RequestBody String id,@RequestParam String trainingId) {
+        Employee employee = new Employee(UserController.getUserById(id));
+        List<Training> trainings = new ArrayList<>();
+        trainings.add(TrainingsController.getTrainingById(trainingId));
+        employee.setVisitingTrainings(trainings);
+        return employee;
+
+    }
+
+
+    @RequestMapping(method = RequestMethod.PUT)   //only for admin(trainer can modify, but admin must approve)
+    public Training modifyTraining(@RequestBody Training training,@RequestParam String id) {
+        Training trainingToUpdate = TrainingsController.getTrainingById(id);
+        if (trainingToUpdate != null) {
+            trainingToUpdate.updateTraining(training);
+        }
+        return training;
     }
 }
