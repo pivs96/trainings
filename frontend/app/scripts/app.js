@@ -18,9 +18,9 @@ angular
     'ngTouch',
     'smart-table',
     'ngStorage',
-    'ngDialog',
     'ui.bootstrap',
-    'ngAside'
+    'ngAside',
+    'ngDialog'
   ])
   .config(function ($routeProvider) {
     $routeProvider

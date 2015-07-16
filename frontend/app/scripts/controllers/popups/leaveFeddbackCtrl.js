@@ -66,5 +66,4 @@ angular.module('frontendApp')
       $scope.$parent.feedbackInput = "";
       $scope.closeThisDialog();
     };
-
   }]);

@@ -1,0 +1,21 @@
+<div style="padding: 10px;">
+  <h2 style="text-align: center; margin-top: 10px">Leave feedback</h2>
+</div>
+<div class="ngdialog-message" style="text-align: center;">
+  <form class="form-horizontal">
+    <div style="margin: 5px">
+      <div>
+        <!--<label for="feedbackId"></label>-->
+        <textarea rows="10" class="form-control" id="feedbackId" style="resize: none;"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="ngdialog-buttons mt">
+  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+          ng-click="closeThisDialog()">Cancel
+  </button>
+  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+          ng-click="leaveFeedback()">Ok
+  </button>
+</div>
