@@ -1,6 +1,5 @@
-/**
- * Created by Natsik on 13.07.2015.
- */
+'use strict';
+
 angular.module('frontendApp')
   .controller('UserProfileCtrl',['$scope','ngDialog', function ($scope,ngDialog) {
     $scope.leaveTrainingFeedback = function(){
@@ -15,4 +14,14 @@ angular.module('frontendApp')
         controller: 'LeaveFeedbackCtrl'
       })
     }
-}]);
+      $scope.openCreatePopup = function(type) {
+          $rootScope.type = type;
+          ngDialog.open({
+              template: "../../views/popups/createExternal.html",
+              controller: 'CreateExternalCtrl'
+          });
+      };
+
+
+  }]);
+

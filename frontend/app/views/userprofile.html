@@ -1,5 +1,4 @@
 <div ng-controller="UserProfileCtrl as userprofile">
-  User Profile panel.
   <section>
     <label> {{translation.SELECT_LANGUAGE}}</label>
     <select ng-change="translate()" ng-model="i10n.selectedLanguage">
@@ -9,4 +8,6 @@
   </section>
   <button type="button" ng-click="leaveTrainingFeedback()" ng-dialog-class="ngdialog-theme-plain">Training feedback</button>
   <button type="button" ng-click="leaveUserFeedback()" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
+    <button type="button" ng-click="openCreatePopup('Trainer');" ng-dialog-class="ngdialog-theme-plain">create trainer
+    </button>
 </div>

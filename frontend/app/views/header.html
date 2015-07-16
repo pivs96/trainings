@@ -22,6 +22,8 @@
               ng-show="(isAdmin() || isEmployee())" >
             <a ng-href="#/traininglist">{{translation.ALL_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('users')}"
+            <a ng-href="#/userprofile">{{translation.ALL_TRAININGS}}</a></li>
+          <li ng-class="{ active: isActive('about')}"
               ng-show="isAdmin()" >
           <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
           <li>

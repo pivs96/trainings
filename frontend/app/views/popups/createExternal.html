@@ -1,0 +1,60 @@
+<div style="padding: 10px;">
+    <h2 ng-if="type === 'Listener'" style="text-align: center; margin-top: 10px">Create external listener</h2>
+
+    <h2 ng-if="type === 'Trainer'" style="text-align: center; margin-top: 10px">Create external trainer</h2>
+</div>
+<div class="ngdialog-message" style="text-align: center;">
+
+    <form class="form-horizontal">
+        <div class="form-group" style="margin: 5px">
+            <label for="name" class="col-sm-3 control-label">Name</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="name">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin: 5px">
+            <label for="surname" class="col-sm-3 control-label">Surname</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="surname">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin: 5px">
+            <label for="username" class="col-sm-3 control-label">Username</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="username">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin: 5px">
+            <label for="email" class="col-sm-3 control-label">Email</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="email">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin: 5px">
+            <label for="phone" class="col-sm-3 control-label">Phone</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="phone">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="ngdialog-buttons mt">
+    <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+            ng-click="closeThisDialog()">Cancel
+    </button>
+    <button ng-if="type === 'Listener'" type="button" class="btn btn-default"
+            style="color: white; background-color: #276FA0; float: right" ng-click="createExternalListener()">Create
+    </button>
+    <button ng-if="type === 'Trainer'" type="button" class="btn btn-default"
+            style="color: white; background-color: #276FA0; float: right" ng-click="createExternalTrainer()">Create
+    </button>
+</div>
