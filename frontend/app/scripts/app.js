@@ -33,7 +33,7 @@ angular
           data: function(userlist) {
             return userlist.getUserList().$promise;
           }
-        }
+        }})
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',
         controller: 'TrainingListCtrl',
@@ -69,5 +69,5 @@ angular
       return false;
     };
 
-  })
   });
+
