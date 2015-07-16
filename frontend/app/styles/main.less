@@ -1,7 +1,11 @@
 @import "../bower_components/bootstrap/less/bootstrap";
 @import "../bower_components/font-awesome/css/font-awesome.css";
+@import "../bower_components/ngDialog/css/ngDialog.css";
+@import "../bower_components/ngDialog/css/ngDialog-theme-default.css";
+@import "../bower_components/angular-aside/dist/css/angular-aside.css";
 
-@header-color: #E0E0E0;
+@header-color: #032539;
+@header-active-color: #0a4c75;
 
 .browsehappy {
   margin: 0.2em 0;
@@ -10,8 +14,15 @@
   padding: 0.2em 0;
 }
 
-body {
+html {
   padding: 0;
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  padding-bottom: 120px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -26,18 +37,40 @@ body {
 .header {
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 10px;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
+
+  .navbar-default,.navbar,.navbar-brand {
+    background: @header-color;
+  }
+
+  .navbar-default .navbar-nav > li > a {
+    color: #FFFEFE;
+
+    &:hover, &:focus {
+      color:#ffffff;
+      background-color: @header-active-color;
+    }
+  }
+
+  .navbar-default .navbar-nav > .active > a {
+    color:#ffffff;
+    background-color: @header-active-color;
+
+    &:hover, &:focus {
+      color:#ffffff;
+      background-color: @header-active-color;
+    }
+  }
 }
 
 .header-training {
   background-color: @header-color;
-}
-
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
 }
 
 /* Custom page footer */
@@ -45,6 +78,15 @@ body {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 120px;
+  background-color: #929ea1;
 }
 
 footer .footer-navbar {
@@ -62,10 +104,10 @@ footer .copyright {
 footer .footer-container {
   padding-left: 20%;
   padding-right: 20%;
-  padding-bottom: 2%;
+  padding-bottom: 27px;
   font-size: 100%;
-  background-color: #929ea1;
 }
+//end footer
 
 .container-narrow > hr {
   margin: 30px 0;
@@ -87,6 +129,61 @@ footer .footer-container {
 }
 .marketing p + h4 {
   margin-top: 28px;
+}
+
+// leave feedback
+.feedbackBlock {
+  background-color: #E8EBED;
+  font-family: Arial;
+  font-weight:  Bold;
+  display: inline-block;
+  width: 100%;
+  border-radius: 2%;
+  padding: 10px;
+}
+// end leave feedback
+
+.ngdialog-content {
+  width : 50%
+  !important;
+  background: #7ec8e3;
+}
+
+//raitings
+.rating {
+  color: #3e3d40;
+  margin: 0;
+  padding: 0;
+}
+ul.rating {
+  display: inline-block;
+}
+.rating li {
+  list-style-type: none;
+  display: inline-block;
+  padding: 1px;
+  text-align: center;
+  font-size: xx-large;
+  font-weight: bold;
+  cursor: pointer;
+}
+.rating .filled {
+  color: red;
+}
+// end raitings
+.ng-aside.horizontal .modal-dialog .modal-content {
+  height: 94%;
+  margin-top: 17%;
+}
+
+.modal-backdrop.in {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.fade.in {
+  width: 20%;
+  margin-left: 80%;
 }
 
 /* Responsive: Portrait tablets and up */

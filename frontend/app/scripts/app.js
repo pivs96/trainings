@@ -17,7 +17,11 @@ angular
     'ngSanitize',
     'ngTouch',
     'smart-table',
-    'ngStorage'
+    'ngStorage',
+    'ngDialog',
+    'ngDialog',
+    'ui.bootstrap',
+    'ngAside'
   ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -34,6 +34,9 @@ module.exports = function(config) {
       'bower_components/less/dist/less.js',
       'bower_components/angular-smart-table/dist/smart-table.js',
       'bower_components/ngstorage/ngStorage.js',
+      'bower_components/ngDialog/js/ngDialog.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/angular-aside/dist/js/angular-aside.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

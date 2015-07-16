@@ -1,0 +1,107 @@
+<div style="padding: 10px;">
+  <h2 style="text-align: center; margin-top: 10px">Leave feedback on this training</h2>
+</div>
+<div class="ngdialog-message" style="text-align: center;">
+  <form class="form-horizontal">
+
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Was the training understandable?</p>
+      </div>
+      <div class="col-md-2">
+        <p>Yes</p>
+        <input type="radio" data-ng-model="understandable" value="true"/>
+      </div>
+      <div class="col-md-2">
+        <p>No</p>
+        <input type="radio" data-ng-model="understandable" value="false"/>
+      </div>
+    </div>
+
+    <div class="form-group feedbackBlock" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Was it interesting for you?</p>
+      </div>
+      <div class="col-md-2">
+        <p>Yes</p>
+        <input type="radio" data-ng-model="interesting" value="true"/>
+      </div>
+      <div class="col-md-2">
+        <p>No</p>
+        <input type="radio" data-ng-model="interesting" value="false"/>
+      </div>
+    </div>
+
+    <div class="form-group feedbackBlock" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Have you learnt something new?</p>
+      </div>
+      <div class="col-md-2">
+        <p>Yes</p>
+        <input type="radio" data-ng-model="newKnowledge" value="true"/>
+      </div>
+      <div class="col-md-2">
+        <p>No</p>
+        <input type="radio" data-ng-model="newKnowledge" value="false"/>
+      </div>
+    </div>
+
+    <div class="form-group feedbackBlock" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Set effectiveness of the class (rate it from 1 to 5)?</p>
+      </div>
+      <div ng-controller="LeaveFeedbackCtrl" style="margin-top:2.5%">
+        <span ng-model="ratings">
+          <div star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" ></div>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group feedbackBlock" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Would you like to learn from this trainer?</p>
+      </div>
+      <div class="col-md-2">
+        <p>Yes</p>
+        <input type="radio" data-ng-model="studyWithTrainer" value="true"/>
+      </div>
+      <div class="col-md-2">
+        <p>No</p>
+        <input type="radio" data-ng-model="studyWithTrainer" value="false"/>
+      </div>
+    </div>
+
+    <div class="form-group feedbackBlock" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%">
+        <p>Will you recommend your colleagues this training to attend?</p>
+      </div>
+      <div class="col-md-2">
+        <p>Yes</p>
+        <input type="radio" data-ng-model="recommend" value="true"/>
+      </div>
+      <div class="col-md-2">
+        <p>No</p>
+        <input type="radio" data-ng-model="recommend" value="false"/>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin: 5px">
+      <div class="col-md-8" style="margin-top: 3%;padding-left: 28%">
+        <p>Other info</p>
+      </div>
+      <div>
+        <label for="feedbackInputId"></label>
+        <textarea rows="10" class="form-control" id="feedbackInputId" ng-model="$parent.feedbackInput" style="resize: none;"></textarea>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="ngdialog-buttons mt">
+  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+          ng-click="closeThisDialog()">Cancel
+  </button>
+  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+          ng-click="leaveTrainingFeedback()">Ok
+  </button>
+</div>

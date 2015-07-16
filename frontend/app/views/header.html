@@ -18,17 +18,28 @@
         <ul class="nav navbar-nav">
           <li ng-class="{ active: isActive('main')}">
             <a ng-href="#/login">{{translation.MY_TRAININGS}}</a></li>
-          <li ng-class="{ active: isActive('userprofile')}"
+          <li ng-class="{ active: isActive('traininglist')}"
               ng-show="(isAdmin() || isEmployee())" >
-            <a ng-href="#/userprofile">{{translation.ALL_TRAININGS}}</a></li>
-          <li ng-class="{ active: isActive('about')}"
+            <a ng-href="#/traininglist">{{translation.ALL_TRAININGS}}</a></li>
+          <li ng-class="{ active: isActive('users')}"
               ng-show="isAdmin()" >
           <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
           <li>
-            <a ng-href="#/traininglist">Training List</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+          <li>
+            <div ng-controller="HeaderCtrl" id="content">
+              <p>
+                <span class="pull-right">
+                  <button type="button" ng-click="openAside('right', true)">
+                    Right <span class="glyphicon glyphicon-align-justify"></span>
+                  </button>
+                </span>
+              </p>
+              <div class="clearfix"></div>
+            </div>
+          </li>
           <li>
             <a>
               <i class="fa fa-user fa-lg" ng-click="headerController.goToUserProfile()"></i>
