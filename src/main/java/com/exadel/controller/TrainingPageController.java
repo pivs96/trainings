@@ -56,6 +56,7 @@ public class TrainingPageController {
 
     }
 
+
     @RequestMapping(method = RequestMethod.PUT)   //only for admin(trainer can modify, but admin must approve)
     public Training modifyTraining(@RequestBody Training training,@RequestParam String id) {
         Training trainingToUpdate = TrainingsController.getTrainingById(id);

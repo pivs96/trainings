@@ -34,6 +34,14 @@ angular
             return userlist.getUserList().$promise;
           }
         }
+      .when('/traininglist', {
+        templateUrl: 'views/traininglist.html',
+        controller: 'TrainingListCtrl',
+        resolve : {
+           data:  function(TrainingList) {
+            return TrainingList.getTrainingList().$promise;
+          }
+         }
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -47,7 +55,7 @@ angular
       })
       .otherwise({
         redirectTo: '/'
-      });
+      })
   }).run(function ($rootScope) {
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
@@ -62,5 +70,4 @@ angular
     };
 
   })
-;
-;
+  });

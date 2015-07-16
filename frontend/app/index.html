@@ -29,11 +29,8 @@
     <div ng-view=""></div>
     </div>
 
-    <div class="footer">
-      <div class="container">
-        <p> from the Yeoman team</p>
-      </div>
-    </div>
+    <footer ng-include="'views/footer.html'"></footer>
+
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -61,6 +58,8 @@
         <script src="scripts/services/userlistService.js"></script>
         <script src="scripts/directives/pageSelectDirective.js"></script>
         <script src="scripts/directives/entryNumberChangeDirective.js"></script>
+        <script src="scripts/controllers/traininglistCtrl.js"></script>
+        <script src="scripts/services/trainingListService.js"></script>
         <!-- endbuild -->
 
 </body>

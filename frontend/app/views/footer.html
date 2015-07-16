@@ -1,0 +1,34 @@
+<div class="container-fluid footer-container">
+  <div class="row">
+    <div class="footer-menu col-md-10">
+      <div class="menu-main-navigation-container">
+        <nav class="navbar navbar-default footer-navbar">
+          <ul class="nav navbar-nav">
+            <li ng-class="{ active: isActive('main')}">
+              <a ng-href="#/main">My Trainings</a></li>
+            <li ng-class="{ active: isActive('userprofile')}"
+                ng-show="(isAdmin() || isEmployee())" >
+              <a ng-href="#/userprofile" >All Trainings</a></li>
+            <li ng-class="{ active: isActive('about')}"
+                ng-show="isAdmin()" >
+              <a ng-href="#/traininglist" >Training List</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="copyright">
+        © Exadel, Inc. All Rights Reserved. Exadel is a registered trademark of Exadel, Inc.
+      </div>
+    </div>
+    <div class="facebook-links col-md-2">
+      <a href="https://www.facebook.com/pages/Exadel/264073019202" target="_blank">
+        <img class="right" src="images/icon-facebook.png">
+      </a>
+      <a href="http://www.twitter.com/exadel" target="_blank">
+        <img class="right" src="images/icon-twitter.png">
+      </a>
+      <a href="http://www.linkedin.com/company/27653?trk=tyah" target="_blank">
+        <img class="right" src="images/icon-linkedin.png">
+      </a>
+    </div>
+  </div>
+</div>
