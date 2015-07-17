@@ -19,7 +19,7 @@ public class ExternalVisitor extends User {
     }
 
     public ExternalVisitor(ExternalVisitor externalVisitor) {
-        super(externalVisitor.generateId(), externalVisitor.getName(), externalVisitor.getSurname(), externalVisitor.getPhone(), externalVisitor.getEmail());
+        super("1", externalVisitor.getName(), externalVisitor.getSurname(), externalVisitor.getPhone(), externalVisitor.getEmail());
         this.visitingTrainings = new ArrayList<>();
     }
 
