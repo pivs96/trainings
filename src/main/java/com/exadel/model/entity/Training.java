@@ -10,9 +10,6 @@ import java.util.List;
 public class Training {
     private String id;
     private String name;
-    private String place;
-    private Date beginTime;
-    private Date endTime;
     private User trainer;
     private String targetAudience;
     private String language;
@@ -22,17 +19,15 @@ public class Training {
     private TrainingStatus status;
     private List<User> participants;
     private List<TrainingFeedback> feedbacks;
+    private List<Entry> entries;
 
     public Training() {
     }
 
-    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience, String language,
+   /* public Training(String id, String name, User trainer, String targetAudience, String language,
                     double rating, int membersCountMax, int membersCount, TrainingStatus status, List<User> participants, List<TrainingFeedback> feedbacks) {
         this.id = id;
         this.name = name;
-        this.place = place;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
         this.trainer = trainer;
         this.targetAudience = targetAudience;
         this.language = language;
@@ -42,7 +37,7 @@ public class Training {
         this.status = status;
         this.participants = participants;
         this.feedbacks = feedbacks;
-    }
+    }*/
 
     public String getId() {
         return id;
@@ -52,9 +47,6 @@ public class Training {
     {
         this.setId(training.getId());
         this.setName(training.getName());
-        this.setPlace(training.getPlace());
-        this.setBeginTime(training.getBeginTime());
-        this.setEndTime(training.getEndTime());
         this.setTrainer(training.getTrainer());
         this.setTargetAudience(training.getTargetAudience());
         this.setLanguage((training.getLanguage()));
@@ -74,30 +66,6 @@ public class Training {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public User getTrainer() {
