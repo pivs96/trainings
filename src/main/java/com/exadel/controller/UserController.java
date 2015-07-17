@@ -28,13 +28,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value="/newTrainer", method = RequestMethod.POST)
+    /*@RequestMapping(value="/newTrainer", method = RequestMethod.POST)
     public ExternalTrainer addExternalTrainer(@RequestBody ExternalTrainer trainer,@RequestParam String trainingId) {
         List<Training> trainings = new ArrayList<>();
         trainings.add(TrainingsController.getTrainingById(trainingId));
         trainer.setMentoringTrainings(trainings);
         return trainer;
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> showUsers() {

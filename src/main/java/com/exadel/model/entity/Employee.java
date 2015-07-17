@@ -2,15 +2,12 @@ package com.exadel.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Виктория on 10.07.2015.
- */
 public class Employee extends User {
-   @JsonIgnore
+    @JsonIgnore
     private List<Training> visitingTrainings;
+
     @JsonIgnore
     private List<Training> mentoringTrainings;
     private List<TrainingFeedback> writedFeedbacks;
@@ -20,22 +17,24 @@ public class Employee extends User {
         super();
     }
 
-    public Employee(String id, String name, String surname, String phone, String email,List<Training> visitingTrainings,    List<Training> mentoringTrainings) {
-        super(id, name, surname, phone, email);
+  /*  public Employee(String id, String name, String surname, String phone, String email,List<Training> visitingTrainings,    List<Training> mentoringTrainings) {
+        super(id, name, surname, phone, email, UserRole.EMPLOYEE);
         this.visitingTrainings = visitingTrainings;
         this.mentoringTrainings = mentoringTrainings;
-    }
+    }*/
 
-    public Employee(String id, String name, String surname, String phone, String email) {
-        super(id, name, surname, phone, email);
+    /*public Employee(String id, String name, String surname, String phone, String email) {
+        super(id, name, surname, phone, email, UserRole.EMPLOYEE);
         this.mentoringTrainings = new ArrayList<>();
         this.visitingTrainings = new ArrayList<>();
-    }
-    public Employee(User user) {
-        super("1", user.getName(), user.getSurname(),user.getPhone(),  user.getEmail());
+    }*/
+
+    /*public Employee(User user) {
+        super(user.getId(), user.getName(), user.getSurname(),user.getPhone(),
+                user.getEmail(), user.getRole());
         this.mentoringTrainings = new ArrayList<>();
         this.visitingTrainings = new ArrayList<>();
-    }
+    }*/
 
     public List<Training> getVisitingTrainings() {
         return visitingTrainings;
