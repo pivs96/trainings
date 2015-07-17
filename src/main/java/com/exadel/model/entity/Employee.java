@@ -32,7 +32,7 @@ public class Employee extends User {
         this.visitingTrainings = new ArrayList<>();
     }
     public Employee(User user) {
-        super(user.generateId(), user.getName(), user.getSurname(),user.getPhone(),  user.getEmail());
+        super("1", user.getName(), user.getSurname(),user.getPhone(),  user.getEmail());
         this.mentoringTrainings = new ArrayList<>();
         this.visitingTrainings = new ArrayList<>();
     }

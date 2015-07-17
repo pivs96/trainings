@@ -1,13 +1,12 @@
 package com.exadel.model.entity;
 
-import java.math.BigInteger;
-import java.util.Random;
+import javax.persistence.*;
 
-/**
- * Created by Виктория on 13.07.2015.
- */
-
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String name;
     private String surname;
@@ -26,11 +25,6 @@ public class User {
 
     public String getId() {
         return id;
-    }
-
-    public String generateId() {
-        Random random = new Random();
-        return new BigInteger(130,random).toString(32);
     }
 
     public void setId(String id) {

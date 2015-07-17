@@ -1,7 +1,6 @@
 package com.exadel.service;
 
-import eu.kielczewski.example.domain.User;
-import eu.kielczewski.example.domain.UserCreateForm;
+import com.exadel.model.entity.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,7 +12,5 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
 
     Collection<User> getAllUsers();
-
-    User create(UserCreateForm form);
 
 }

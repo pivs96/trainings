@@ -8,7 +8,10 @@ import com.exadel.model.entity.Employee;
 import com.exadel.model.entity.ExternalTrainer;
 import com.exadel.model.entity.Training;
 import com.exadel.model.entity.User;
+import com.exadel.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +21,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-   static List<User> users = new ArrayList<>();
+    private final UserService userService;
 
-        static {
-            users.add(new Employee("1234455", "Petr", "Sidorov", "+3752968688998","petya@mail.ru"));
-            users.add(new Employee("12355", "Aleksey", "Petrov","+3752966899988", "lesha@mail.ru"));
-            users.add(new Employee("1255", "Marina", "Ivanova","+375295655898", "marina@mail.ru"));
-        }
-
-    public static User getUserById(String id)
-    {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping(value="/newTrainer", method = RequestMethod.POST)
@@ -45,7 +37,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public  List<User> showUsers() {
-        return users;
+    public List<User> showUsers() {
+        return (List<User>)userService.getAllUsers();
     }
 }
