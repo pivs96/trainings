@@ -4,4 +4,4 @@
 angular.module('frontendApp')
   .controller('UserProfileCtrl', function () {
 
-  });;
+  });

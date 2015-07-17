@@ -1,3 +1,10 @@
 <div ng-controller="UserProfileCtrl as userprofile">
   User Profile panel.
+  <section>
+    <label> {{translation.SELECT_LANGUAGE}}</label>
+    <select ng-change="translate()" ng-model="i10n.selectedLanguage">
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+    </select>
+  </section>
 </div>

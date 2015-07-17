@@ -62,7 +62,7 @@ angular
       .otherwise({
         redirectTo: '/'
       })
-  }).run(function ($rootScope) {
+  }).run(function ($rootScope, translationService) {
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
       return true;
@@ -74,6 +74,14 @@ angular
     $rootScope.isEmployee = function () {
       return false;
     };
+    //perhaps there is need to add new module for localization
+    $rootScope.translate = function(){
+      translationService.getTranslation($rootScope, $rootScope.i10n.selectedLanguage);
+    };
 
+    $rootScope.i10n = {};
+    $rootScope.i10n.selectedLanguage = 'en';
+
+    $rootScope.translate();
   });
 

@@ -16,14 +16,14 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li ng-class="{ active: isActive('login')}">
-            <a ng-href="#/login">My Trainings</a></li>
+          <li ng-class="{ active: isActive('main')}">
+            <a ng-href="#/login">{{translation.MY_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('userprofile')}"
               ng-show="(isAdmin() || isEmployee())" >
-            <a ng-href="#/userprofile">All Trainings</a></li>
+            <a ng-href="#/userprofile">{{translation.ALL_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('about')}"
               ng-show="isAdmin()" >
-            <a ng-href="#/users">Users List</a></li>
+          <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
           <li>
             <a ng-href="#/traininglist">Training List</a></li>
         </ul>
@@ -34,7 +34,7 @@
               <i class="fa fa-user fa-lg" ng-click="headerController.goToUserProfile()"></i>
             </a>
           </li>
-          <li><a ng-click="headerController.logout()" class="btn-link">Logout</a></li>
+          <li><a ng-click="headerController.logout()" class="btn-link">{{translation.LOGOUT}}</a></li>
         </ul>
 
       </div>
