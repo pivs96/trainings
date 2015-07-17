@@ -12,10 +12,10 @@ public class ExternalTrainer extends User {
         super();
     }
 
-    public ExternalTrainer(String id, String name, String surname, String phone, String email,List<Training> mentoringTrainings) {
-        super(id, name, surname, phone, email);
-        this.mentoringTrainings= mentoringTrainings;
-    }
+   /* public ExternalTrainer(String id, String name, String surname, String phone, String email, List<Training> mentoringTrainings) {
+        super(id, name, surname, phone, email, UserRole.EXTERNAL_TRAINER);
+        this.mentoringTrainings = mentoringTrainings;
+    }*/
 
     public List<Training> getMentoringTrainings() {
         return mentoringTrainings;

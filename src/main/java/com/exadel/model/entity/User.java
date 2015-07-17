@@ -1,5 +1,7 @@
 package com.exadel.model.entity;
 
+import com.exadel.model.constants.userRole.UserRole;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,14 +15,17 @@ public class User {
     private String phone;
     private String email;
 
+    private UserRole role;
+
     public User(){}
 
-    public User(String id, String name, String surname, String phone, String email) {
+    public User(String id, String name, String surname, String phone, String email, UserRole role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
+        this.role = role;
     }
 
     public String getId() {
@@ -61,5 +66,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
