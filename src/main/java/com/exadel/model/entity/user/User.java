@@ -12,10 +12,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String name;
+    @Column(name = "surname", nullable = false)
     private String surname;
+    @Column(name = "phone", nullable = false)
     private String phone;
+
     private String email;
+
     @Column(insertable = false, updatable = false)
     private UserRole role;
 
@@ -29,6 +34,7 @@ public class User {
         this.email = userDTO.getEmail();
         this.role = userDTO.getRole();
     }
+
 
     public long getId() {
         return id;
@@ -54,6 +60,7 @@ public class User {
         this.surname = surname;
     }
 
+
     public String getEmail() {
         return email;
     }
@@ -69,6 +76,8 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+
 
     public UserRole getRole() {
         return role;

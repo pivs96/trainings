@@ -2,8 +2,10 @@ package com.exadel.service;
 
 import com.exadel.controller.Participation;
 import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.User;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface TrainingService {
@@ -23,4 +25,8 @@ public interface TrainingService {
     void cancelById(String id);
 
     double addRating(int rating, String trainingId);
+
+    long getTrainerId(long id);
+
+    List<Long> getParticipants(long id);
 }

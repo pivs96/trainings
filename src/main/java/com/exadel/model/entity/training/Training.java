@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "trainings")
 public class Training {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -70,7 +71,8 @@ public class Training {
         attachments.add(attachment);
     }
 
-    public Training() {}
+    public Training() {
+    }
 
     public Training(long id) {
         this.id = id;
@@ -102,7 +104,7 @@ public class Training {
         entries.add(entry);
     }
 
-    public void addParticipant(User user){
+    public void addParticipant(User user) {
         this.participants.add(user);
         this.membersCount++;
     }

@@ -12,15 +12,18 @@ import com.exadel.service.TrainingFeedbackService;
 import com.exadel.service.TrainingService;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasAnyRole('0','1','2')")
 @RequestMapping("/entry")
 public class EntryController {
     @Autowired
     private EntryService entryService;
+
 
 }

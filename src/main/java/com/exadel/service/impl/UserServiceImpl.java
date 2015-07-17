@@ -8,8 +8,16 @@ import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.*;
 import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +30,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Override
     public User getUserById(String id) {
@@ -33,6 +43,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     public User getUserById(long id) {
         User user = userRepository.findOne(id);
         if (user != null) {
@@ -42,7 +53,18 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(String.valueOf(id));
         }
     }
-
+    public User getUserByLogin(String login){
+        long id = this.jdbcTemplate.queryForObject(
+                "select user_id from authentification where login = ?",
+                Long.class, login);
+        User user = userRepository.findOne(id);
+        if (user != null) {
+            return user;
+        }
+        else {
+            throw new UserNotFoundException(String.valueOf(id));
+        }
+    }
     @Override
     public ExternalTrainer getTrainerById(String id) {
         User trainer = getUserById(id);
@@ -114,4 +136,17 @@ public class UserServiceImpl implements UserService {
         else
             throw new UserHasNotMentoringTrainingsException(String.valueOf(id));
     }
+    public long getCurrentId() {
+    org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String currentName = user.getUsername();
+    long id = this.jdbcTemplate.queryForObject(
+            "select user_id from authentification where login = ?",
+            Long.class,currentName);
+    /*String name = this.jdbcTemplate.queryForObject(
+            "select name from users where id = ?",
+            String.class,id);*/
+    return id;
+
+}
+
 }
