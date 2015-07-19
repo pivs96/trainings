@@ -1,21 +1,37 @@
 package com.exadel.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "entries")
 public class Entry {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     private String place;
+
+    @Column(name = "begin_time")
     private Date beginTime;
+    @Column(name = "end_time")
     private Date endTime;
+
+    @ManyToOne
+    @JoinColumn(name = "training_id", nullable = false)
+    @JsonIgnore
+    private Training training;
 
     public Entry() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -42,4 +58,13 @@ public class Entry {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
 }

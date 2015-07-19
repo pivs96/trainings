@@ -1,7 +1,8 @@
-package com.exadel.service;
+package com.exadel.service.impl;
 
 import com.exadel.model.entity.User;
 import com.exadel.repository.UserRepository;
+import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -18,7 +19,6 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     @Override
     public Optional<User> getUserById(long id) {
@@ -32,6 +32,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Collection<User> getAllUsers() {
-        return userRepository.findAll(new Sort("email"));
+        return userRepository.findAll(new Sort("surname"));
     }
 }

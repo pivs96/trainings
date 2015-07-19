@@ -1,28 +1,51 @@
 package com.exadel.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
+@Entity
+@Table(name = "training_feedbacks")
 public class TrainingFeedback {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "training_id", nullable = false)
+    @JsonIgnore
     private Training training;
+
     private boolean understandable;
     private boolean interesting;
+
+    @Column(name = "new_knowledge")
     private boolean newKnowledge;
-    @Min(1)
-    @Max(5)
+
+    @Size(max = 5, min = 1)
     private int effectiveness;
+
+    @Column(name = "study_with_trainer")
     private boolean studyWithTrainer;
     private boolean recommend;
+
+    @Column(name = "other_info")
     private String otherInfo;
-    private User feedbacker;      //who leaves feedback
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User feedbacker; // who leaves feedback
+
     private Date date;
 
     public TrainingFeedback() {
     }
 
-    public TrainingFeedback(String id, Training training, boolean understandable, boolean interesting, boolean newKnowledge, int effectiveness,
+   /* public TrainingFeedback(long id, Training training, boolean understandable, boolean interesting, boolean newKnowledge, int effectiveness,
                             boolean studyWithTrainer, boolean recommend, String otherInfo, User feedbacker, Date date) {
         this.id = id;
         this.training = training;
@@ -35,7 +58,7 @@ public class TrainingFeedback {
         this.otherInfo = otherInfo;
         this.feedbacker = feedbacker;
         this.date = date;
-    }
+    }*/
 
     public boolean isUnderstandable() {
         return understandable;
@@ -117,11 +140,11 @@ public class TrainingFeedback {
         this.training = training;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

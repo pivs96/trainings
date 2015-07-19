@@ -1,6 +1,6 @@
 package com.exadel.model.entity;
 
-import com.exadel.model.constants.userRole.UserRole;
+import com.exadel.model.constants.UserRole;
 
 import javax.persistence.*;
 
@@ -9,17 +9,16 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private long id;
     private String name;
     private String surname;
     private String phone;
     private String email;
-
     private UserRole role;
 
     public User(){}
 
-    public User(String id, String name, String surname, String phone, String email, UserRole role) {
+    public User(long id, String name, String surname, String phone, String email, UserRole role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -28,11 +27,11 @@ public class User {
         this.role = role;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `abcent_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `abcent_users` (
-  `entryID` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
-  PRIMARY KEY (`entryID`,`userID`),
-  KEY `fk_AbcentUsers_Users1_idx` (`userID`),
-  CONSTRAINT `fk_AbcentUsers_Entries1` FOREIGN KEY (`entryID`) REFERENCES `entries` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_AbcentUsers_Users1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `entry_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`entry_id`,`user_id`),
+  KEY `fk_AbcentUsers_Users1_idx` (`user_id`),
+  CONSTRAINT `fk_AbcentUsers_Entries1` FOREIGN KEY (`entry_id`) REFERENCES `entries` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_AbcentUsers_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,12 +50,12 @@ DROP TABLE IF EXISTS `attachments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attachments` (
-  `trainingID` int(11) NOT NULL,
+  `training_id` int(11) NOT NULL,
   `type` varchar(30) DEFAULT NULL,
   `name` text,
   `link` text,
-  KEY `fk_Attachments_Entries1_idx` (`trainingID`),
-  CONSTRAINT `fk_Attachments_Entries1` FOREIGN KEY (`trainingID`) REFERENCES `entries` (`trainingID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_Attachments_Entries1_idx` (`training_id`),
+  CONSTRAINT `fk_Attachments_Entries1` FOREIGN KEY (`training_id`) REFERENCES `entries` (`training_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -78,13 +78,13 @@ DROP TABLE IF EXISTS `entries`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entries` (
   `id` int(11) NOT NULL,
-  `trainingID` int(11) NOT NULL,
+  `training_id` int(11) NOT NULL,
   `place` varchar(100) DEFAULT NULL,
-  `beginTime` datetime DEFAULT NULL,
-  `endTime` datetime DEFAULT NULL,
+  `begin_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_Entries_Trainings1_idx` (`trainingID`),
-  CONSTRAINT `fk_Entries_Trainings1` FOREIGN KEY (`trainingID`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_Entries_Trainings1_idx` (`training_id`),
+  CONSTRAINT `fk_Entries_Trainings1` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,11 +106,11 @@ DROP TABLE IF EXISTS `passwords`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `passwords` (
-  `userID` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `password` varchar(45) NOT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `fk_Passwords_Users1_idx` (`userID`),
-  CONSTRAINT `fk_Passwords_Users1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`user_id`),
+  KEY `fk_Passwords_Users1_idx` (`user_id`),
+  CONSTRAINT `fk_Passwords_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -133,11 +133,11 @@ DROP TABLE IF EXISTS `ratings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ratings` (
   `id` int(11) NOT NULL,
-  `trainingID` int(11) NOT NULL,
+  `training_id` int(11) NOT NULL,
   `rating` tinyint(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_Attachments_Trainings1_idx` (`trainingID`),
-  CONSTRAINT `fk_Attachments_Trainings1` FOREIGN KEY (`trainingID`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_Attachments_Trainings1_idx` (`training_id`),
+  CONSTRAINT `fk_Attachments_Trainings1` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -160,21 +160,21 @@ DROP TABLE IF EXISTS `training_feedbacks`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `training_feedbacks` (
   `id` int(11) NOT NULL,
-  `trainingID` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
+  `training_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `understandable` tinyint(1) DEFAULT NULL,
   `interesting` tinyint(1) DEFAULT NULL,
-  `newKnowledge` tinyint(1) DEFAULT NULL,
+  `new_knowledge` tinyint(1) DEFAULT NULL,
   `effectiveness` tinyint(4) DEFAULT NULL,
   `recommend` tinyint(1) DEFAULT NULL,
-  `studyWithTrainer` tinyint(1) DEFAULT NULL,
-  `otherInfo` text,
+  `study_with_trainer` tinyint(1) DEFAULT NULL,
+  `other_info` text,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_TrainingFeedbacks_Trainings1_idx` (`trainingID`),
-  KEY `fk_TrainingFeedbacks_Users1_idx` (`userID`),
-  CONSTRAINT `fk_TrainingFeedbacks_Trainings1` FOREIGN KEY (`trainingID`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_TrainingFeedbacks_Users1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_TrainingFeedbacks_Trainings1_idx` (`training_id`),
+  KEY `fk_TrainingFeedbacks_Users1_idx` (`user_id`),
+  CONSTRAINT `fk_TrainingFeedbacks_Trainings1` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_TrainingFeedbacks_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -196,13 +196,13 @@ DROP TABLE IF EXISTS `training_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `training_users` (
-  `trainingID` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
+  `training_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `deleted` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`trainingID`,`userID`),
-  KEY `fk_TrainingUsers_Users1_idx` (`userID`),
-  CONSTRAINT `fk_TrainingUsers_Trainings1` FOREIGN KEY (`trainingID`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_TrainingUsers_Users1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`training_id`,`user_id`),
+  KEY `fk_TrainingUsers_Users1_idx` (`user_id`),
+  CONSTRAINT `fk_TrainingUsers_Trainings1` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_TrainingUsers_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,17 +225,18 @@ DROP TABLE IF EXISTS `trainings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `trainings` (
   `id` int(11) NOT NULL,
-  `trainerID` int(11) NOT NULL,
+  `trainer_id` int(11) NOT NULL,
   `name` text,
-  `targetAudience` varchar(45) DEFAULT NULL,
+  `target_audience` varchar(45) DEFAULT NULL,
   `language` varchar(20) DEFAULT NULL,
-  `isExternal` tinyint(1) DEFAULT NULL,
-  `status` varchar(20) DEFAULT NULL,
+  `is_external` bit(1) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '0',
   `description` text,
-  `membersCountMax` int(11) DEFAULT NULL,
+  `members_count_max` int(11) DEFAULT NULL,
+  `members_count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_Trainings_Users1_idx` (`trainerID`),
-  CONSTRAINT `fk_Trainings_Users1` FOREIGN KEY (`trainerID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_Trainings_Users1_idx` (`trainer_id`),
+  CONSTRAINT `fk_trainings_users1` FOREIGN KEY (`trainer_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -245,7 +246,7 @@ CREATE TABLE `trainings` (
 
 LOCK TABLES `trainings` WRITE;
 /*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
-INSERT INTO `trainings` VALUES (1,1,'Java','back-end developers','english',1,'completed','Very good training',20),(2,2,'Angular','front-end developers','russian',0,'drafted','Interesting course',30),(3,3,'Programming for beginners','Beginners','belarussian',1,'approved','Useful trainings for pupils',50);
+INSERT INTO `trainings` VALUES (1,1,'Java','back-end developers','english','',3,'Very good training',20,18),(2,2,'Angular','front-end developers','russian','\0',0,'Interesting course',30,25),(3,3,'Programming for beginners','Beginners','belarusian','',1,'Useful trainings for pupils',50,10);
 /*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,22 +259,22 @@ DROP TABLE IF EXISTS `user_feedbacks`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_feedbacks` (
   `id` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
-  `trainerID` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `trainer_id` int(11) NOT NULL,
   `attendance` text,
   `attitude` text,
-  `communicationSkills` text,
+  `communication_skills` text,
   `questions` tinyint(1) DEFAULT NULL,
   `interested` tinyint(1) DEFAULT NULL,
-  `focusOnResult` tinyint(1) DEFAULT NULL,
-  `otherInfo` text,
+  `focus_on_result` tinyint(1) DEFAULT NULL,
+  `other_info` text,
   `level` varchar(45) DEFAULT NULL,
   `grade` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_UserFeedbacks_Users1_idx` (`userID`),
-  KEY `fk_UserFeedbacks_Users2_idx` (`trainerID`),
-  CONSTRAINT `fk_UserFeedbacks_Users1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_UserFeedbacks_Users2` FOREIGN KEY (`trainerID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_UserFeedbacks_Users1_idx` (`user_id`),
+  KEY `fk_UserFeedbacks_Users2_idx` (`trainer_id`),
+  CONSTRAINT `fk_UserFeedbacks_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_UserFeedbacks_Users2` FOREIGN KEY (`trainer_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -325,4 +326,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-17 13:57:39
+-- Dump completed on 2015-07-19 14:16:39

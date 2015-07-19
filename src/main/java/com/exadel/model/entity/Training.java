@@ -1,62 +1,90 @@
 package com.exadel.model.entity;
 
 import com.exadel.model.constants.TrainingStatus;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.Set;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "trainings")
 public class Training {
-    private String id;
-    private String name;
-    private User trainer;
-    private String targetAudience;
-    private String language;
-    private double rating;
-    private int membersCountMax;
-    private int membersCount;
-    private TrainingStatus status;
-    private List<User> participants;
-    private List<TrainingFeedback> feedbacks;
-    private List<Entry> entries;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    public Training() {
+    @Column(name = "name")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private User trainer;
+
+    @Column(name = "target_audience")
+    private String targetAudience;
+
+    private String language;
+
+    @Column(name = "is_external")
+    private boolean isExternal;
+
+    private String description;
+    private TrainingStatus status;
+
+    @Column(name = "members_count_max")
+    private int membersCountMax;
+
+    @Column(name = "members_count")
+    private int membersCount;
+
+    @Transient
+    private double rating;
+
+    @ManyToMany
+    @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonManagedReference
+    private Set<User> participants;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private Set<TrainingFeedback> feedbacks;
+
+    public void addFeedback(TrainingFeedback feedback) {
+        feedback.setTraining(this);
+        feedbacks.add(feedback);
     }
 
-   /* public Training(String id, String name, User trainer, String targetAudience, String language,
-                    double rating, int membersCountMax, int membersCount, TrainingStatus status, List<User> participants, List<TrainingFeedback> feedbacks) {
-        this.id = id;
-        this.name = name;
-        this.trainer = trainer;
-        this.targetAudience = targetAudience;
-        this.language = language;
-        this.rating = rating;
-        this.membersCountMax = membersCountMax;
-        this.membersCount = membersCount;
-        this.status = status;
-        this.participants = participants;
-        this.feedbacks = feedbacks;
-    }*/
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private Set<Entry> entries;
 
-    public String getId() {
+    public void addEntry(Entry entry) {
+        entry.setTraining(this);
+        entries.add(entry);
+    }
+
+    public Training() {}
+
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", trainer=" + trainer +
+                ", targetAudience='" + targetAudience + '\'' +
+                ", language='" + language + '\'' +
+                ", isExternal=" + isExternal +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", membersCountMax=" + membersCountMax +
+                ", membersCount=" + membersCount +
+                '}';
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void updateTraining(Training training)
-    {
-        this.setId(training.getId());
-        this.setName(training.getName());
-        this.setTrainer(training.getTrainer());
-        this.setTargetAudience(training.getTargetAudience());
-        this.setLanguage((training.getLanguage()));
-        this.setRating(training.getRating());
-        this.setMembersCount(training.getMembersCount());
-        this.setMembersCountMax(training.getMembersCountMax());
-        this.setStatus(training.getStatus());
-    }
-
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -84,14 +112,6 @@ public class Training {
         this.targetAudience = targetAudience;
     }
 
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
     public int getMembersCountMax() {
         return membersCountMax;
     }
@@ -116,19 +136,19 @@ public class Training {
         this.status = status;
     }
 
-    public List<User> getParticipants() {
+    public Set<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
 
-    public List<TrainingFeedback> getFeedbacks() {
+    public Set<TrainingFeedback> getFeedbacks() {
         return feedbacks;
     }
 
-    public void setFeedbacks(List<TrainingFeedback> feedbacks) {
+    public void setFeedbacks(Set<TrainingFeedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
 
@@ -138,5 +158,37 @@ public class Training {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Set<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(Set<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public boolean IsExternal() {
+        return isExternal;
+    }
+
+    public void setIsExternal(boolean isExternal) {
+        this.isExternal = isExternal;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }
