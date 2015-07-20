@@ -1,9 +1,11 @@
 package com.exadel.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "entries")
@@ -23,6 +25,12 @@ public class Entry {
     @JoinColumn(name = "training_id", nullable = false)
     @JsonIgnore
     private Training training;
+
+    @ManyToMany
+    @JoinTable(name = "absent_users", joinColumns = @JoinColumn(name = "entry_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonManagedReference
+    private Set<User> absentee;
 
     public Entry() {
     }
@@ -67,4 +75,11 @@ public class Entry {
         this.training = training;
     }
 
+    public Set<User> getAbsentee() {
+        return absentee;
+    }
+
+    public void setAbsentee(Set<User> absentee) {
+        this.absentee = absentee;
+    }
 }

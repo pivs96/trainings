@@ -13,6 +13,8 @@ public interface UserService {
 
     Collection<User> getAllUsers();
 
+    void addUser(User user);
+
     /*Collection<User> getUsersByRole();*/
 
 }

@@ -34,4 +34,9 @@ public class UserServiceImpl implements UserService {
     public Collection<User> getAllUsers() {
         return userRepository.findAll(new Sort("surname"));
     }
+
+    @Override
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
 }

@@ -45,21 +45,6 @@ public class TrainingFeedback {
     public TrainingFeedback() {
     }
 
-   /* public TrainingFeedback(long id, Training training, boolean understandable, boolean interesting, boolean newKnowledge, int effectiveness,
-                            boolean studyWithTrainer, boolean recommend, String otherInfo, User feedbacker, Date date) {
-        this.id = id;
-        this.training = training;
-        this.understandable = understandable;
-        this.interesting = interesting;
-        this.newKnowledge = newKnowledge;
-        this.effectiveness = effectiveness;
-        this.studyWithTrainer = studyWithTrainer;
-        this.recommend = recommend;
-        this.otherInfo = otherInfo;
-        this.feedbacker = feedbacker;
-        this.date = date;
-    }*/
-
     public boolean isUnderstandable() {
         return understandable;
     }
