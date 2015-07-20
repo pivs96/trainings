@@ -6,5 +6,8 @@
 *.iml
 target
 node_modules
-
+.classpath
+.project
+.settings
 dist
+*.bat
