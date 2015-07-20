@@ -58,7 +58,7 @@ angular.module('frontendApp')
       feed.interested = $scope.interested;
       feed.focusOnResult = $scope.focusOnResult;
       feed.englishLevel = $scope.$$childHead.ddlLevle;      ////not good
-      feed.grade = $scope.$$childTail.ddlMark;      //not goodo
+      feed.grade = $scope.$$childTail.ddlMark;      //not good
       feed.otherInfo = $scope.feedbackInput;
       feed.date = new Date();
       feed.$save();
@@ -66,4 +66,5 @@ angular.module('frontendApp')
       $scope.$parent.feedbackInput = "";
       $scope.closeThisDialog();
     };
+
   }]);
