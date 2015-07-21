@@ -1,0 +1,100 @@
+<div ng-controller="TrainingCtrl">
+<div>
+    <div class="training-menu">
+
+        {{training.name}}
+        <span star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" readonly="true"></span>
+        <button type="button" class="btn btn-link training-menu-btn">Edit</button>
+        <button type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener')">Add listner</button>
+        <button type="button" class="btn btn-link training-menu-btn">Cancel</button>
+        <button type="button" class="btn btn-link training-menu-btn">Statistics</button>
+        <button type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">Leave feedback</button>
+
+
+    </div>
+</div>
+<div class="training-body">
+    <tabset>
+        <tab select="openInfo()" heading="Info">
+          <div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Status: {{training.status}}
+            </div>
+            <div class="col-sm-4 training-description">
+              Description:
+              <div class="panel panel-default">
+                <div class="panel-body">{{training.description}}</div>
+              </div>
+              <div ng-show="!registrated" align="center">
+                <button class="btn btn-success" ng-click="registrated = !registrated;">Register</button>
+              </div>
+              <div ng-show="registrated" align="center">
+                <button class="btn btn-danger" ng-click="registrated = !registrated;">UnRegister</button>
+              </div>
+            </div>
+
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Duration: {{(training.entities[0].endTime - training.entities[0].beginTime) | date:'HH:mm'}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Closest meeting: {{training.entries[0].beginTime | date:'yyyy-MM-dd HH:mm'}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              City: {{training.entries[0].place.split(", ")[0]}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Unit: {{training.entries[0].place.split(", ")[1]}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Target audience: {{training.targetAudience}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Language: {{training.language}}
+            </div>
+            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+              Trainer: <a ng-if="isAdmin()" href="">{{training.trainer.name + " " + training.trainer.surname}}</a>
+              <p ng-if="!isAdmin()" style="display: inline"> {{training.trainer.name + " " + training.trainer.surname}} </p>
+            </div>
+            <div class="col-sm-8 training-info-entry">
+              Attachments:  <br/><br/> <a ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
+            </div>
+
+          </div>
+
+        </tab>
+
+        <tab select="openParticipantsList()" heading="Participants">
+          <h2>Registrated: {{training.membersCount}}/{{training.membersCountMax}}</h2>
+          <table st-table="training.participants" class="table table-striped text-center">
+            <thead>
+              <th class="text-center" st-sort="name">name</th>
+              <th class="text-center" st-sort="surname">surname</th>
+              <th class="text-center" st-sort="email">email</th>
+              <th class="text-center" st-sort="phone">Phone</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="participant in training.participants" ng-click="openUserpage({{participant.id}})">
+                <td>{{participant.name}}</td>
+                <td>{{participant.surname}}</td>
+                <td>{{participant.email}}</td>
+                <td>{{participant.phone}}</td>
+                <td ng-if="isAdmin()"><button class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}); $event.stopPropagation();">Ask Feedback</button></td>
+              </tr>
+            </tbody>
+            </table>
+        </tab>
+
+        <tab select="openJournal()" heading="Attendence journal">
+          <h3>Work in progress</h3>
+        </tab>
+
+        <tab select="openFeedbacks()" heading="Feedbacks">
+          <div class="training-feedback-container" ng-repeat="feedback in training.feedbacks">
+            <p class="col-sm-8">{{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}} at {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
+            <p class="col-sm-4 training-feedback-otherinfo"> recomended: {{feedback.recommend | yesNo}}</p>
+            <p>{{feedback.otherInfo}}</p>
+          </div>
+        </tab>
+    </tabset>
+</div>
+</div>

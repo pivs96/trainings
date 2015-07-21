@@ -62,6 +62,11 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'loginController'
       })
+      .when('/trainings/training/:trainingId', {
+        templateUrl: 'views/training.html',
+        controller: 'TrainingCtrl',
+        controllerAs: 'training'
+      })
       .otherwise({
         redirectTo: '/'
       })

@@ -7,18 +7,23 @@ angular.module('frontendApp')
         template: "views/popups/leaveTrainingFeedback.html",
         controller: 'LeaveFeedbackCtrl'
       })
-    }
-    $scope.leaveUserFeedback = function(){
+
+    };
+    $scope.leaveUserFeedback = function () {
       ngDialog.open({
         template: "views/popups/leaveUserFeedback.html",
         controller: 'LeaveFeedbackCtrl'
       })
-    }
-      $scope.openCreatePopup = function(type) {
-          $rootScope.type = type;
+    };
+    $scope.openCreatePopup = function(type) {
           ngDialog.open({
-              template: "../../views/popups/createExternal.html",
-              controller: 'CreateExternalCtrl'
+              template: "views/popups/createExternal.html",
+              controller: 'CreateExternalUserCtrl',
+              resolve: {
+                type: function() {
+                  return type;
+                }
+              }
           });
       };
 

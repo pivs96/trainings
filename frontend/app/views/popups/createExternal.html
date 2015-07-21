@@ -1,60 +1,59 @@
-<div style="padding: 10px;">
-    <h2 ng-if="type === 'Listener'" style="text-align: center; margin-top: 10px">Create external listener</h2>
+<div class="create-external-header">
+    <h2 ng-if="type === 'Listener'" class="create-external-header-text">Create external listener</h2>
 
-    <h2 ng-if="type === 'Trainer'" style="text-align: center; margin-top: 10px">Create external trainer</h2>
+    <h2 ng-if="type === 'Trainer'" class="create-external-header-text">Create external trainer</h2>
 </div>
-<div class="ngdialog-message" style="text-align: center;">
+
+<div class="ngdialog-message create-external-body">
 
     <form class="form-horizontal">
-        <div class="form-group" style="margin: 5px">
+
+        <div class="form-group create-external-inputgroup">
             <label for="name" class="col-sm-3 control-label">Name</label>
-
             <div class="col-sm-9">
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" data-ng-model="name" id="name">
             </div>
         </div>
 
-        <div class="form-group" style="margin: 5px">
+        <div class="form-group create-external-inputgroup">
             <label for="surname" class="col-sm-3 control-label">Surname</label>
-
             <div class="col-sm-9">
-                <input type="text" class="form-control" id="surname">
+                <input type="text" class="form-control" data-ng-model="surname" id="surname">
             </div>
         </div>
 
-        <div class="form-group" style="margin: 5px">
+        <div class="form-group create-external-inputgroup">
             <label for="username" class="col-sm-3 control-label">Username</label>
-
             <div class="col-sm-9">
-                <input type="text" class="form-control" id="username">
+                <input type="text" class="form-control" id="username" data-ng-model="username">
             </div>
         </div>
 
-        <div class="form-group" style="margin: 5px">
+        <div class="form-group create-external-inputgroup">
             <label for="email" class="col-sm-3 control-label">Email</label>
-
             <div class="col-sm-9">
-                <input type="text" class="form-control" id="email">
+                <input type="text" class="form-control" id="email"  data-ng-model="email">
             </div>
         </div>
 
-        <div class="form-group" style="margin: 5px">
+        <div class="form-group create-external-inputgroup">
             <label for="phone" class="col-sm-3 control-label">Phone</label>
-
             <div class="col-sm-9">
-                <input type="text" class="form-control" id="phone">
+                <input type="text" class="form-control" id="phone"  data-ng-model="phone">
             </div>
         </div>
+
     </form>
 </div>
 <div class="ngdialog-buttons mt">
-    <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+    <button type="button" class="btn btn-default create-external-btn"
             ng-click="closeThisDialog()">Cancel
     </button>
-    <button ng-if="type === 'Listener'" type="button" class="btn btn-default"
-            style="color: white; background-color: #276FA0; float: right" ng-click="createExternalListener()">Create
+    <button ng-if="type === 'Listener'" type="submit" class="btn btn-default create-external-btn"
+            ng-click="createExternalListener()">Create
     </button>
-    <button ng-if="type === 'Trainer'" type="button" class="btn btn-default"
-            style="color: white; background-color: #276FA0; float: right" ng-click="createExternalTrainer()">Create
+    <button ng-if="type === 'Trainer'" type="submit" class="btn btn-default create-external-btn"
+            ng-click="createExternalTrainer()">Create
     </button>
+
 </div>

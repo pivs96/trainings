@@ -5,6 +5,8 @@
 @import "../bower_components/angular-aside/dist/css/angular-aside.css";
 @import "../app/styles/feedback";
 @import "../app/styles/stars";
+@import "createExternalUser";
+@import "training";
 
 @header-color: #032539;
 @header-active-color: #0a4c75;
@@ -30,6 +32,10 @@ body {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
+.ngdialog-content {
+  width: 50%
+  !important;
+}
 .header,
 .marketing,
 .footer {

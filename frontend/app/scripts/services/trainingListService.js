@@ -3,7 +3,8 @@
 angular.module('frontendApp').factory('TrainingList',['$resource',
   function($resource) {
     return $resource('http://localhost:8080/trainings', {}, {
-      getTrainingList: {method: 'GET',
+      getTrainingList: {
+        method: 'GET',
         isArray: true
       }
     });
