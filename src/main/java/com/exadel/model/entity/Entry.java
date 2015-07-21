@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "entries")
@@ -27,10 +27,10 @@ public class Entry {
     private Training training;
 
     @ManyToMany
-    @JoinTable(name = "absent_users", joinColumns = @JoinColumn(name = "entry_id"),
+    @JoinTable(name = "absentees", joinColumns = @JoinColumn(name = "entry_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonManagedReference
-    private Set<User> absentee;
+    private List<User> absentee;
 
     public Entry() {
     }
@@ -75,11 +75,11 @@ public class Entry {
         this.training = training;
     }
 
-    public Set<User> getAbsentee() {
+    public List<User> getAbsentee() {
         return absentee;
     }
 
-    public void setAbsentee(Set<User> absentee) {
+    public void setAbsentee(List<User> absentee) {
         this.absentee = absentee;
     }
 }

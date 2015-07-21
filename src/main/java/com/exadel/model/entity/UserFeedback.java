@@ -15,7 +15,7 @@ public class UserFeedback {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = true)
     private Employee visitor;  //we can leave feedback only on employee
 
     @ManyToOne
