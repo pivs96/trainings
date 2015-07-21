@@ -76,7 +76,7 @@ angular
     };
     //perhaps there is need to add new module for localization
     $rootScope.translate = function(){
-      translationService.getTranslation($rootScope, $rootScope.i10n.selectedLanguage);
+      translationService.getTranslation($rootScope.i10n.selectedLanguage);
     };
 
     $rootScope.i10n = {};
