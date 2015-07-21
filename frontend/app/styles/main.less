@@ -3,9 +3,13 @@
 @import "../bower_components/ngDialog/css/ngDialog.css";
 @import "../bower_components/ngDialog/css/ngDialog-theme-default.css";
 @import "../bower_components/angular-aside/dist/css/angular-aside.css";
+@import "../app/styles/feedback";
+@import "../app/styles/stars";
 
 @header-color: #032539;
 @header-active-color: #0a4c75;
+@color-text: #ffffff;
+@footer-color: #929ea1;
 
 .browsehappy {
   margin: 0.2em 0;
@@ -50,20 +54,20 @@ body {
   }
 
   .navbar-default .navbar-nav > li > a {
-    color: #FFFEFE;
+    color: @color-text;
 
     &:hover, &:focus {
-      color:#ffffff;
+      color: @color-text;
       background-color: @header-active-color;
     }
   }
 
   .navbar-default .navbar-nav > .active > a {
-    color:#ffffff;
+    color: @color-text;
     background-color: @header-active-color;
 
     &:hover, &:focus {
-      color:#ffffff;
+      color: @color-text;
       background-color: @header-active-color;
     }
   }
@@ -73,41 +77,42 @@ body {
   background-color: @header-color;
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 120px;
-  background-color: #929ea1;
-}
+  background-color: @footer-color;
 
-footer .footer-navbar {
-  background-color: #929ea1;
-  border-color: #929ea1;
-}
+  .footer-navbar {
+    background-color: @footer-color;
+    border-color: @footer-color;
+  }
 
-footer .facebook-links {
-  margin-top: 3%
-}
+  .facebook-links {
+    margin-top: 3%
+  }
 
-footer .copyright {
-  padding-left: 1.5%
+  .copyright {
+    padding-left: 1.5%
+  }
+
+  .navbar-default .navbar-nav > li > a {
+    color: @color-text;
+
+    &:hover, &:focus {
+      color: @color-text;
+    }
+  }
+
+  .footer-container {
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-bottom: 27px;
+    font-size: 100%;
+  }
 }
-footer .footer-container {
-  padding-left: 20%;
-  padding-right: 20%;
-  padding-bottom: 27px;
-  font-size: 100%;
-}
-//end footer
 
 .container-narrow > hr {
   margin: 30px 0;
@@ -131,46 +136,12 @@ footer .footer-container {
   margin-top: 28px;
 }
 
-// leave feedback
-.feedbackBlock {
-  background-color: #E8EBED;
-  font-family: Arial;
-  font-weight:  Bold;
-  display: inline-block;
-  width: 100%;
-  border-radius: 2%;
-  padding: 10px;
-}
-// end leave feedback
-
 .ngdialog-content {
   width : 50%
   !important;
   background: #7ec8e3;
 }
 
-//raitings
-.rating {
-  color: #3e3d40;
-  margin: 0;
-  padding: 0;
-}
-ul.rating {
-  display: inline-block;
-}
-.rating li {
-  list-style-type: none;
-  display: inline-block;
-  padding: 1px;
-  text-align: center;
-  font-size: xx-large;
-  font-weight: bold;
-  cursor: pointer;
-}
-.rating .filled {
-  color: red;
-}
-// end raitings
 .ng-aside.horizontal .modal-dialog .modal-content {
   height: 94%;
   margin-top: 17%;
@@ -207,7 +178,6 @@ ul.rating {
   .jumbotron {
     border-bottom: 0;
   }
-
 
   .ng-invalid.ng-dirty{
     border-color: red;

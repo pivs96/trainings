@@ -19,7 +19,6 @@ angular
     'smart-table',
     'ngStorage',
     'ngDialog',
-    'ngDialog',
     'ui.bootstrap',
     'ngAside'
   ])

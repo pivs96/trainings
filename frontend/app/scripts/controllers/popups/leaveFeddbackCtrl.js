@@ -9,6 +9,7 @@ angular.module('frontendApp')
       max: 5
     };
 
+    // temp data
     $scope.levles = [
       { Name: 'PreInt'},
       { Name: 'Int'},
@@ -16,6 +17,7 @@ angular.module('frontendApp')
       { Name: 'Ad'}
     ];
 
+    // temp data
     $scope.marks = [
       { grade: 0},
       { grade: 1},
@@ -30,7 +32,7 @@ angular.module('frontendApp')
       var feed = new TrainingFeedbackService();
       feed.id = trainingId;
       feed.userId = userId;
-      feed.effectiveness = $scope.$$childHead.ratings.current;        //плохо
+      feed.effectiveness = $scope.$$childHead.ratings.current;        //not good
       feed.understandable = $scope.understandable;
       feed.interesting = $scope.interesting;
       feed.newKnowledge = $scope.newKnowledge;
@@ -55,8 +57,8 @@ angular.module('frontendApp')
       feed.questions = $scope.questions;
       feed.interested = $scope.interested;
       feed.focusOnResult = $scope.focusOnResult;
-      feed.englishLevel = $scope.$$childHead.ddlLevle;      //плохо
-      feed.grade = $scope.$$childTail.ddlMark;      //плохо
+      feed.englishLevel = $scope.$$childHead.ddlLevle;      ////not good
+      feed.grade = $scope.$$childTail.ddlMark;      //not goodo
       feed.otherInfo = $scope.feedbackInput;
       feed.date = new Date();
       feed.$save();

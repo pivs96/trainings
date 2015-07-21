@@ -1,11 +1,11 @@
-<div style="padding: 10px;">
-  <h2 style="text-align: center; margin-top: 10px">Leave feedback on this training</h2>
+<div class="header-feedback">
+  <h2 class="feedback-name">Leave feedback on this training</h2>
 </div>
-<div class="ngdialog-message" style="text-align: center;">
+<div class="ngdialog-message feedback-container">
   <form class="form-horizontal">
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8" style="margin-top: 3%">
+      <div class="col-md-8 feedback-field">
         <p>Was the training understandable?</p>
       </div>
       <div class="col-md-2">
@@ -18,8 +18,8 @@
       </div>
     </div>
 
-    <div class="form-group feedbackBlock" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%">
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8 feedback-field">
         <p>Was it interesting for you?</p>
       </div>
       <div class="col-md-2">
@@ -32,8 +32,8 @@
       </div>
     </div>
 
-    <div class="form-group feedbackBlock" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%">
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8 feedback-field">
         <p>Have you learnt something new?</p>
       </div>
       <div class="col-md-2">
@@ -46,19 +46,19 @@
       </div>
     </div>
 
-    <div class="form-group feedbackBlock" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%">
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8 feedback-field">
         <p>Set effectiveness of the class (rate it from 1 to 5)?</p>
       </div>
-      <div ng-controller="LeaveFeedbackCtrl" style="margin-top:2.5%">
+      <div ng-controller="LeaveFeedbackCtrl" class="feedback-training-effect">
         <span ng-model="ratings">
           <div star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" ></div>
         </span>
       </div>
     </div>
 
-    <div class="form-group feedbackBlock" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%">
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8 feedback-field">
         <p>Would you like to learn from this trainer?</p>
       </div>
       <div class="col-md-2">
@@ -71,8 +71,8 @@
       </div>
     </div>
 
-    <div class="form-group feedbackBlock" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%">
+    <div class="form-group feedbackBlock">
+      <div class="col-md-8 feedback-field">
         <p>Will you recommend your colleagues this training to attend?</p>
       </div>
       <div class="col-md-2">
@@ -85,23 +85,23 @@
       </div>
     </div>
 
-    <div class="form-group" style="margin: 5px">
-      <div class="col-md-8" style="margin-top: 3%;padding-left: 28%">
+    <div class="form-group">
+      <div class="col-md-8 feedback-field feedback-info">
         <p>Other info</p>
       </div>
       <div>
         <label for="feedbackInputId"></label>
-        <textarea rows="10" class="form-control" id="feedbackInputId" ng-model="$parent.feedbackInput" style="resize: none;"></textarea>
+        <textarea rows="10" class="form-control feedback-text" id="feedbackInputId" ng-model="$parent.feedbackInput"></textarea>
       </div>
     </div>
 
   </form>
 </div>
 <div class="ngdialog-buttons mt">
-  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+  <button type="button" class="btn btn-default feedback-button"
           ng-click="closeThisDialog()">Cancel
   </button>
-  <button type="button" class="btn btn-default" style="color: white; background-color: #276FA0; float: right"
+  <button type="button" class="btn btn-default feedback-button"
           ng-click="leaveTrainingFeedback()">Ok
   </button>
 </div>
