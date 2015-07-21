@@ -6,7 +6,7 @@ angular.module('frontendApp')
         $scope.type = type;
 
         $scope.createExternalListener = function() {
-            var extListner = new createExternalListener;
+            var extListner = new createExternalListener();
             extListner.trainingId = 'aba';
             extListner.data = {
                 name: $scope.name,
@@ -21,7 +21,7 @@ angular.module('frontendApp')
         };
 
         $scope.createExternalTrainer = function() {
-            var extTrainer =  new createExternalTrainer;
+            var extTrainer =  new createExternalTrainer();
             extTrainer.data =  {
                 name: $scope.name,
                 surname: $scope.surname,
