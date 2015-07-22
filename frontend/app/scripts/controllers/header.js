@@ -2,7 +2,7 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', ['EventService','$location','$scope','$aside', function (EventService,$location, $scope, $aside) {
+  .controller('HeaderCtrl', ['$location', function ($location) {
 
     this.companyName = companyName;
 
@@ -14,7 +14,6 @@ angular.module('frontendApp')
       alert("we are working...");
       //TODO logout functionality
     };
-
   }]);
 
 var companyName = "Exadel";
