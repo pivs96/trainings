@@ -74,5 +74,6 @@
   "SELECT_DAY" : "Select day",
   "STATUS" : "Status",
   "REPEATING" : "Repeating",
-  "ENTRY" : "Entry"
+  "ENTRY" : "Entry",
+  "SAVE" : "Save"
 }

@@ -1,7 +1,26 @@
 'use strict';
 
-angular.module('frontendApp')
-  .controller('UserProfileCtrl',['$scope','ngDialog', function ($scope,ngDialog) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', function ($scope, ngDialog) {
+
+  this.user = {
+    email: "example@gmail.com",
+    name: "Alex",
+    surname: "Alexis",
+    phone: "12444455",
+    role: "Administrator"
+  };
+
+  this.editMode = false;
+
+  this.startEdit = function () {
+    this.editMode = true;
+  }
+
+  this.saveChanges = function () {
+    //TODO save changes
+    this.editMode = false;
+  }
+
     $scope.leaveTrainingFeedback = function(){
       ngDialog.open({
         template: "views/popups/leaveTrainingFeedback.html",
@@ -26,7 +45,5 @@ angular.module('frontendApp')
               }
           });
       };
-
-
   }]);
 
