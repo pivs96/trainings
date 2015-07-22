@@ -3,16 +3,15 @@ package com.exadel.model.entity.feedback;
 import com.exadel.dto.TrainingFeedbackDTO;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
 @Table(name = "training_feedbacks")
 public class TrainingFeedback {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
