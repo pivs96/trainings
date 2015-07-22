@@ -20,7 +20,7 @@ angular.module('frontendApp')
       _.extend(feed,{
         id : trainingId,
         userId : userId,
-        effectiveness: $scope.$$childHead.ratings.current,
+        effectiveness: $scope.$$childHead.ratings.current, //fix me
         date : new Date()
       });
       _.extend(feed,$scope.entity);
