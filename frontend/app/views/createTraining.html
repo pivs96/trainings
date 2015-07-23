@@ -1,0 +1,65 @@
+<form class="form-inline">
+
+  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.TRAINING_NAME}}:
+    <input type="text" class="form-control" placeholder="input training name">
+  </div>
+  <div class="col-sm-4 training-description">
+    {{translation.DESCRIPTION}}:
+    <div>
+      <textarea class="form-control" style="width: 100%; resize: none" rows="21"></textarea>
+    </div>
+    <div align="center" style="margin-top: 5px">
+      <button type="submit" class="btn btn-default" ng-click="">{{translation.SAVE}}</button>
+    </div>
+  </div>
+  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.DURATION}}:
+    <input type="text" class="form-control" placeholder="input duration">
+  </div>
+  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.CLOSEST_MEETING}}:
+    <div class="input-group">
+
+      <span class="input-group-btn">
+        <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
+               ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
+               close-text="Close"/>
+         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+      </span>
+      <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
+    </div>
+
+  </div>
+  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.CITY}}:
+    <input type="text" placeholder="input city" class="form-control">
+  </div>
+  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.UNIT}}:
+    <input type="text" placeholder="input unit" class="form-control" ng-disabled="!isAdmin();">
+  </div>
+  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.TARGET_AUDIENCE}}:
+    <input type="text" placeholder="input target audience" class="form-control">
+  </div>
+  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.LANGUAGE}}:
+    <input type="text" placeholder="input language" class="form-control">
+  </div>
+  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
+    {{translation.TRAINER}}:
+    <select class="form-control" ng-model="user" ng-options="user for user in users"></select>
+  </div>
+  <div class="col-sm-8 training-info-entry">
+    {{translation.ATTACHMENTS}}:
+    <div class="training-attach-btn">
+      <input type="file" class=" btn-sm">
+      <button type="button" ng-click="attach()" class="btn btn-default btn-sm training-attach-btn">
+        {{translation.ATTACH}}
+      </button>
+    </div>
+    <br/><br/> <a ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
+  </div>
+
+</form>

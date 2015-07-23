@@ -61,25 +61,29 @@ angular.module('frontendApp')
       };
 
       $scope.openInfo = function() {
-        var info = new trainingInfo;
+        var info = new trainingInfo();
         info.id = 'aba';
         info.$get();
       };
 
       $scope.openParticipantsList = function() {
-        var part = new trainingParticipants;
+        var part = new trainingParticipants();
         part.id = 'aba';
         part.$query();
       };
 
       $scope.openFeedbacks = function() {
-        var feedbacks = new trainingFeedbacks;
+        var feedbacks = new trainingFeedbacks();
         feedbacks.id = 'aba';
         feedbacks.$query();
       };
 
       $scope.openJournal = function() {
 
+      };
+
+      $scope.attach = function() {
+        console.log("WIP");
       };
 
       $scope.registrated = false;

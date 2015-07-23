@@ -67,6 +67,11 @@ angular
         controller: 'TrainingCtrl',
         controllerAs: 'training'
       })
+      .when('/trainings/newTraining', {
+        templateUrl: 'views/createTraining.html',
+        controller: 'CreateTrainingCtrl',
+        controllerAs: 'createTraining'
+      })
       .otherwise({
         redirectTo: '/'
       })
