@@ -1,7 +1,5 @@
-@bg-color: #FFFFFF;
-
 .ngdialog.ngdialog-theme-default .ngdialog-content {
-  background: @bg-color;
+  background: white;
   padding: 0;
   margin-bottom: 0;
 }
@@ -12,7 +10,7 @@
 
 .modal-header {
   border-bottom: 0;
-  color: @bg-color;
+  color: white;
   padding: 1px;
   background-color: #032539;
   min-height: 40px;
@@ -20,12 +18,15 @@
 
 .modal-body {
   position: relative;
-  padding: 0 15px 15px 0;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .modal-footer {
+  padding: 0;
   text-align: right;
-  padding: 0 1em 1em 0;
+  padding-bottom: 1em;
+  padding-right: 1em;
   border-top: 0;
 }
 
@@ -35,20 +36,53 @@
 }
 
 .feedback-container {
-  background-color:  @bg-color;
+  background-color:  white;
 }
 
 .feedback-field {
-  margin-top: 10px;
+  margin-top: 1%;
 }
 
 .feedback-info {
-  margin-top: 17px;
+  margin-top: 11%;
   font-family: Arial;
   font-weight: Bold;
 }
 
 .feedback-dropdown {
+  padding: 0 0 0 80px;
+  width: 100%;
+}
+
+.feedback-button {
+  color: white;
+  background-color: #276FA0;
+  float: right;
+}
+
+.feedback-training-effect {
+  margin-top:2.5%;
+  padding-left: 4.5%;
+}
+
+.feedback-text {
+  resize: none;
+  width: 130%;
+}
+
+.feedback-text-input {
+  margin-top: 2.5%;
+}
+
+.feedback-radio-input {
+  margin-top: 1%;
+}
+
+.feedbackBlock {
+  font-family: Arial;
+  font-weight:  Bold;
+  width: 100%;
+  border-radius: 2px;
   padding: 0 0 0 80px;
 }
 
@@ -76,5 +110,5 @@
   font-family: Arial;
   font-weight:  Bold;
   width: 100%;
-  margin: 5px
+  margin: 5px;
 }
