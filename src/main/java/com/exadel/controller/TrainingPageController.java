@@ -1,31 +1,27 @@
 package com.exadel.controller;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.exadel.dto.*;
-import com.exadel.model.entity.training.*;
-import com.exadel.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
+import com.exadel.model.entity.training.*;
 import com.exadel.model.entity.user.User;
+import com.exadel.service.*;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
-import com.exadel.service.impl.UserServiceImpl;
+import com.exadel.service.impl.EmailMessages;
+import com.exadel.service.impl.SmtpMailSender;
+import com.exadel.util.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/training")
@@ -47,6 +43,11 @@ public class TrainingPageController {
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private SmtpMailSender smtpMailSender;
+    @Autowired
+    EmailMessages emailMessages;
+
     @Autowired
     private ParticipationService participationService;
     @Autowired
@@ -73,6 +74,7 @@ public class TrainingPageController {
         for (User user : training.getParticipants()) {
             userDTOs.add(new UserDTO(user));
         }
+        smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.deleteTraining(training));
         return userDTOs;
     }
 
@@ -200,6 +202,9 @@ public class TrainingPageController {
     public void deleteFeedback(@RequestParam String feedbackId) {
         trainingFeedbackEventService.deleteByTrainingFeedbackId(Long.parseLong(feedbackId));
         trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
+
+        TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
+        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
@@ -245,23 +250,28 @@ public class TrainingPageController {
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = trainingService.getTrainingById(trainingDTO.getId());
         training.updateTraining(trainingDTO);
-        if (UserServiceImpl.hasRole(0)) {
-        } else {
+        if (UserUtil.hasRole(0)) {
+            smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.modifyTraining(training));
+        }
+        else {
             training.setStatus(TrainingStatus.DRAFTED);
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
         }
+        trainingService.updateTraining(training);
     }
 
     @PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0')")
     @RequestMapping(method = RequestMethod.DELETE)
     public void cancelTraining(@RequestParam String id) {
-        if (UserServiceImpl.hasRole(0)) {
-            trainingService.cancelById(id);
-        } else {
-            Training training = trainingService.getTrainingById(Long.parseLong(id));
-            training.setStatus(TrainingStatus.CANCELLED);
+        Training training = trainingService.getTrainingById(Long.parseLong(id));
+        training.setStatus(TrainingStatus.CANCELLED);
 
+        if (UserUtil.hasRole(0)) {
+            trainingService.cancelById(id);
+            smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.deleteTraining(training));
+        }
+        else {
             TrainingDTO trainingDTO = new TrainingDTO(training);
             trainingDTO.setEventDescription("Trainer wants to delete this training");
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -269,14 +279,10 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasRole('0')")
-    @RequestMapping(value = "/userFeedback", method = RequestMethod.GET)
-    public String AskUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
+    @RequestMapping(value="/userFeedback",method = RequestMethod.GET)
+    public void AskUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
-        User trainer = training.getTrainer();
-        String mail = "Hi, " + trainer.getName() + " " + trainer.getSurname() + "!" + "\n" + "Notification from Exadel system:" + "\n" + "Admin asked feedback on " + user.getName() + " " + user.getSurname() + " about training " + training.getName();
-        String email = trainer.getEmail();
-        //TODO: send mail on email
-        return mail;
+        smtpMailSender.send(training.getTrainer().getEmail(), "Feedback", emailMessages.askFeedback(training, user));
     }
 }

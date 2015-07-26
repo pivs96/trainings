@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,18 +128,4 @@ public class UserServiceImpl implements UserService {
             String.class,id);*/
     return id;
     }
-
-    public static boolean hasRole(Integer role) {
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        boolean hasRole = false;
-        for (GrantedAuthority authority : authorities) {
-            if( role==Integer.parseInt(authority.getAuthority())) {
-                hasRole=true;
-                break;
-            }
-        }
-        return hasRole;
-    }
-
 }

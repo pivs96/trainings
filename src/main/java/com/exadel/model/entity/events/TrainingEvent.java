@@ -1,5 +1,6 @@
 package com.exadel.model.entity.events;
 
+import com.exadel.dto.EntryDTO;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.training.Training;
@@ -26,6 +27,13 @@ public class TrainingEvent extends Event{
         this.setDate(new Date());
         this.setDescription(trainingDTO.getEventDescription());
         this.training = new Training(trainingDTO.getId());
+    }
+
+    public TrainingEvent(EntryDTO entryDTO) {
+        this.setIsWatched(false);
+        this.setDate(new Date());
+        this.setDescription(entryDTO.getEventDescription());
+        this.training = new Training(entryDTO.getTrainingId());
     }
 
     @Override

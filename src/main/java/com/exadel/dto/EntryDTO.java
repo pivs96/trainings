@@ -19,6 +19,8 @@ public class EntryDTO implements Comparable<EntryDTO> {
 
     private List<AbsenteeDTO> absentees;
 
+    private String eventDescription;
+
     public EntryDTO() {
     }
 
@@ -85,7 +87,15 @@ public class EntryDTO implements Comparable<EntryDTO> {
 
     @Override
     public int compareTo(EntryDTO entry) {
-        return (int)(this.getBeginTime().getTime() - entry.getBeginTime().getTime());
+        return (int) (this.getBeginTime().getTime() - entry.getBeginTime().getTime());
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     public List<AbsenteeDTO> getAbsentees() {

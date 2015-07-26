@@ -5,7 +5,6 @@ import com.exadel.model.entity.training.Entry;
 import com.exadel.repository.EntryRepository;
 import com.exadel.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +17,11 @@ import java.util.Optional;
 public class EntryServiceImpl implements EntryService{
     @Autowired
     private EntryRepository entryRepository;
+
+    @Override
+    public List<Entry> getAllEntries() {
+        return entryRepository.findAll();
+    }
 
     @Override
     public Entry getEntryById(String id) {
@@ -69,5 +73,10 @@ public class EntryServiceImpl implements EntryService{
     @Override
     public void deleteEntry(long id) {
         entryRepository.delete(id);
+    }
+
+    @Override
+    public List<Entry> getBetweenDates(Date before, Date after) {
+        return entryRepository.findBetweenDates(before, after);
     }
 }

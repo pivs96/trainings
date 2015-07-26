@@ -2,13 +2,19 @@ package com.exadel.controller;
 
 import com.exadel.dto.AbsenteeDTO;
 import com.exadel.dto.EntryDTO;
+import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.Absentee;
 import com.exadel.service.AbsenteeService;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
+import com.exadel.service.events.TrainingEventService;
+import com.exadel.service.impl.EmailMessages;
+import com.exadel.service.impl.SmtpMailSender;
+import com.exadel.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +29,16 @@ import static com.exadel.Utils.addWeekToDate;
 public class EntryController {
     @Autowired
     private EntryService entryService;
-
     @Autowired
     private TrainingService trainingService;
-
     @Autowired
     private AbsenteeService absenteeService;
+    @Autowired
+    SmtpMailSender smtpMailSender;
+    @Autowired
+    EmailMessages emailMessages;
+    @Autowired
+    TrainingEventService trainingEventService;
 
     @Autowired
     private UserService userService;
@@ -98,12 +108,31 @@ public class EntryController {
     public void updateEntry(@RequestBody EntryDTO entryDTO) {
         Entry entry = entryService.getEntryById(entryDTO.getId());
         entry.updateEntry(entryDTO);
+        if (UserUtil.hasRole(0)) {
+            smtpMailSender.sendToParticipants(entry, "Trainings", emailMessages.modifyEntry(entry));
+        }
+        else {
+            entry.getTraining().setStatus(TrainingStatus.DRAFTED);
+            trainingService.updateTraining(entry.getTraining());
+            trainingEventService.addEvent(new TrainingEvent(entryDTO));
+        }
     }
 
     @RequestMapping(value = "/entry", method = RequestMethod.DELETE)
     public void deleteEntry(@RequestParam String entryId) {
         Entry entry = entryService.getEntryById(entryId);
-        entryService.deleteEntry(entry.getId());
+        if (UserUtil.hasRole(0)) {
+            entryService.deleteEntry(entry.getId());
+            smtpMailSender.sendToParticipants(entry, "Trainings", emailMessages.deleteEntry(entry));
+        }
+        else {
+            entry.getTraining().setStatus(TrainingStatus.DRAFTED);
+            trainingService.updateTraining(entry.getTraining());
+
+            EntryDTO entryDTO = new EntryDTO(entry);
+            entryDTO.setEventDescription(emailMessages.deleteEntryToAdmin(entry));
+            trainingEventService.addEvent(new TrainingEvent(entryDTO));
+        }
     }
 
     @RequestMapping(value = "/absentees", method = RequestMethod.GET)

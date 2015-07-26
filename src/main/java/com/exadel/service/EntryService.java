@@ -1,14 +1,13 @@
 package com.exadel.service;
 
 import com.exadel.model.entity.training.Entry;
-import org.springframework.data.domain.Pageable;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface EntryService {
+    List<Entry> getAllEntries();
 
     Entry getEntryById(String id);
 
@@ -25,4 +24,6 @@ public interface EntryService {
     Optional<Entry> addEntry(Entry entry);
 
     void deleteEntry(long id);
+
+    List<Entry> getBetweenDates(Date before, Date after);
 }

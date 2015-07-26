@@ -8,9 +8,8 @@ import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
-import com.exadel.service.UserService;
 import com.exadel.service.events.TrainingEventService;
-import com.exadel.service.impl.UserServiceImpl;
+import com.exadel.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +48,7 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public long createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
-        if (UserServiceImpl.hasRole(0)) {
+        if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
         }
         else {
