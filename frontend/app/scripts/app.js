@@ -125,8 +125,10 @@ angular
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
       $rootScope.globals = $cookies.get('globals');
       var menu = angular.element('.modal.fade.horizontal.right.in');
-      if(menu)
+      if(menu){
         menu.remove();
+      }
+      console.log($location.path());
       if ($location.path() !== '/login' && !$rootScope.globals) {
         if ($location.path() !== '') {
           $rootScope.locationPath = $location.path();
@@ -138,14 +140,14 @@ angular
 
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
-      return $localStorage.userData.role === appConstants.ADMIN;
+      return $localStorage.userData?($localStorage.userData.role === appConstants.ADMIN):false;
     };
     $rootScope.isExternalTrainer = function () {
-      return $localStorage.userData.role === appConstants.EXT_TRAINER;
+      return $localStorage.userData?($localStorage.userData.role === appConstants.EXT_TRAINER):false;
     };
 
     $rootScope.isEmployee = function () {
-      return $localStorage.userData.role === appConstants.EMPLOYEE;
+      return $localStorage.userData?($localStorage.userData.role === appConstants.EMPLOYEE):false;
     };
 
     //perhaps there is need to add new module for localization

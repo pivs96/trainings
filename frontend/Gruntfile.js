@@ -91,7 +91,9 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: true,
+          open: {
+            target: 'http://localhost:9000/#/login'
+          },
           middleware: function (connect) {
             return [
               connect.static('.tmp'),

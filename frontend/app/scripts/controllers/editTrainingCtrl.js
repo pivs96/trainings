@@ -14,10 +14,8 @@ angular.module('frontendApp')
       var constTrainingData = angular.copy($scope.data);
       $scope.data.entries = angular.copy(entries);
       $scope.data.attachments = angular.copy(attachments);
-      $scope.entries = angular.copy($scope.data.entries);
       var constEntries = angular.copy($scope.data.entries);
       $scope.entryNum = 1;
-
 
       $scope.compareEntryData = function() {
         if(constEntries){
@@ -25,7 +23,14 @@ angular.module('frontendApp')
             $scope.description = $scope.description + "In lecture " + (i+1) + ":" + "\n";
             angular.forEach(constEntries[i], function (value, key) {
               if (key !== 'id' && key !== 'absentees' && key !== 'trainingId' && value !== _.property(key)($scope.data.entries[i])) {
-                $scope.description = $scope.description + key + " from " + value + " to " + _.property(key)($scope.entries[i]) + "\n";
+                if(_.property(key)($scope.data.entries[i]) != undefined){
+                  if(key == "beginTime" || key =="endTime")
+                  {
+                    $scope.description = $scope.description + key + " from " + new Date(value) + " to " + _.property(key)($scope.data.entries[i]) + "\n";
+                  }else{
+                    $scope.description = $scope.description + key + " from " + value + " to " + _.property(key)($scope.data.entries[i]) + "\n";
+                  }
+                }
               }
             });
           }
@@ -35,9 +40,12 @@ angular.module('frontendApp')
       $scope.compareTrainingData = function(){
         $scope.description = "Training " +  constTrainingData.name + " has been changed." + "\n" + "Changes : " + "\n";
         angular.forEach(constTrainingData, function(value, key) {
-          if(key !== 'attachments' && key !== 'entries' && key !== '$promise' && key !== '$resolved' && value !== _.property(key)($scope.data)){
+          if(key !== 'trainer' && key !== 'attachments' && key !== 'entries' && key !== '$promise' && key !== '$resolved' && value !== _.property(key)($scope.data)){
             $scope.description = $scope.description + key + " from " + value + " to " +  _.property(key)($scope.data) + "\n";
           }
+          if((key === 'trainer'&& value.id !== $scope.data.trainer.id)){
+              $scope.description = $scope.description + key + " from " + value.name + " to " + _.property(key)($scope.data.trainer.name) + "\n";
+            }
         });
       };
 
@@ -67,10 +75,10 @@ angular.module('frontendApp')
           edit.data.begin = edit.data.begin.valueOf();
           edit.data.end = edit.data.end.valueOf();
         }
+        $scope.compareTrainingData();
+        $scope.compareEntryData();
+        console.log($scope.description);
         editTraining.updateTraining($scope.data).$promise.then(function(resp) {
-          $scope.compareTrainingData();
-          $scope.compareEntryData();
-          console.log($scope.description);
           console.log(resp);
         });
       };

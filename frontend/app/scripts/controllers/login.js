@@ -18,7 +18,7 @@ angular.module('frontendApp')
           if($rootScope.locationPath !== "/login" && $rootScope.locationPath){
             $location.path($rootScope.locationPath);
           } else {
-            $location.path("/");
+            $location.path("/traininglist");
           }
         } else {
           $location.path("/login");
