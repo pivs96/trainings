@@ -2,7 +2,8 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', ['$location', function ($location) {
+  .controller('HeaderCtrl', ['$location','$scope','$http','$rootScope','AuthenticationService',
+    function ($location, $scope,$http, $rootScope, AuthenticationService) {
 
     this.companyName = companyName;
 
@@ -10,10 +11,15 @@ angular.module('frontendApp')
       $location.path('/userprofile');
     };
 
-    this.logout = function (){
-      alert("we are working...");
-      //TODO logout functionality
-    };
+    $scope.logout = function() {
+      $http.post('http://localhost:8080/logout', {}).success(function() {
+        AuthenticationService.ClearCredentials();
+        //$location.path("/login");
+      }).error(function(data) {
+        AuthenticationService.ClearCredentials();
+      });
+    }
+
   }]);
 
 var companyName = "Exadel";

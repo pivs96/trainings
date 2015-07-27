@@ -20,9 +20,10 @@ angular
     'ngStorage',
     'ngDialog',
     'ui.bootstrap',
-    'ngAside'
+    'ngAside',
+    'base64'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider,$httpProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -74,8 +75,24 @@ angular
       })
       .otherwise({
         redirectTo: '/'
-      })
-  }).run(function ($rootScope, translationService) {
+      });
+    $httpProvider.defaults.withCredentials = true;
+  }).run(function ($http, $location, $cookies, $rootScope, translationService) {
+
+    $rootScope.globals = $cookies.get('globals');
+    if ($rootScope.globals) {
+      $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    }
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+      $rootScope.globals = $cookies.get('globals');
+      if ($location.path() !== '/login' && !$rootScope.globals) {
+        $rootScope.locationPath = $location.path();
+        $location.path('/login');
+      }
+    });
+
+
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
       return true;

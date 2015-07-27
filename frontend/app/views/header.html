@@ -44,7 +44,9 @@
               <i class="fa fa-user fa-lg" ng-click="headerController.goToUserProfile()"></i>
             </a>
           </li>
-          <li><a ng-click="headerController.logout()" class="btn-link">{{translation.LOGOUT}}</a></li>
+          <!--<li><a ng-click="logout()" class="btn-link">{{translation.LOGOUT}}</a></li>-->
+          <!--in progress, but work on this form-->
+          <li><a href="http://localhost:8080/logout" method="post" class="btn-link">  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>{{translation.LOGOUT}}</a></li>
         </ul>
 
       </div>
