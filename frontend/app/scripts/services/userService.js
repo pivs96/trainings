@@ -32,8 +32,8 @@ angular.module('frontendApp').factory('userService', function ($resource, $q) {
     setUserId: function (_userId) {
       userId = _userId;
     },
-    setRedirectUserId: function(userId) {
-      redirectUserId = userId;
+    setRedirectUserId: function(setUserId) {
+      redirectUserId = setUserId;
     },
     getRedirectUserId: function() {
       return redirectUserId;

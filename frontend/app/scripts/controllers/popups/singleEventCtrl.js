@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('EventCtrl', ['$scope', '$http', '$location', 'userService', 'data', 'userServiceDelegate',
-    function($scope, $http, $location, userService, data, userServiceDelegate) {
+  .controller('EventCtrl', ['$scope', '$http', '$location', 'userService', 'data', 'userServiceDelegate', 'SingleEventService',
+    function($scope, $http, $location, userService, data, userServiceDelegate, SingleEventService) {
      $scope.singleevent = data;
 
       $scope.userId = 0;

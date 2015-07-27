@@ -17,13 +17,12 @@
     <!-- SEARCH works by boolean true-false values th><input st-search="watched" class="input-sm form-control" type="search"/></th-->
   </tr>
   <tbody>
-  <tr ng-repeat="_event in eventsList">
-    <td>{{_event.description}}</td>
-    <td>{{_event.date | date:'dd-MM-yyyy HH:mm'}}</td>
-    <td>{{_event.eventType}}</td>
-    <td>{{_event.watched ? translation.YES : translation.NO}}</td>
-
-  </tr>
+    <tr ng-repeat="_event in eventsList" ng-click="openEvent(_event)">
+        <td>{{_event.description}}</td>
+        <td>{{_event.date | date:'dd-MM-yyyy HH:mm'}}</td>
+        <td>{{_event.eventType}}</td>
+        <td>{{_event.watched ? translation.YES : translation.NO}}</td>
+    </tr>
   </tbody>
   <tfoot>
   <tr ng-if="pages.length >= 2">

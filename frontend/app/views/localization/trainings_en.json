@@ -107,5 +107,6 @@
   "EVENT_WATCHED" : "Watched",
   "VISIT_TRAINING_PAGE" : "Visit training page",
   "VISIT_USER_PAGE" : "Visit user page",
-  "WATCH_USER_FEEDBACKS" : "Watch user feedbacks"
+  "WATCH_USER_FEEDBACKS" : "Watch user feedbacks",
+  "COMMUNICATION_SKILLS" : "Communication skills"
 }

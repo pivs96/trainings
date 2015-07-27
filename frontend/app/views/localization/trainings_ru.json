@@ -107,5 +107,6 @@
   "EVENT_WATCHED" : "Просмотрено",
   "VISIT_TRAINING_PAGE" : "Перейти на страницу тренинга",
   "VISIT_USER_PAGE" : "Перейти на страницу пользователя",
-  "WATCH_USER_FEEDBACKS" : "Отзывы на пользователя"
+  "WATCH_USER_FEEDBACKS" : "Отзывы на пользователя",
+  "COMMUNICATION_SKILLS" : "Способность работы в колективе"
 }

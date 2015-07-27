@@ -5,11 +5,13 @@ angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location
 
   $scope.eventList = [];
 
-  $scope.getUnwachedEvent = function() {
-    EventService.getEventList(function (resp){
+  (function poll (){
+    EventService.getEventList({index: $scope.eventList.length+1}, function (resp){
       $scope.eventList = angular.copy(resp);
     });
-  };
+    //poll();
+    setTimeout(poll,5000);
+  })();
 
   $interval($scope.getUnwachedEvent, 500);
 
