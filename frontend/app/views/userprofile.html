@@ -52,6 +52,11 @@
         </label>
       </div>
     </div>
+
+    <div class="col-md-3 watchUserFeedback">
+      <button class="btn btn-primary" ng-click="wathchFeedback()">{{translation.WATCH_USER_FEEDBACKS}}</button>
+    </div>
+
   </div>
   <div class="row" ng-if="mentoringTrainingsList && mentoringTrainingsList.length">
   <trn-simple-training-table trainings-list='mentoringTrainingsList' table-label='translation.MENTORING_TRAINING_LIST'

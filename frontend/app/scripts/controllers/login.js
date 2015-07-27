@@ -2,8 +2,8 @@
  * Created by Natsik on 15.07.2015.
  */
 angular.module('frontendApp')
-  .controller('LoginCtrl',['$scope', '$cookies', '$base64', '$localStorage', '$rootScope', '$http', '$location', 'AuthenticationService',
-    function ($scope, $cookies, $base64, $localStorage, $rootScope, $http, $location, AuthenticationService) {
+  .controller('LoginCtrl',['$scope', '$cookies', '$base64', '$localStorage', '$rootScope', '$http', '$location', 'AuthenticationService', 'UserDataService',
+    function ($scope, $cookies, $base64, $localStorage, $rootScope, $http, $location, AuthenticationService, UserDataService) {
     $scope.$storage = $localStorage;
 
     $scope.credentials = {};
@@ -12,6 +12,9 @@ angular.module('frontendApp')
       AuthenticationService.Login($scope.credentials, function (response) {
         if (response) {
           AuthenticationService.SetCredentials(response.name, response.details.sessionId, true);
+          $scope.userData = UserDataService.getUserNameAndId({login : $localStorage.userName}, function(response) {
+            $localStorage.userData = response;
+          });
           if($rootScope.locationPath !== "/login" && $rootScope.locationPath){
             $location.path($rootScope.locationPath);
           } else {
@@ -23,26 +26,3 @@ angular.module('frontendApp')
       });
     }
   }]);
-
-var user = {
-  email: "",
-  password: ""
-};
-
-// maybe use in some way
-
-//user.email = $localStorage.email || "example@gmail.com";
-//this.user = user;
-//this.login = function () {
-//  alert("This functionality in progress");
-//
-//  var rememberMeCheckbox = document.getElementById("rememberMe");
-//  if (rememberMeCheckbox && rememberMeCheckbox.type == "checkbox" && rememberMeCheckbox.checked) {
-//    $localStorage.email = this.user.email;
-//  }
-//  //TODO clear form after success
-//}
-//
-//this.clearLocalStorage = function () {
-//  delete $localStorage.email;
-//}

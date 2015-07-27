@@ -26,10 +26,18 @@ angular.module('frontendApp')
         $event.stopPropagation();
       };
 
-      $scope.leaveUserFeedbackDialog = function (userId, $event) {
+      $scope.leaveUserFeedbackDialog = function (userId, $event,userName) {
         ngDialog.open({
           template: "views/popups/leaveUserFeedback.html",
-          controller: 'LeaveFeedbackCtrl'
+          controller: 'LeaveFeedbackCtrl',
+          resolve: {
+            trainingData: function () {
+              return {
+                userName: userName,
+                userId: userId
+              }
+            }
+          }
         });
         $event.stopPropagation();
       };
@@ -67,10 +75,18 @@ angular.module('frontendApp')
         })
       };
 
-      $scope.leaveTrainingFeedback = function () {
+      $scope.leaveTrainingFeedback = function (trainingName) {
         ngDialog.open({
           template: "views/popups/leaveTrainingFeedback.html",
-          controller: 'LeaveFeedbackCtrl'
+          controller: 'LeaveFeedbackCtrl',
+          resolve: {
+            trainingData: function() {
+              return {
+                trainingName : trainingName,
+                trainingId : $scope.training.id
+              }
+            }
+          }
         })
       };
 

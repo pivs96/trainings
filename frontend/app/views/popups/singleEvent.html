@@ -1,0 +1,35 @@
+<div class="ngdialog-message feedback-container">
+  <div class="modal-header">
+    <h2 class="feedback-name">{{translation.SINGLE_EVENT}}</h2>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="event-date event-block">
+        {{translation.EVENT_DATE}} : {{singleevent.date | date:'yyyy-MM-dd HH:mm'}}
+      </div>
+      <div class="event-text event-block">
+        {{translation.EVENT_TEXT}} : {{singleevent.description}}
+      </div>
+      <div class="entity-link event-block">
+        <div class="col-sm-1">
+          Link :
+        </div>
+        <div class="col-sm-3">
+          <a ng-click="redirectToEntity(singleevent)">
+            <div ng-show="isTrainingEvent(singleevent.eventType)">
+              {{translation.VISIT_TRAINING_PAGE}}
+            </div>
+            <div ng-show="isFeedbackEvent(singleevent.eventType)">
+              {{translation.VISIT_USER_PAGE}}
+            </div>
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div ng-show="isFeedbackEvent(singleevent.eventType)">
+      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="setWatched()"> {{translation.EVENT_WATCHED}}</button>
+    </div>
+  </div>
+</div>

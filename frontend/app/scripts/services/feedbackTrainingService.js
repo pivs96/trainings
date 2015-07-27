@@ -2,10 +2,9 @@
 
 angular.module('frontendApp')
   .factory('TrainingFeedbackService',['$resource', function($resource) {
-    return $resource('http://localhost:8080/trainings/training/newFeedback/?id:=@id', {id: '@id'}, {
+    return $resource('http://localhost:8080/training/newFeedback', {}, {
       postFeedback: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        method: 'POST'
       }
     });
   }]);

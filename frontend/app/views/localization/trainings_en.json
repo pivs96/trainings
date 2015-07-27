@@ -99,5 +99,13 @@
   "BEGIN_DATE" : "Begin date",
   "PLACE" : "Place",
   "YES": "Yes",
-  "NO" : "No"
+  "NO" : "No",
+  "BASE_INFO" : "Base info",
+  "COMMUNICATION_SKILLS" : "Communication skills",
+  "USER_FEEDBACKS" : "User feedbacks",
+  "SINGLE_EVENT" : "Event",
+  "EVENT_WATCHED" : "Watched",
+  "VISIT_TRAINING_PAGE" : "Visit training page",
+  "VISIT_USER_PAGE" : "Visit user page",
+  "WATCH_USER_FEEDBACKS" : "Watch user feedbacks"
 }

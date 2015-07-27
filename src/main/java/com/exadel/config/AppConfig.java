@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Import({ SecurityConfig.class })
 public class AppConfig {
 
-   @Bean(name = "dataSource")
+    @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -27,7 +27,4 @@ public class AppConfig {
         driverManagerDataSource.setPassword("exadel");
         return driverManagerDataSource;
     }
-
-
-
 }

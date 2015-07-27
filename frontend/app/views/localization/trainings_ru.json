@@ -99,5 +99,13 @@
   "BEGIN_DATE" : "Дата начала",
   "PLACE" : "Место",
   "YES": "Да",
-  "NO" : "Нет"
+  "NO" : "Нет",
+  "BASE_INFO" : "Базовая информация",
+  "COMMUNICATION_SKILLS" : "Способность работы в колективе",
+  "USER_FEEDBACKS" : "Отзывы о пользователе",
+  "SINGLE_EVENT" : "Событие",
+  "EVENT_WATCHED" : "Просмотрено",
+  "VISIT_TRAINING_PAGE" : "Перейти на страницу тренинга",
+  "VISIT_USER_PAGE" : "Перейти на страницу пользователя",
+  "WATCH_USER_FEEDBACKS" : "Отзывы на пользователя"
 }

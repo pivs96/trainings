@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'userServiceDelegate', 'appConstants', 'userProfileData',  function ($scope, userService, userServiceDelegate, appConstants, userProfileData) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', 'userService', 'userServiceDelegate', 'appConstants', 'userProfileData',  function ($scope, ngDialog, userService, userServiceDelegate, appConstants, userProfileData) {
   $scope.editMode = false;
   $scope.languagesList = appConstants.LANGUAGES;
   $scope.selectedUser = userProfileData;
@@ -30,7 +30,16 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
       return;
     }
     userServiceDelegate.updateUserInfo(saveType, $scope.selectedUser);
+  };
+
+  $scope.wathchFeedback = function(){
+    ngDialog.open({
+      template: "views/popups/userFeedbacks.html",
+      controller: 'UserFeedbackCtrl',
+      size: "350px"
+    });
   }
+
 }]);
 
 

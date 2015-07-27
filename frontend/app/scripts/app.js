@@ -64,6 +64,16 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/userprofile/:userId/', {
+        templateUrl: 'views/userprofile.html',
+        controller: 'UserProfileCtrl',
+        resolve: {
+          userProfileData: function (userService) {
+            var id = userService.getRedirectUserId();
+            return userService.getUserProfileDataById(id);
+          }
+        }
+      })
       .when('/userprofile', {
         templateUrl: 'views/userprofile.html',
         controller: 'UserProfileCtrl',
@@ -96,7 +106,6 @@ angular
       });
     $httpProvider.defaults.withCredentials = true;
   }).run(function ($http, $location, $cookies, $rootScope, translationService) {
-
     $rootScope.globals = $cookies.get('globals');
     if ($rootScope.globals) {
       $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -104,6 +113,9 @@ angular
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
       $rootScope.globals = $cookies.get('globals');
+      var menu = angular.element('.modal.fade.horizontal.right.in');
+      if(menu)
+        menu.remove();
       if ($location.path() !== '/login' && !$rootScope.globals) {
         if($location.path() !== ''){
           $rootScope.locationPath = $location.path();

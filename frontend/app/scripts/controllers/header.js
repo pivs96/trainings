@@ -2,12 +2,11 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', ['$location','$scope','$http','$rootScope','AuthenticationService','userService',
-    function ($location, $scope, $http, $rootScope, AuthenticationService, userService) {
+  .controller('HeaderCtrl', ['$location', '$scope', '$localStorage', '$http', '$rootScope', 'AuthenticationService', 'userService',
+    function ($location, $scope, $localStorage, $http, $rootScope, AuthenticationService, userService) {
 
     this.goToUserProfile = function (){
-      //TODO add logged in user Id here
-      userService.setUserId('1');
+      userService.setUserId($localStorage.userData.id);
       $location.path('/userprofile');
     };
 

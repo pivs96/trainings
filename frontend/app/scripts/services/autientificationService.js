@@ -2,8 +2,8 @@
 
 angular.module('frontendApp')
   .factory('AuthenticationService',
-  ['$base64', '$http', '$cookies', '$rootScope',
-    function ($base64, $http, $cookies, $rootScope) {
+  ['$base64', '$http', '$cookies', '$rootScope', '$localStorage',
+    function ($base64, $http, $cookies, $rootScope, $localStorage) {
       var service = {};
 
       service.Login = function (credentials, callback) {
@@ -22,12 +22,13 @@ angular.module('frontendApp')
           });
       };
 
-      service.SetCredentials = function (username, sessionId, isAuthorized) {
+      service.SetCredentials = function (username, sessionId, isAuthorized, userRole) {
         $rootScope.globals = {
-            username: username,
-            authorized: isAuthorized,
-            sessionId: sessionId
+          username: username,
+          authorized: isAuthorized,
+          sessionId: sessionId
         };
+        $localStorage.userName = username;
         var now = new Date(),
         exp = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
         $cookies.put('globals', $rootScope.globals, {
@@ -38,6 +39,7 @@ angular.module('frontendApp')
       service.ClearCredentials = function () {
         $rootScope.globals = {};
         $cookies.remove('globals');
+        $localStorage.$reset();
       };
 
       return service;

@@ -48,13 +48,13 @@
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
-            <input type="radio" data-ng-model="entity.interested" value="true"/>
+            <input type="radio" data-ng-model="entity.interest" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
             <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
-            <input type="radio" data-ng-model="entity.interested" value="false"/>
+            <input type="radio" data-ng-model="entity.interest" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
             <p>{{translation.FEEDBACK_NO}}</p>
@@ -86,7 +86,7 @@
         <div class="col-sm-3 feedback-field control-label">
           <p>{{translation.ENGLISH_LEVEL}}</p>
         </div>
-        <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
+        <div class="feedback-field col-sm-8">
           <select class="form-control feedback-dropdown" ng-model="entity.ddlLevel" ng-options="level.Name as level.Name for level in levels"></select>
         </div>
       </div>
@@ -95,7 +95,7 @@
         <div class="col-sm-3 feedback-field control-label">
           <p>{{translation.MARK}}</p>
         </div>
-        <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
+        <div class="feedback-field col-sm-8">
           <select  class="form-control feedback-dropdown" ng-model="entity.ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
         </div>
       </div>

@@ -1,8 +1,30 @@
 'use strict';
 
-angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$aside', 'EventService', function($scope, $aside, EventService) {
+angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location', '$interval', '$aside', 'ngDialog', 'EventService',
+  function($scope, $location, $interval, $aside, ngDialog,  EventService) {
 
-  $scope.eventList = angular.copy(EventService.list);
+  $scope.eventList = [];
+
+  $scope.getUnwachedEvent = function() {
+    EventService.getEventList(function (resp){
+      $scope.eventList = angular.copy(resp);
+    });
+  };
+
+  $interval($scope.getUnwachedEvent, 500);
+
+  $scope.openEvent = function(event) {
+    ngDialog.open({
+      template: "views/popups/singleEvent.html",
+      controller: 'EventCtrl',
+      controllerAs: 'event',
+      resolve: {
+        data : function() {
+          return event;
+        }
+      }
+    })
+  };
 
   $scope.asideState = {
     open: false

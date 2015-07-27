@@ -1,5 +1,6 @@
 angular.module('frontendApp').factory('userService', function ($resource, $q) {
   var userId = 0;
+  var redirectUserId = 0;
   var getUserId  = function(){
     return userId;
   };
@@ -25,9 +26,17 @@ angular.module('frontendApp').factory('userService', function ($resource, $q) {
     getUserProfileData: function () {
       return $userResource.get({id: userId}).$promise;
     },
-
+    getUserProfileDataById: function (requireUserId) {
+      return $userResource.get({id: requireUserId}).$promise;
+    },
     setUserId: function (_userId) {
       userId = _userId;
+    },
+    setRedirectUserId: function(userId) {
+      redirectUserId = userId;
+    },
+    getRedirectUserId: function() {
+      return redirectUserId;
     }
   }
 });

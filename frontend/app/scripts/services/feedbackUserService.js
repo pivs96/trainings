@@ -2,10 +2,9 @@
 
 angular.module('frontendApp')
   .factory('UserFeedbackService',['$resource', function($resource) {
-    return $resource('http://localhost:8080/user/newFeedback/?userId:=@userId', {userId: '@userId'},  {
+    return $resource('http://localhost:8080/user/newFeedback', {},  {
       postFeedback: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        method: 'POST'
       }
     });
   }]);

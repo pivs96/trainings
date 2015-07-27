@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('LeaveFeedbackCtrl', ['$scope','TrainingFeedbackService','UserFeedbackService', 'Levels','Marks',
-    function($scope, TrainingFeedbackService, UserFeedbackService, Levels, Marks) {
+  .controller('LeaveFeedbackCtrl', ['$scope', '$rootScope', '$localStorage', 'trainingData', 'TrainingFeedbackService', 'UserFeedbackService', 'UserDataService', 'Levels','Marks',
+    function($scope, $rootScope, $localStorage, trainingData, TrainingFeedbackService, UserFeedbackService, UserDataService, Levels, Marks) {
 
     $scope.rating = 0;
     $scope.ratings = {
@@ -10,21 +10,22 @@ angular.module('frontendApp')
       max: 5
     };
 
+    $scope.usernInfo = $localStorage.userData;
+      // 0 - admin, 1 - employe,  2 - external trainer, 3 - external visitor
+
     $scope.levels = angular.copy(Levels);
     $scope.marks  = angular.copy(Marks);
 
     $scope.leaveTrainingFeedback = function() {
-      var userId = 1;
-      var trainingId = 123;
       var feed = new TrainingFeedbackService();
 
       _.extend(feed, {
-        id : trainingId,
-        userId : userId,
-        effectiveness: $scope.$$childHead.ratings.current, //fix me
-        date : new Date()
+        trainingId : trainingData.trainingId,
+        feedbackerId :  $scope.usernInfo.id,
+        effectiveness: $scope.$$childHead.ratingValue,
+        date : new Date(),
+        eventDescription : "User " + $scope.usernInfo.name + " left feedback on training " + trainingData.trainingName
       });
-
       _.extend(feed, $scope.entity);
 
       feed.$save();
@@ -33,18 +34,15 @@ angular.module('frontendApp')
     };
 
     $scope.leaveUserFeedback = function() {
-      var userId = 123; //id of user on we write feedback
-      var feedbackerId = 1; // id of feedbacker
       var feed = new UserFeedbackService();
 
       _.extend(feed, {
-        feedbackerId : feedbackerId,
-        userId : userId,
+        trainerId : $scope.usernInfo.id,
+        visitorId : trainingData.userId,
         date : new Date(),
-        englishLevel : $scope.$$childHead.ddlLevle,
-        grade : $scope.$$childTail.ddlMark
+        eventDescription : "Trainer " + $scope.usernInfo.name + "left feedback on visitor " + trainingData.userName
       });
-
+      $scope.entity.otherInfo = "Training name : " + trainingData.trainingName + "\n" + $scope.entity.otherInfo;
       _.extend(feed, $scope.entity);
 
       feed.$save();

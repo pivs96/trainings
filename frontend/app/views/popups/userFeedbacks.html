@@ -1,0 +1,62 @@
+<div class="ngdialog-message feedback-container">
+  <div class="modal-header">
+    <h2 class="feedback-name">{{translation.USER_FEEDBACKS}}</h2>
+  </div>
+  <div class="modal-body scrollable-y fixed-height">
+    <form class="form-horizontal">
+      <div ng-repeat="feedback in userUeedbacks" class="feedback-info-block">
+
+        <div class="feedback-item-block">
+          <div class="col-sm-12 feedback-item block-top">
+            <label class="col-sm-4 text-right"> {{translation.BASE_INFO}} : </label>
+            <p class="col-sm-7">{{feedback.otherInfo}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.ATTENDANCE}}:</label>
+            <p class="col-sm-7">{{feedback.attendance}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.COMMUNICATION_SKILLS}}: </label>
+            <p class="col-sm-7">{{feedback.communicationSkills}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.DATE}}:</label>
+
+            <p class="col-sm-7">{{feedback.date | date:'yyyy-MM-dd HH:mm'}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.FOCUESONRESULT}}: </label>
+
+            <p class="col-sm-7">{{feedback.focusOnResult | yesNo}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.MARK}}:</label>
+
+            <p class="col-sm-7">{{feedback.grade}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.ENGLISH_LEVEL}}:</label>
+
+            <p class="col-sm-7">{{feedback.level}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.QUESTIONS}} :</label>
+            <p class="col-sm-7">{{feedback.questions | yesNo}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item ">
+            <label class="col-sm-4 text-right">{{translation.ATTITUDE}} :</label>
+            <p class="col-sm-7">{{feedback.attitude}}</p>
+          </div>
+          <div class="col-sm-12 feedback-item block-bottom">
+            <label class="col-sm-4 text-right">{{translation.INTERESTING}} :</label>
+            <p class="col-sm-7">{{feedback.interest | yesNo}}</p>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeThisDialog()">{{translation.CLOSE}}</button>
+  </div>
+</div>
