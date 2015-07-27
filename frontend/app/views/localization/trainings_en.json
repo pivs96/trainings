@@ -80,5 +80,8 @@
   "CREATE_TRAINER" : "Create trainer",
   "USER_LIST" : "User List",
   "VISITING_TRAINING_LIST" : "Visiting Trainings List",
-  "MENTORING_TRAINING_LIST" : "Mentoring Trainings List"
+  "MENTORING_TRAINING_LIST" : "Mentoring Trainings List",
+  "LOGIN" : "Login",
+  "USER_NAME" : "Username",
+  "PASSWORD" : "Password"
 }

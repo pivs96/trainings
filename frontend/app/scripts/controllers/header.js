@@ -14,14 +14,16 @@ angular.module('frontendApp')
     };
 
     $scope.logout = function() {
-      $http.post('http://localhost:8080/logout', {}).success(function() {
-        AuthenticationService.ClearCredentials();
-        //$location.path("/login");
-      }).error(function(data) {
-        AuthenticationService.ClearCredentials();
-      });
-    }
+      $http.get('http://localhost:8080/logout',{})
+        .finally(function(data){
+          AuthenticationService.ClearCredentials();
+          $location.path("/login");
+        });
+    };
+
+      $scope.isLoginPage = function(){
+        var url = $location.path();
+        return url !== "/login";
+      };
 
   }]);
-
-var companyName = "Exadel";

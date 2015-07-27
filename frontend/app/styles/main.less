@@ -84,45 +84,57 @@ body {
   }
 }
 
+.login-form {
+  margin: auto;
+  width: 570px;
+  background-color: @color-text;
+  color: #000;
+  padding: 165px 4px 10px 4px;
+}
+
+.btn-login {
+  width: 100%
+}
+
 .header-training {
-background-color: @header-color;
+  background-color: @header-color;
 }
 
 footer {
-position: absolute;
-bottom: 0;
-width: 100%;
-/* Set the fixed height of the footer here */
-height: 120px;
-background-color: @footer-color;
-
-.footer-navbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 120px;
   background-color: @footer-color;
-  border-color: @footer-color;
-}
 
-.facebook-links {
-  margin-top: 3%
-}
-
-.copyright {
-  padding-left: 1.5%
-}
-
-.navbar-default .navbar-nav > li > a {
-  color: @color-text;
-
-  &:hover, &:focus {
-    color: @color-text;
+  .footer-navbar {
+    background-color: @footer-color;
+    border-color: @footer-color;
   }
-}
 
-.footer-container {
-  padding-left: 20%;
-  padding-right: 20%;
-  padding-bottom: 27px;
-  font-size: 100%;
-}
+  .facebook-links {
+    margin-top: 3%
+  }
+
+  .copyright {
+    padding-left: 1.5%
+  }
+
+  .navbar-default .navbar-nav > li > a {
+    color: @color-text;
+
+    &:hover, &:focus {
+      color: @color-text;
+    }
+  }
+
+  .footer-container {
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-bottom: 27px;
+    font-size: 100%;
+  }
 }
 //end footer
 

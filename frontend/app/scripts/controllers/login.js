@@ -12,7 +12,7 @@ angular.module('frontendApp')
       AuthenticationService.Login($scope.credentials, function (response) {
         if (response) {
           AuthenticationService.SetCredentials(response.name, response.details.sessionId, true);
-          if($rootScope.locationPath !== "/login" && $rootScope.locationPath !==""){
+          if($rootScope.locationPath !== "/login" && $rootScope.locationPath){
             $location.path($rootScope.locationPath);
           } else {
             $location.path("/");

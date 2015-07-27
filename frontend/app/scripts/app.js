@@ -92,7 +92,9 @@ angular
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
       $rootScope.globals = $cookies.get('globals');
       if ($location.path() !== '/login' && !$rootScope.globals) {
-        $rootScope.locationPath = $location.path();
+        if($location.path() !== ''){
+          $rootScope.locationPath = $location.path();
+        }
         $location.path('/login');
       }
     });

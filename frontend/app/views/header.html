@@ -16,7 +16,7 @@
         </a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" ng-show="isLoginPage()">
           <li ng-class="{ active: isActive('main')}">
             <a ng-href="#/login">{{translation.MY_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('traininglist')}"
@@ -28,11 +28,11 @@
           <li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl">
+        <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl" ng-show="isLoginPage()">
           <li>
-            <a>
+            <a class="btn-link" ng-click="openAside()">
               <div class="col-md-8">
-                <i class="fa fa-bell-o fa-lg event-bell" ng-click="openAside()"></i>
+                <i class="fa fa-bell-o fa-lg event-bell"></i>
               </div>
               <div  class="col-offcet-2 event-number">
                 {{eventList.length}}
@@ -44,9 +44,9 @@
               <i class="fa fa-user fa-lg" ng-click="headerController.goToUserProfile()"></i>
             </a>
           </li>
-          <!--<li><a ng-click="logout()" class="btn-link">{{translation.LOGOUT}}</a></li>-->
-          <!--in progress, but work on this form-->
-          <li><a href="http://localhost:8080/logout" method="post" class="btn-link">  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>{{translation.LOGOUT}}</a></li>
+          <li>
+            <a ng-click="logout()" class="btn-link">{{translation.LOGOUT}}</a>
+          </li>
         </ul>
 
       </div>
