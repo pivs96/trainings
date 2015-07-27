@@ -21,6 +21,7 @@ public class Training {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "trainer_id")
     private ExternalTrainer trainer;

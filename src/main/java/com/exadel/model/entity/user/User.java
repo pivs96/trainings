@@ -1,7 +1,6 @@
 package com.exadel.model.entity.user;
 
 import com.exadel.dto.UserDTO;
-
 import javax.persistence.*;
 
 @Entity
