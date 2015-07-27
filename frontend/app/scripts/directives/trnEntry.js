@@ -26,6 +26,8 @@ angular.module('frontendApp')
           $scope.time.setSeconds(0);
           $scope.duration.setMilliseconds(0);
           $scope.duration.setSeconds(0);
+          $scope.city = $scope.entries[$scope.index].place.split(', ')[0];
+          $scope.unit = $scope.entries[$scope.index].place.split(', ')[1];
         }
       }],
       link: function(scope, element, attrs) {

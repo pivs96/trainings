@@ -14,7 +14,7 @@
       {{translation.STATUS}}:</label>
 
     <div class="col-sm-7" >
-      <input id="rep" type="checkbox" ng-model="data.repeating"> {{translation.REPEATING}}
+      <input id="rep" type="checkbox" ng-model="data.repeated"> {{translation.REPEATING}}
     </div>
   </div>
 
@@ -75,7 +75,7 @@
         <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
       </div>
     </div>
-    <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
+    <trn-entry repeating="data.repeated" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
                is-admin="isAdmin()" new-training="newTraining"></trn-entry>
   </div>
   <div class="col-sm-8 training-info-entry">
@@ -85,14 +85,14 @@
       </button>
     </div>
   </div>
-  <div ng-show="data.repeating" class="form-group col-sm-8 training-info-entry">
+  <div ng-show="data.repeated" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
 
     <div class="col-sm-7">
       <trn-date-select entry="data.begin"></trn-date-select>
     </div>
   </div>
-  <div ng-show="data.repeating" class="form-group col-sm-8 training-info-entry">
+  <div ng-show="data.repeated" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
 
     <div class="col-sm-7">

@@ -15,7 +15,7 @@ angular.module('frontendApp')
 
     $scope.me = $localStorage.userData.name;
 
-    $scope.data.repeating = false;
+    $scope.data.repeated = false;
 
     $scope.newTraining = true;
 
@@ -30,7 +30,7 @@ angular.module('frontendApp')
       }
     };
 
-    $scope.$watch('data.repeating', function(newVal, oldVal) {
+    $scope.$watch('data.repeated', function(newVal, oldVal) {
       if(oldVal !== newVal) {
         $scope.data.begin = null;
         $scope.data.end = null;
@@ -59,7 +59,7 @@ angular.module('frontendApp')
         create.data.entries[i].beginTime = create.data.entries[i].beginTime.valueOf();
         create.data.entries[i].endTime = create.data.entries[i].endTime.valueOf();
       }
-      if($scope.data.repeating) {
+      if($scope.data.repeated) {
         create.data.begin = create.data.begin.valueOf();
         create.data.end = create.data.end.valueOf();
       }

@@ -7,6 +7,6 @@
     </div>
     <i class="fa fa-close col-sm-4 create-training-day-select text-right" ng-click="removeEntry($event);">DELETE ENTRY</i>
   </div>
-  <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
+  <trn-entry repeating="data.repeated" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
              is-admin="isAdmin()" new-training="newTraining"></trn-entry>
 </div>
