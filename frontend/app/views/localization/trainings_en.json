@@ -12,7 +12,7 @@
   "USERNAME" : "Username",
   "ENQUEUED" : "Enqueued users",
   "EXTERNAL" : "isExternal",
-  "REGISTERED" : "registered",
+  "REGISTERED" : "Registered",
   "WAITLIST" : "Wait List",
   "CLOSE" : "Close",
   "EVENT_AUTHOR" : "Event Author",
@@ -67,5 +67,11 @@
   "TRAINING_NAME" : "Training name",
   "CREATE_EXTERNAL_TRAINER" : "Create external trainer",
   "CREATE_EXTERNAL_LISTENER" : "Create external listener",
-  "CREATE" : "Create"
+  "CREATE" : "Create",
+  "NEW_TRAINING" : "New Training",
+  "FROM" : "From",
+  "TO" : "To",
+  "SELECT_DAY" : "Select day",
+  "STATUS" : "Status",
+  "REPEATING" : "Repeating"
 }

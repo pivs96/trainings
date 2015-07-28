@@ -67,5 +67,11 @@
   "TRAINING_NAME" : "Название трененига",
   "CREATE_EXTERNAL_TRAINER" : "Создать внешнего тренера",
   "CREATE_EXTERNAL_LISTENER" : "Создать внешнего слушателя",
-  "CREATE" : "Создать"
+  "CREATE" : "Создать",
+  "NEW_TRAINING" : "Новый тренинг",
+  "FROM" : "С",
+  "TO" : "По",
+  "SELECT_DAY" : "Выберите день",
+  "STATUS" : "Статус",
+  "REPEATING" : "Повторяющийся"
 }

@@ -1,60 +1,95 @@
+
+<div class="create-training-header">
+  {{translation.NEW_TRAINING}}
+</div>
+
 <form class="form-inline">
 
-  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.TRAINING_NAME}}:
-    <input type="text" class="form-control" placeholder="input training name">
+  <div class="col-sm-8 training-info-entry">
+    <label for="st" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.STATUS}}:</label>
+    <div class="col-sm-7">
+      <input type="checkbox" ng-model="repeating"> {{translation.REPEATING}}
+    </div>
   </div>
+
   <div class="col-sm-4 training-description">
     {{translation.DESCRIPTION}}:
     <div>
-      <textarea class="form-control" style="width: 100%; resize: none" rows="21"></textarea>
+      <textarea class="form-control" style="width: 100%; resize: none" rows="17"></textarea>
     </div>
     <div align="center" style="margin-top: 5px">
       <button type="submit" class="btn btn-default" ng-click="">{{translation.SAVE}}</button>
     </div>
   </div>
-  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.DURATION}}:
-    <input type="text" class="form-control" placeholder="input duration">
-  </div>
-  <div class="form-group col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.CLOSEST_MEETING}}:
-    <div class="input-group">
 
+  <div class="form-group col-sm-8 training-info-entry">
+    <label for="trainingName" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.TRAINING_NAME}}:</label>
+    <div class="col-sm-7">
+      <input type="text" id="trainingName" class="form-control" style="width: 100%" placeholder="input training name">
+    </div>
+  </div>
+
+  <div class="form-group col-sm-8 training-info-entry">
+    <label for="duration" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DURATION}}:</label>
+    <div class="col-sm-7">
+      <input type="text" id="duration" class="form-control" style="width: 100%" placeholder="input duration">
+    </div>
+  </div>
+
+
+  <trn-entry  trn-entry-data="data" trn-entry-repeaing="repeating" ></trn-entry>
+  <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
+    <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
+    <div class="col-sm-7">
+    <div class="input-group ">
       <span class="input-group-btn">
         <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
-               ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
+               ng-model="ngModel" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
                close-text="Close"/>
          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
       </span>
       <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
     </div>
+    </div>
+  </div>
+  <br/>
+  <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
+    <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
+    <div class="col-sm-7">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
+               ng-model="ngModel" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
+               close-text="Close"/>
+         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+      </span>
+      <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
+    </div>
+    </div>
+  </div>
 
-  </div>
-  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.CITY}}:
-    <input type="text" placeholder="input city" class="form-control">
-  </div>
-  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.UNIT}}:
-    <input type="text" placeholder="input unit" class="form-control" ng-disabled="!isAdmin();">
-  </div>
-  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.TARGET_AUDIENCE}}:
-    <input type="text" placeholder="input target audience" class="form-control">
-  </div>
-  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.LANGUAGE}}:
-    <input type="text" placeholder="input language" class="form-control">
-  </div>
-  <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-    {{translation.TRAINER}}:
-    <select class="form-control" ng-model="user" ng-options="user for user in users"></select>
+  <div class="col-sm-8 training-info-entry">
+    <label for="trgAud" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TARGET_AUDIENCE}}: </label>
+    <div class="col-sm-7">
+      <input id="trgAud" type="text" placeholder="input target audience" style="width: 100%" class="form-control">
+    </div>
   </div>
   <div class="col-sm-8 training-info-entry">
-    {{translation.ATTACHMENTS}}:
-    <div class="training-attach-btn">
-      <input type="file" class=" btn-sm">
+    <label for="language" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.LANGUAGE}}:</label>
+    <div class="col-sm-7">
+      <input id="language" type="text" placeholder="input language" style="width: 100%" class="form-control">
+    </div>
+  </div>
+  <div class="col-sm-8 training-info-entry">
+    <label for="trainer" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TRAINER}}:</label>
+    <div class="col-sm-7">
+      <select id="trainer" class="form-control" ng-model="user" ng-options="user for user in users" style="width: 100%"></select>
+    </div>
+  </div>
+  <div class="col-sm-8 training-info-entry">
+    <label class="col-sm-4 control-label text-right"> {{translation.ATTACHMENTS}}: </label>
+    <div class="col-sm-7">
+     <!-- <input type="file" class=" btn-sm">-->
       <button type="button" ng-click="attach()" class="btn btn-default btn-sm training-attach-btn">
         {{translation.ATTACH}}
       </button>
@@ -63,3 +98,4 @@
   </div>
 
 </form>
+
