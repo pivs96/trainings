@@ -1,0 +1,5 @@
+<div class="training-feedback-container" ng-repeat="feedback in training.feedbacks">
+  <p class="col-sm-8">{{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}} at {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
+  <p class="col-sm-4 training-feedback-otherinfo"> recomended: {{feedback.recommend | yesNo}}</p>
+  <p>{{feedback.otherInfo}}</p>
+</div>

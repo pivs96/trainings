@@ -62,19 +62,19 @@ angular.module('frontendApp')
 
       $scope.openInfo = function() {
         var info = new trainingInfo();
-        info.id = 'aba';
+        info.id = '1';
         info.$get();
       };
 
       $scope.openParticipantsList = function() {
         var part = new trainingParticipants();
-        part.id = 'aba';
+        part.id = '1';
         part.$query();
       };
 
       $scope.openFeedbacks = function() {
         var feedbacks = new trainingFeedbacks();
-        feedbacks.id = 'aba';
+        feedbacks.id = '1';
         feedbacks.$query();
       };
 

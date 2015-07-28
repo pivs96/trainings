@@ -2,6 +2,20 @@
 @color-text: #FFFFFF;
 @back-color: #276FA0;
 
+
+.tabset, .tab-content, .tab-pane, .tabbable {
+  height: 100%;
+  padding: 10px;
+}
+
+.tab-content {
+  border-right: 1px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+  border-radius: 2px 2px 2px 2px;
+}
+
+
 .training-menu {
   background-color: @back-color;
   color: white;
@@ -22,15 +36,18 @@
   color: @color-text;
 }
 
+.training-desc-panel-body {
+  min-height: 275px;
+  max-height: 275px;
+  overflow: auto;
+}
+
 .training-body {
   margin: 5px;
 }
 
 .training-info-entry {
-  padding: 10px;
-  &.training-info-entry-bordered {
-    border-bottom: 2px solid grey;
-  }
+  padding-top: 10px;
 }
 
 .training-description {
@@ -55,8 +72,6 @@
   text-align: right;
 }
 
-.training-attach-btn {
-  float: right;
-  padding-top: 2px;
-  padding-bottom: 2px;
+.rating .filled {
+  color: yellow;
 }

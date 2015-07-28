@@ -1,0 +1,24 @@
+<h2>
+  {{translation.REGISTERED}}: {{training.membersCount}}/{{training.membersCountMax}}
+  <button ng-if="isAdmin()" type="button" class="btn btn-default" style="float: right" ng-click="openWaitList()">
+    {{translation.WAITLIST}}
+  </button>
+</h2>
+
+<table st-table="training.participants" class="table table-striped text-center">
+  <thead>
+  <th class="text-center" st-sort="name">{{translation.NAME}}</th>
+  <th class="text-center" st-sort="surname">{{translation.SURNAME}}</th>
+  <th class="text-center" st-sort="email">{{translation.EMAIL}}</th>
+  <th class="text-center" st-sort="phone">{{translation.ATTACHMENTS}}</th>
+  </thead>
+  <tbody>
+  <tr ng-repeat="participant in training.participants" ng-click="openUserpage({{participant.id}})">
+    <td>{{participant.name}}</td>
+    <td>{{participant.surname}}</td>
+    <td>{{participant.email}}</td>
+    <td>{{participant.phone}}</td>
+    <td ng-if="isAdmin()"><button class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}); $event.stopPropagation();">Ask Feedback</button></td>
+  </tr>
+  </tbody>
+</table>

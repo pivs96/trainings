@@ -1,0 +1,68 @@
+
+<div>
+  <div class="col-sm-8 training-info-entry">
+    <label class="col-sm-4 text-right">{{translation.TRAINING_STATUS}}:</label>
+
+    <p class="col-sm-7">{{training.status}}</p>
+  </div>
+  <div class="col-sm-4 training-description">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <label> {{translation.DESCRIPTION}}: </label>
+      </div>
+      <div class="panel-body training-desc-panel-body">{{training.description}}</div>
+    </div>
+    <div ng-show="!registrated" align="center">
+      <button class="btn btn-success" ng-click="registrated = !registrated;">{{translation.REGISTER}}</button>
+    </div>
+    <div ng-show="registrated" align="center">
+      <button class="btn btn-danger" ng-click="registrated = !registrated;">{{translation.UNREGISTER}}</button>
+    </div>
+  </div>
+
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right"> {{translation.DURATION}}: </label>
+
+    <p class="col-sm-7">{{(training.entities[0].endTime - training.entities[0].beginTime) | date:'HH:mm'}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right">{{translation.CLOSEST_MEETING}}:</label>
+
+    <p class="col-sm-7">{{training.entries[0].beginTime | date:'dd.MM.yyyy HH:mm'}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right"> {{translation.CITY}}: </label>
+
+    <p class="col-sm-7">{{training.entries[0].place.split(", ")[0]}} </p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right">{{translation.UNIT}}:</label>
+
+    <p class="col-sm-7">{{training.entries[0].place.split(", ")[1]}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right">{{translation.TARGET_AUDIENCE}}: </label>
+
+    <p class="col-sm-7">{{training.targetAudience}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right">{{translation.LANGUAGE}}:</label>
+
+    <p class="col-sm-7">{{training.language}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry ">
+    <label class="col-sm-4 text-right">{{translation.TRAINER}}:</label>
+    <a ng-if="isAdmin()" class="col-sm-7" href="">{{training.trainer.name + " " + training.trainer.surname}}</a>
+
+    <p ng-if="!isAdmin()" class="col-sm-7"> {{training.trainer.name + " " + training.trainer.surname}}</p>
+  </div>
+  <div class="col-sm-8 training-info-entry">
+    <label class="col-sm-4 text-right"> {{translation.ATTACHMENTS}}: </label>
+
+
+    <!--<input type="file" class=" btn-sm">-->
+    <a class="col-sm-7" ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
+  </div>
+</div>
+
+

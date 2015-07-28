@@ -3,112 +3,38 @@
     <div class="training-menu">
 
         {{training.name}}
-
-        <span star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" readonly="true"></span>
+        <span star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max"></span>
         <button type="button" class="btn btn-link training-menu-btn">{{translation.EDIT}}</button>
         <button type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener')">{{translation.ADD_LISTENER}}</button>
         <button type="button" class="btn btn-link training-menu-btn">{{translation.CANCEL}}</button>
         <button type="button" class="btn btn-link training-menu-btn">{{translation.STATISTICS}}</button>
         <button type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
 
-
     </div>
 </div>
+
 <div class="training-body">
-    <tabset>
+    <tabset class="tab-container">
+
+
         <tab select="openInfo()" heading="{{translation.INFO}}">
-          <div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.TRAINING_STATUS}}: {{training.status}}
-            </div>
-            <div class="col-sm-4 training-description">
-              {{translation.DESCRIPTION}}:
-              <div class="panel panel-default">
-                <div class="panel-body">{{training.description}}</div>
-              </div>
-              <div ng-show="!registrated" align="center">
-                <button class="btn btn-success" ng-click="registrated = !registrated;">{{translation.REGISTER}}</button>
-              </div>
-              <div ng-show="registrated" align="center">
-                <button class="btn btn-danger" ng-click="registrated = !registrated;">{{translation.UNREGISTER}}</button>
-              </div>
-            </div>
-
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.DURATION}}: {{(training.entities[0].endTime - training.entities[0].beginTime) | date:'HH:mm'}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.CLOSEST_MEETING}}: {{training.entries[0].beginTime | date:'yyyy-MM-dd HH:mm'}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.CITY}}: {{training.entries[0].place.split(", ")[0]}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.UNIT}}: {{training.entries[0].place.split(", ")[1]}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.TARGET_AUDIENCE}}: {{training.targetAudience}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.LANGUAGE}}: {{training.language}}
-            </div>
-            <div class="col-sm-8 training-info-entry training-info-entry-bordered">
-              {{translation.TRAINER}}: <a ng-if="isAdmin()" href="">{{training.trainer.name + " " + training.trainer.surname}}</a>
-              <p ng-if="!isAdmin()" style="display: inline"> {{training.trainer.name + " " + training.trainer.surname}} </p>
-            </div>
-            <div class="col-sm-8 training-info-entry">
-              {{translation.ATTACHMENTS}}:
-              <div class="training-attach-btn">
-                <input type="file" class=" btn-sm">
-                <button type="button" ng-click="attach()" class="btn btn-default btn-sm training-attach-btn">
-                  {{translation.ATTACH}}
-                </button>
-              </div>
-              <br/><br/> <a ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
-            </div>
-
-          </div>
+          <div ng-include="'views/tabs/trainingInfoTab.html'"></div>
 
         </tab>
 
         <tab select="openParticipantsList()" heading="{{translation.PARTICIPANTS}}">
-          <h2>
-            {{translation.REGISTERED}}: {{training.membersCount}}/{{training.membersCountMax}}
-            <button ng-if="isAdmin()" type="button" class="btn btn-default" style="float: right" ng-click="openWaitList()">
-              {{translation.WAITLIST}}
-            </button>
-          </h2>
+          <div ng-include="'views/tabs/trainingParticipantsTab.html'"></div>
 
-          <table st-table="training.participants" class="table table-striped text-center">
-            <thead>
-              <th class="text-center" st-sort="name">{{translation.NAME}}</th>
-              <th class="text-center" st-sort="surname">{{translation.SURNAME}}</th>
-              <th class="text-center" st-sort="email">{{translation.EMAIL}}</th>
-              <th class="text-center" st-sort="phone">{{translation.ATTACHMENTS}}</th>
-            </thead>
-            <tbody>
-              <tr ng-repeat="participant in training.participants" ng-click="openUserpage({{participant.id}})">
-                <td>{{participant.name}}</td>
-                <td>{{participant.surname}}</td>
-                <td>{{participant.email}}</td>
-                <td>{{participant.phone}}</td>
-                <td ng-if="isAdmin()"><button class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}); $event.stopPropagation();">Ask Feedback</button></td>
-              </tr>
-            </tbody>
-            </table>
         </tab>
 
         <tab select="openJournal()" heading="{{translation.ATTENDANCE_JOURNAL}}">
-          <h3>Work in progress</h3>
+          <div ng-include="'views/tabs/trainingAttendanceJournalTab.html'"></div>
         </tab>
 
         <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
-          <div class="training-feedback-container" ng-repeat="feedback in training.feedbacks">
-            <p class="col-sm-8">{{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}} at {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
-            <p class="col-sm-4 training-feedback-otherinfo"> recomended: {{feedback.recommend | yesNo}}</p>
-            <p>{{feedback.otherInfo}}</p>
-          </div>
+          <div ng-include="'views/tabs/trainingFeedbacksTab.html'"></div>
         </tab>
+
     </tabset>
 </div>
 </div>

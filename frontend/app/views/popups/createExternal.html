@@ -1,4 +1,4 @@
-<div class="create-external-header">
+<div class="create-external-header modal-header">
     <h2 ng-if="type === 'Listener'" class="create-external-header-text">{{translation.CREATE_EXTERNAL_LISTENER}}</h2>
 
     <h2 ng-if="type === 'Trainer'" class="create-external-header-text">{{translation.CREATE_EXTERNAL_TRAINER}}</h2>
@@ -6,46 +6,46 @@
 
 <div class="ngdialog-message create-external-body">
 
-    <form class="form-horizontal">
+    <form class="form-horizontal modal-body">
 
         <div class="form-group create-external-inputgroup">
             <label for="name" class="col-sm-3 control-label">{{translation.NAME}}</label>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <input type="text" class="form-control" data-ng-model="name" id="name">
             </div>
         </div>
 
         <div class="form-group create-external-inputgroup">
             <label for="surname" class="col-sm-3 control-label">{{translation.SURNAME}}</label>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <input type="text" class="form-control" data-ng-model="surname" id="surname">
             </div>
         </div>
 
         <div class="form-group create-external-inputgroup">
             <label for="username" class="col-sm-3 control-label">{{translation.USERNAME}}</label>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <input type="text" class="form-control" id="username" data-ng-model="username">
             </div>
         </div>
 
         <div class="form-group create-external-inputgroup">
             <label for="email" class="col-sm-3 control-label">{{translation.EMAIL}}</label>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <input type="text" class="form-control" id="email"  data-ng-model="email">
             </div>
         </div>
 
         <div class="form-group create-external-inputgroup">
             <label for="phone" class="col-sm-3 control-label">{{translation.PHONE}}</label>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <input type="text" class="form-control" id="phone"  data-ng-model="phone">
             </div>
         </div>
 
     </form>
 </div>
-<div class="ngdialog-buttons mt">
+<div class="ngdialog-buttons mt modal-footer">
     <button type="button" class="btn btn-default create-external-btn"
             ng-click="closeThisDialog()">{{translation.CANCEL}}
     </button>
