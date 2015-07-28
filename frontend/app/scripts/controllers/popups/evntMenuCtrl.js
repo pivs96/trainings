@@ -8,14 +8,12 @@ angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$aside', 
     open: false
   };
 
-  $scope.openAside = function(position) {
+  $scope.openAside = function() {
     if(!$scope.asideState.open) {
       $scope.asideState = {
-        open: true,
-        position: position
+        open: true
       };
-    }
-    else {
+    } else {
       postClose();
       return;
     }
@@ -27,7 +25,7 @@ angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$aside', 
 
     $aside.open({
       templateUrl: 'views/popups/eventMenu.html',
-      placement: position,
+      placement: 'right',
       size: 'sm',
       backdrop: false,
       controller: function($scope, $modalInstance) {
