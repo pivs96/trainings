@@ -1,23 +1,26 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', function ($scope, ngDialog) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', 'userService', function ($scope, ngDialog, userService) {
+    var self = this;
+    this.editMode = false;
+    //TODO add real userId here
+    userService.getUserInfo(1255, successGetUser);
 
-  this.user = {
-    email: "example@gmail.com",
-    name: "Alex",
-    surname: "Alexis",
-    phone: "12444455",
-    role: "Administrator"
-  };
-
-  this.editMode = false;
+    function successGetUser(result){
+      if(result) {
+        self.user = result;
+      }
+    }
 
   this.startEdit = function () {
     this.editMode = true;
   }
 
   this.saveChanges = function () {
-    //TODO save changes
+    userService.updateUserInfo(self.user, successUpdateUser);
+  }
+
+  function successUpdateUser(){
     this.editMode = false;
   }
 
@@ -46,4 +49,6 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog
           });
       };
   }]);
+
+
 
