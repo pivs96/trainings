@@ -73,5 +73,6 @@
   "TO" : "To",
   "SELECT_DAY" : "Select day",
   "STATUS" : "Status",
-  "REPEATING" : "Repeating"
+  "REPEATING" : "Repeating",
+  "ENTRY" : "Entry"
 }

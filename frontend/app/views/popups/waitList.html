@@ -1,7 +1,7 @@
-<div>
+<div class="modal-header">
   <h2>{{translation.ENQUEUED}}: {{wlSize}}</h2>
 </div>
-<div class="ngdialog-message">
+<div class="ngdialog-message modal-body">
   <table st-table="participants" class="table table-striped text-center">
     <thead>
       <th class="text-center">{{translation.NAME}}</th>
@@ -17,7 +17,7 @@
     </tbody>
   </table>
 </div>
-<div class="ngdialog-buttons mt">
+<div class="ngdialog-buttons mt modal-footer">
   <button type="button" class="btn btn-default" ng-click="closeThisDialog()" style="float: right">
     {{translation.CLOSE}}
   </button>

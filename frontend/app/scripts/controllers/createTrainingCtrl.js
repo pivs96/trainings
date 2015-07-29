@@ -5,15 +5,16 @@ angular.module('frontendApp')
 
     $scope.data = {};
 
-
-    $scope.addEntry = function($event) {
-      //TODO: make this work
-      console.log(angular.element('.col-sm-7')[2].append($compile('<training-date-select></training-date-select>')));
-    };
+    $scope.entryNum = 1;
 
     $scope.repeating = false;
 
     $scope.days = ['Monday','Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    $scope.addEntry = function() {
+      angular.element('#trainingEntries').append($compile('<div class="col-sm-8"><div class="col-sm-offset-4"> <p class="entry-num"><b>{{translation.ENTRY}} {{::entryNum}}</b></p> </div> </div> <trn-entry></trn-entry>')($scope));
+      $scope.entryNum++;
+    };
 
     $scope.daySelect = function($event) {
       console.log($event);

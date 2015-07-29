@@ -35,36 +35,31 @@
       <input type="text" id="duration" class="form-control" style="width: 100%" placeholder="input duration">
     </div>
   </div>
-
-
-  <trn-entry  trn-entry-data="data" trn-entry-repeaing="repeating" ></trn-entry>
+  <div id="trainingEntries">
+    <div class="col-sm-8">
+      <div class="col-sm-offset-4">
+       <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
+     </div>
+    </div>
+    <trn-entry></trn-entry>
+  </div>
+  <div class="col-sm-8 training-info-entry">
+    <div class="col-sm-offset-4">
+    <button type="button" class="btn btn-default add-entry-button" ng-click="addEntry();">
+      <i class="fa fa-plus"></i>Add new entry
+    </button>
+    </div>
+  </div>
   <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
     <div class="col-sm-7">
-    <div class="input-group ">
-      <span class="input-group-btn">
-        <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
-               ng-model="ngModel" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
-               close-text="Close"/>
-         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
-      </span>
-      <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
-    </div>
+      <date-select></date-select>
     </div>
   </div>
-  <br/>
   <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
     <div class="col-sm-7">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
-               ng-model="ngModel" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
-               close-text="Close"/>
-         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
-      </span>
-      <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
-    </div>
+      <date-select></date-select>
     </div>
   </div>
 

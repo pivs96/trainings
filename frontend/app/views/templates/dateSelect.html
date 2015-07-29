@@ -1,48 +1,9 @@
-<div ng-show="!repeating" class="form-group col-sm-8 training-info-entry">
-  <label class="col-sm-4 control-label text-right create-training-entry-label">{{translation.CLOSEST_MEETING}}:</label>
-  <div class="col-sm-7">
-    <div class="input-group">
+<div class="input-group">
       <span class="input-group-btn">
         <input type="text" placeholder="input date" class="form-control" datepicker-popup="{{'dd.MM.yyyy'}}"
-               ng-model="ngModel" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
+               ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true"
                close-text="Close"/>
          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
       </span>
-      <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
-    </div>
-
-
-    <i class="fa fa-plus fa-2x add-entry-button" ng-click="addEntry($event);"></i>
-  </div>
-</div>
-
-<div ng-show="repeating" class="col-sm-8">
-  <label for="" class="col-sm-4 text-right control-label" style="margin-top: 15px">{{translation.SELECT_DAY}}</label>
-  <div class="form-group col-sm-8 training-info-entry">
-
-    <div class="btn-group" dropdown keyboard-nav>
-      <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" dropdown-toggle>
-        {{translation.SELECT_DAY}} <span class="caret"></span>
-      </button>
-      <i class="fa fa-plus fa-2x add-entry-button" ng-click="addEntry($event);"></i>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
-        <li ng-repeat="day in days"><a ng-click="daySelect($event);">{{day}}</a></li>
-      </ul>
-    </div>
-  </div>
-
-
-</div>
-
-<div class="col-sm-8 training-info-entry">
-  <label for="city" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.CITY}}: </label>
-  <div class="col-sm-7">
-    <input id="city" type="text" placeholder="input city" style="width: 100%" class="form-control">
-  </div>
-</div>
-<div class="col-sm-8 training-info-entry">
-  <label for="unit" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.UNIT}}: </label>
-  <div class="col-sm-7">
-    <input id="unit" type="text" placeholder="input unit" style="width: 100%" class="form-control" ng-disabled="!isAdmin();">
-  </div>
+  <!--<timepicker class="btn-sm" ng-model="time" show-meridian="false" arrowkeys="true"></timepicker>-->
 </div>
