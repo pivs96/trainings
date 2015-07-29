@@ -6,18 +6,18 @@
 <form class="form-inline">
 
   <div class="col-sm-8 training-info-entry">
-    <label for="st" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.STATUS}}:</label>
+    <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.STATUS}}:</label>
     <div class="col-sm-7">
-      <input type="checkbox" ng-model="repeating"> {{translation.REPEATING}}
+      <input id="rep" type="checkbox" ng-model="repeating"> {{translation.REPEATING}}
     </div>
   </div>
 
   <div class="col-sm-4 training-description">
     {{translation.DESCRIPTION}}:
     <div>
-      <textarea class="form-control" style="width: 100%; resize: none" rows="17"></textarea>
+      <textarea class="form-control create-training-trainer-select create-training-textarea" rows="17"></textarea>
     </div>
-    <div align="center" style="margin-top: 5px">
+    <div align="center" class="create-training-submit">
       <button type="submit" class="btn btn-default" ng-click="">{{translation.SAVE}}</button>
     </div>
   </div>
@@ -25,14 +25,14 @@
   <div class="form-group col-sm-8 training-info-entry">
     <label for="trainingName" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.TRAINING_NAME}}:</label>
     <div class="col-sm-7">
-      <input type="text" id="trainingName" class="form-control" style="width: 100%" placeholder="input training name">
+      <input type="text" id="trainingName" class="form-control create-training-trainer-select" placeholder="input training name">
     </div>
   </div>
 
   <div class="form-group col-sm-8 training-info-entry">
     <label for="duration" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DURATION}}:</label>
     <div class="col-sm-7">
-      <input type="text" id="duration" class="form-control" style="width: 100%" placeholder="input duration">
+      <input type="text" id="duration" class="form-control create-training-trainer-select" placeholder="input duration">
     </div>
   </div>
   <div id="trainingEntries">
@@ -66,30 +66,33 @@
   <div class="col-sm-8 training-info-entry">
     <label for="trgAud" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TARGET_AUDIENCE}}: </label>
     <div class="col-sm-7">
-      <input id="trgAud" type="text" placeholder="input target audience" style="width: 100%" class="form-control">
+      <input id="trgAud" type="text" placeholder="input target audience" class="form-control create-training-trainer-select">
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
     <label for="language" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.LANGUAGE}}:</label>
     <div class="col-sm-7">
-      <input id="language" type="text" placeholder="input language" style="width: 100%" class="form-control">
+      <input id="language" type="text" placeholder="input language" class="form-control create-training-trainer-select">
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
     <label for="trainer" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TRAINER}}:</label>
     <div class="col-sm-7">
-      <select id="trainer" class="form-control" ng-model="user" ng-options="user for user in users" style="width: 100%"></select>
+      <select id="trainer" class="form-control create-training-trainer-select" ng-model="user" ng-options="user for user in users"></select>
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
     <label class="col-sm-4 control-label text-right"> {{translation.ATTACHMENTS}}: </label>
-    <div class="col-sm-7">
-     <!-- <input type="file" class=" btn-sm">-->
+    <div class="col-sm-7 create-training-attachments">
       <button type="button" ng-click="attach()" class="btn btn-default btn-sm training-attach-btn">
         {{translation.ATTACH}}
       </button>
     </div>
-    <br/><br/> <a ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
+    <ul class="list-inline">
+      <li ng-repeat="attachment in attachments">
+        <a class="col-sm-7" href="{{attachment.value}}">{{attachment.key}}</a>
+      </li>
+    </ul>
   </div>
 
 </form>

@@ -16,9 +16,9 @@ angular.module('frontendApp')
         max: 5
       };
 
-      $scope.askFeedback = function (userId) {
+      $scope.askFeedback = function (userId, $event) {
         console.log(userId);
-
+        $event.stopPropagation();
       };
 
       $scope.openUserpage = function (userId) {

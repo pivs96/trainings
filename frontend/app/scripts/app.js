@@ -62,12 +62,12 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'loginController'
       })
-      .when('/trainings/training/:trainingId', {
+      .when('/training/:trainingId', {
         templateUrl: 'views/training.html',
         controller: 'TrainingCtrl',
         controllerAs: 'training'
       })
-      .when('/trainings/newTraining', {
+      .when('/training', {
         templateUrl: 'views/createTraining.html',
         controller: 'CreateTrainingCtrl',
         controllerAs: 'createTraining'

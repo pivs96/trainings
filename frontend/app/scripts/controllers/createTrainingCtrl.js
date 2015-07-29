@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('CreateTrainingCtrl', ['$scope', '$compile', function($scope, $compile) {
+  .controller('CreateTrainingCtrl', ['$scope', '$compile', '$templateRequest', '$sce',
+    function($scope, $compile, $templateRequest, $sce) {
 
     $scope.data = {};
 
@@ -12,8 +13,11 @@ angular.module('frontendApp')
     $scope.days = ['Monday','Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     $scope.addEntry = function() {
-      angular.element('#trainingEntries').append($compile('<div class="col-sm-8"><div class="col-sm-offset-4"> <p class="entry-num"><b>{{translation.ENTRY}} {{::entryNum}}</b></p> </div> </div> <trn-entry></trn-entry>')($scope));
-      $scope.entryNum++;
+      var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');
+      $templateRequest(templateUrl).then(function(template) {
+        angular.element('#trainingEntries').append($compile(template)($scope));
+        $scope.entryNum++;
+      });
     };
 
     $scope.daySelect = function($event) {

@@ -59,9 +59,11 @@
   <div class="col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right"> {{translation.ATTACHMENTS}}: </label>
 
-
-    <!--<input type="file" class=" btn-sm">-->
-    <a class="col-sm-7" ng-repeat="attachment in attachments" href="{{attachment.value}}">{{attachment.key}}</a>
+    <ul class="list-inline">
+      <li ng-repeat="attachment in attachments">
+        <a class="col-sm-7" href="{{attachment.value}}">{{attachment.key}}</a>
+      </li>
+    </ul>
   </div>
 </div>
 
