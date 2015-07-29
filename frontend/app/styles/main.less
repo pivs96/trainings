@@ -46,18 +46,20 @@ body {
 
 /* Custom page header */
 .header {
-//  border-bottom: 1px solid #e5e5e5;
-//  margin-bottom: 10px;
 
   h3 {
     margin-top: 0;
     margin-bottom: 0;
     line-height: 40px;
-//    padding-bottom: 19px;
+  }
+
+  .exadel-header {
+    margin-bottom: -30px;
   }
 
   .navbar-default,.navbar,.navbar-brand {
     background: @header-color;
+    border: 1px;
   }
 
   .navbar-default .navbar-nav > li > a {
@@ -81,96 +83,96 @@ body {
 }
 
 .header-training {
-  background-color: @header-color;
+background-color: @header-color;
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 120px;
+position: absolute;
+bottom: 0;
+width: 100%;
+/* Set the fixed height of the footer here */
+height: 120px;
+background-color: @footer-color;
+
+.footer-navbar {
   background-color: @footer-color;
+  border-color: @footer-color;
+}
 
-  .footer-navbar {
-    background-color: @footer-color;
-    border-color: @footer-color;
-  }
+.facebook-links {
+  margin-top: 3%
+}
 
-  .facebook-links {
-    margin-top: 3%
-  }
+.copyright {
+  padding-left: 1.5%
+}
 
-  .copyright {
-    padding-left: 1.5%
-  }
+.navbar-default .navbar-nav > li > a {
+  color: @color-text;
 
-  .navbar-default .navbar-nav > li > a {
+  &:hover, &:focus {
     color: @color-text;
-
-    &:hover, &:focus {
-      color: @color-text;
-    }
   }
+}
 
-  .footer-container {
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-bottom: 27px;
-    font-size: 100%;
-  }
+.footer-container {
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-bottom: 27px;
+  font-size: 100%;
+}
 }
 //end footer
 
 .container-narrow > hr {
-  margin: 30px 0;
+margin: 30px 0;
 }
 
 /* Main marketing message and sign up button */
 .jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+text-align: center;
+border-bottom: 1px solid #e5e5e5;
 }
 .jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+font-size: 21px;
+padding: 14px 24px;
 }
 
 /* Supporting marketing content */
 .marketing {
-  margin: 40px 0;
+margin: 40px 0;
 }
 .marketing p + h4 {
-  margin-top: 28px;
+margin-top: 28px;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+.container {
+  max-width: 730px;
+}
 
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+/* Remove the padding we set earlier */
+.header,
+.marketing,
+.footer {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* Space out the masthead */
+.header {
+  margin-bottom: 30px;
+}
+/* Remove the bottom border on the jumbotron for visual effect */
+.jumbotron {
+  border-bottom: 0;
+}
 
-  .ng-invalid.ng-dirty{
-    border-color: red;
-  }
+.ng-invalid.ng-dirty{
+  border-color: red;
+}
 
-  .ng-valid.ng-dirty{
-    border-color:green;
-  }
+.ng-valid.ng-dirty{
+  border-color:green;
+}
 }
