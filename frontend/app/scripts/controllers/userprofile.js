@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', 'userService', function ($scope, ngDialog, userService) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', function ($scope, userService) {
     var self = this;
     this.editMode = false;
     //TODO add real userId here
@@ -18,36 +18,13 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog
 
   this.saveChanges = function () {
     userService.updateUserInfo(self.user, successUpdateUser);
+    //TODO remove this line after userService.updateUserInfo starts work
+    this.editMode = false;
   }
 
   function successUpdateUser(){
     this.editMode = false;
   }
-
-    $scope.leaveTrainingFeedback = function(){
-      ngDialog.open({
-        template: "views/popups/leaveTrainingFeedback.html",
-        controller: 'LeaveFeedbackCtrl'
-      })
-
-    };
-    $scope.leaveUserFeedback = function () {
-      ngDialog.open({
-        template: "views/popups/leaveUserFeedback.html",
-        controller: 'LeaveFeedbackCtrl'
-      })
-    };
-    $scope.openCreatePopup = function(type) {
-          ngDialog.open({
-              template: "views/popups/createExternal.html",
-              controller: 'CreateExternalUserCtrl',
-              resolve: {
-                type: function() {
-                  return type;
-                }
-              }
-          });
-      };
   }]);
 
 

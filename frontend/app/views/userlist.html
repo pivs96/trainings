@@ -1,5 +1,9 @@
-<h1>Userlist</h1>
-
+<div class="row">
+    <h1 class="text-left">{{translation.USER_LIST}}</h1>
+    <button class="btn btn-default" ng-click="openCreatePopup('Trainer');"
+            ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINER}}
+    </button>
+</div>
 <table st-table="users" class="table table-striped text-center">
   <thead>
   <tr>

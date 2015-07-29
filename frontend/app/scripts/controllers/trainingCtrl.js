@@ -17,8 +17,16 @@ angular.module('frontendApp')
       };
 
       $scope.askFeedback = function (userId, $event) {
+        // TODO add new "Ask feedback" Form. See http://chewbacca.myjetbrains.com/youtrack/issue/App-41
         console.log(userId);
         $event.stopPropagation();
+      };
+
+      $scope.leaveUserFeedbackDialog = function () {
+        ngDialog.open({
+          template: "views/popups/leaveUserFeedback.html",
+          controller: 'LeaveFeedbackCtrl'
+        })
       };
 
       $scope.openUserpage = function (userId) {

@@ -75,5 +75,6 @@
   "STATUS" : "Status",
   "REPEATING" : "Repeating",
   "ENTRY" : "Entry",
-  "SAVE" : "Save"
+  "CREATE_TRAINER" : "Create trainer",
+  "USER_LIST" : "User List"
 }
