@@ -1,4 +1,4 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.training;
 
 import java.util.List;
 import static com.exadel.controller.TrainingsController.*;

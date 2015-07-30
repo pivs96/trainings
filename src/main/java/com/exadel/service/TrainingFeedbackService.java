@@ -1,6 +1,6 @@
 package com.exadel.service;
 
-import com.exadel.model.entity.TrainingFeedback;
+import com.exadel.model.entity.feedback.TrainingFeedback;
 
 import java.util.Collection;
 import java.util.Optional;

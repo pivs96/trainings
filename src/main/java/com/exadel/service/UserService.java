@@ -1,20 +1,33 @@
 package com.exadel.service;
 
-import com.exadel.model.entity.User;
+import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.Employee;
+import com.exadel.model.entity.user.ExternalTrainer;
+import com.exadel.model.entity.user.User;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 public interface UserService {
 
-    Optional<User> getUserById(long id);
+    User getUserById(String id);
 
-    Optional<User> getUserByEmail(String email);
+    User getUserById(long id);
+
+    ExternalTrainer getTrainerById(String id);
+
+    Employee getEmployeeById(String id);
+
+    User getUserByEmail(String email);
 
     Collection<User> getAllUsers();
 
     void addUser(User user);
 
-    /*Collection<User> getUsersByRole();*/
+    void updateUser(User user);
+
+    List<Training> getVisitingTrainings(String id);
+
+    List<Training> getMentoringTrainings(String id);
 
 }

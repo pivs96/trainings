@@ -1,6 +1,7 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.user;
 
-import com.exadel.model.constants.UserRole;
+import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,12 +12,10 @@ import java.util.List;
 public class Employee extends ExternalTrainer {
 
     @ManyToMany(mappedBy = "participants")
-    //@Column(name = "visiting_trainings")
     @JsonIgnore
     private List<Training> visitingTrainings;
 
     @OneToMany(mappedBy = "feedbacker", cascade = CascadeType.ALL)
-    //@Column(name = "written_feedbacks")
     @JsonIgnore
     private List<TrainingFeedback> writtenFeedbacks;
 

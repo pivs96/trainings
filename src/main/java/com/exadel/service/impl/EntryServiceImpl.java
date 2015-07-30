@@ -1,6 +1,6 @@
 package com.exadel.service.impl;
 
-import com.exadel.model.entity.Entry;
+import com.exadel.model.entity.training.Entry;
 import com.exadel.repository.EntryRepository;
 import com.exadel.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.exadel.repository;
 
 
-import com.exadel.model.entity.TrainingFeedback;
+import com.exadel.model.entity.feedback.TrainingFeedback;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

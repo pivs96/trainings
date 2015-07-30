@@ -1,6 +1,6 @@
 package com.exadel.service.impl;
 
-import com.exadel.model.entity.TrainingFeedback;
+import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.repository.TrainingFeedbackRepository;
 import com.exadel.service.TrainingFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,6 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
 
     @Override
     public Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback) {
-        System.out.println(trainingFeedback);
-
         return Optional.ofNullable(trainingFeedbackRepository.saveAndFlush(trainingFeedback));
     }
 }
