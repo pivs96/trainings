@@ -1,31 +1,36 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', function ($scope, userService) {
-    var self = this;
-    this.editMode = false;
-    //TODO add real userId here
-    userService.getUserInfo(1255, successGetUser);
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'appConstants', function ($scope, userService, appConstants) {
+  //TODO remove to const
+  var EXT_VISITOR = 'EXTERNAL_VISITOR';
+  var EXT_TRAINER = 'EXTERNAL_TRAINER';
+  $scope.editMode = false;
+  $scope.languagesList = appConstants.LANGUAGES;
 
-    function successGetUser(result){
-      if(result) {
-        self.user = result;
-      }
+  //TODO add real userId here
+  userService.get({id:'2'}, function(user) {
+    $scope.selectedUser = user;
+    $scope.isUserExternal = $scope.selectedUser.role == EXT_TRAINER || $scope.selectedUser.role == EXT_VISITOR;
+  });
+
+  $scope.startEdit = function () {
+    $scope.editMode = true;
+  }
+
+  $scope.saveChanges = function () {
+    $scope.editMode = false;
+    var saveType;
+    if ($scope.selectedUser.role == EXT_TRAINER) {
+      saveType = 'editTrainer';
+    }else if ($scope.selectedUser.role == EXT_VISITOR){
+      saveType = 'editVisitor';
+    }else{
+      alert("Users with role EXTERNAL_TRAINER or EXTERNAL_VISITOR can be updated");
+      return;
     }
-
-  this.startEdit = function () {
-    this.editMode = true;
+    userService.update({type: 'saveType'}, $scope.selectedUser);
   }
-
-  this.saveChanges = function () {
-    userService.updateUserInfo(self.user, successUpdateUser);
-    //TODO remove this line after userService.updateUserInfo starts work
-    this.editMode = false;
-  }
-
-  function successUpdateUser(){
-    this.editMode = false;
-  }
-  }]);
+}]);
 
 
 

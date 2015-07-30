@@ -1,62 +1,55 @@
-<div ng-controller="UserProfileCtrl as upCtr">
+<div ng-controller="UserProfileCtrl">
 
   <div class="row">
     <div class="col-md-3 pull-left">
       <i class="fa fa-user-secret fa-5x fa-border "></i>
       <br/>
       <br/>
+
       <div class="form-group">
-        <label>{{translation.ROLE + " : " + upCtr.user.role}}
+        <label>{{translation.ROLE + " : " + selectedUser.role}}
         </label>
       </div>
 
       <div>
         <label>{{translation.SELECT_LANGUAGE}}</label>
         <select ng-change="translate()" ng-model="i10n.selectedLanguage">
-          <option value="en">English</option>
-          <option value="ru">Русский</option>
+          <option ng-repeat="l in languagesList" value="{{l.value}}">{{l.label}}</option>
         </select>
         </section>
       </div>
       <br/>
-      <a class="btn btn-default btn-sm" ng-click="upCtr.startEdit()"
-         ng-show="isAdmin()" ng-hide="upCtr.editMode">
+      <a class="btn btn-default btn-sm" ng-click="startEdit()"
+         ng-show="isAdmin() && isUserExternal" ng-hide="editMode">
         <i class="fa fa-pencil"></i> {{translation.EDIT}}</a>
-      <a class="btn btn-default btn-sm" ng-click="upCtr.saveChanges()"
-         ng-show="isAdmin() && upCtr.editMode">
+      <a class="btn btn-default btn-sm" ng-click="saveChanges()"
+         ng-show="isAdmin() && editMode">
         <i class="fa fa-floppy-o"></i> {{translation.SAVE}}</a>
     </div>
 
     <div class="col-md-5">
       <div class="form-group">
         <label>{{translation.NAME}}
-          <editable-label editable-value='upCtr.user.name'
-                          edit-mode="upCtr.editMode">
-          </editable-label>
+          <trn-editable-label editable-value='selectedUser.name' edit-mode="editMode"/>
         </label>
       </div>
       <div class="form-group">
         <label>{{translation.SURNAME}}
-          <editable-label editable-value='upCtr.user.surname'
-                          edit-mode="upCtr.editMode">
-          </editable-label>
+          <trn-editable-label editable-value='selectedUser.surname' edit-mode="editMode"/>
         </label>
       </div>
       <div class="form-group">
         <label>{{translation.PHONE}}
-          <editable-label editable-value='upCtr.user.phone'
-                          edit-mode="upCtr.editMode">
-          </editable-label>
+          <trn-editable-label editable-value='selectedUser.phone' edit-mode="editMode">
+          </trn-editable-label>
         </label>
       </div>
       <div class="form-group">
         <label>{{translation.EMAIL}}
-          <editable-label editable-value='upCtr.user.email'
-                          edit-mode="upCtr.editMode">
-          </editable-label>
+          <trn-editable-label editable-value='selectedUser.email' edit-mode="editMode">
+          </trn-editable-label>
         </label>
       </div>
     </div>
-
   </div>
 </div>

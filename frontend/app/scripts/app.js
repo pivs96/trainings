@@ -35,18 +35,19 @@ angular
         controller: 'UserlistCtrl',
         controllerAs: 'userlist',
         resolve: {
-          data: function(userlist) {
+          data: function (userlist) {
             return userlist.getUserList().$promise;
           }
-        }})
+        }
+      })
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',
         controller: 'TrainingListCtrl',
-        resolve : {
-           data:  function(TrainingList) {
+        resolve: {
+          data: function (TrainingList) {
             return TrainingList.getTrainingList().$promise;
           }
-         }
+        }
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -104,8 +105,9 @@ angular
     $rootScope.isEmployee = function () {
       return false;
     };
+
     //perhaps there is need to add new module for localization
-    $rootScope.translate = function(){
+    $rootScope.translate = function () {
       translationService.getTranslation($rootScope.i10n.selectedLanguage);
     };
 
@@ -113,5 +115,8 @@ angular
     $rootScope.i10n.selectedLanguage = 'en';
 
     $rootScope.translate();
+  }).constant('appConstants', {
+    LANGUAGES: [{label: 'English', value: 'en'}, {label: 'Русский', value: 'ru'}]
   });
+
 
