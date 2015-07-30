@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .directive('entryNumberChange',  function() {
+  .directive('trnEntryNumberChange',  function() {
     return {
       restrict: 'E',
       template: '<input type="text" style="height: 20px; width: 30px" ng-model="inputNum" ng-change="stItemsByPage = inputNum">',

@@ -1,13 +1,13 @@
 <div ng-show="!repeating" class="form-group col-sm-8 training-info-entry">
   <label class="col-sm-4 control-label text-right create-training-entry-label">{{translation.CLOSEST_MEETING}}:</label>
   <div class="col-sm-7">
-    <date-select></date-select>
+    <trn-date-select></trn-date-select>
 
   </div>
 </div>
 
 <div ng-show="repeating" class="col-sm-8">
-  <label for="" class="col-sm-4 text-right control-label" style="margin-top: 15px">{{translation.SELECT_DAY}}</label>
+  <label class="col-sm-4 text-right control-label" style="margin-top: 15px">{{translation.SELECT_DAY}}</label>
   <div class="form-group col-sm-8 training-info-entry">
 
     <div class="btn-group" dropdown keyboard-nav>
@@ -26,12 +26,12 @@
 <div class="col-sm-8 training-info-entry">
   <label for="city" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.CITY}}: </label>
   <div class="col-sm-7">
-    <input id="city" type="text" placeholder="input city" style="width: 100%" class="form-control">
+    <input id="city" type="text" placeholder="input city" class="create-training-trainer-select form-control">
   </div>
 </div>
 <div class="col-sm-8 training-info-entry">
   <label for="unit" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.UNIT}}: </label>
   <div class="col-sm-7">
-    <input id="unit" type="text" placeholder="input unit" style="width: 100%" class="form-control" ng-disabled="!isAdmin();">
+    <input id="unit" type="text" placeholder="input unit" class="create-training-trainer-select form-control" ng-disabled="!isAdmin();">
   </div>
 </div>

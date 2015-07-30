@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .directive('dateSelect', function() {
+  .directive('trnDateSelect', function() {
     return {
       restrict: 'E',
       templateUrl: 'views/templates/dateSelect.html',
