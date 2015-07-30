@@ -48,9 +48,6 @@ public class UserFeedback {
 
     private Date date;
 
-    @Transient
-    String eventDescription;
-
     public UserFeedback() {
     }
 
@@ -176,11 +173,4 @@ public class UserFeedback {
         this.grade = grade;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
 }
