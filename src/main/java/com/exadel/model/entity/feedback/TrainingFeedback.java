@@ -1,11 +1,13 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.feedback;
 
+import com.exadel.dto.TrainingFeedbackDTO;
+import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,11 +15,10 @@ import java.util.Date;
 public class TrainingFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
-    @JsonIgnore
     private Training training;
 
     private boolean understandable;
@@ -26,8 +27,7 @@ public class TrainingFeedback {
     @Column(name = "new_knowledge")
     private boolean newKnowledge;
 
-    @Size(max = 5, min = 0)
-    @NotNull
+    //@Size(max = 5, min = 0) todo: with this we get EXCEPTION on Integer.
     private int effectiveness;
 
     @Column(name = "study_with_trainer")
@@ -44,6 +44,17 @@ public class TrainingFeedback {
     private Date date;
 
     public TrainingFeedback() {
+    }
+
+    public TrainingFeedback(TrainingFeedbackDTO feedbackDTO) {
+        this.understandable = feedbackDTO.isUnderstandable();
+        this.interesting = feedbackDTO.isInteresting();
+        this.newKnowledge = feedbackDTO.isNewKnowledge();
+        this.effectiveness = feedbackDTO.getEffectiveness();
+        this.studyWithTrainer = feedbackDTO.isStudyWithTrainer();
+        this.recommend = feedbackDTO.isRecommend();
+        this.otherInfo = feedbackDTO.getOtherInfo();
+        this.date = feedbackDTO.getDate();
     }
 
     public boolean isUnderstandable() {
@@ -126,28 +137,11 @@ public class TrainingFeedback {
         this.training = training;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "TrainingFeedback{" +
-                "id=" + id +
-                ", understandable=" + understandable +
-                ", training=" + training +
-                ", interesting=" + interesting +
-                ", newKnowledge=" + newKnowledge +
-                ", effectiveness=" + effectiveness +
-                ", studyWithTrainer=" + studyWithTrainer +
-                ", recommend=" + recommend +
-                ", otherInfo='" + otherInfo + '\'' +
-                ", feedbacker=" + feedbacker +
-                ", date=" + date +
-                '}';
     }
 }

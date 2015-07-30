@@ -1,6 +1,6 @@
 package com.exadel.repository;
 
-import com.exadel.model.entity.Entry;
+import com.exadel.model.entity.training.Entry;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

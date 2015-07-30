@@ -1,6 +1,6 @@
 package com.exadel.service;
 
-import com.exadel.model.entity.Entry;
+import com.exadel.model.entity.training.Entry;
 
 import java.util.Collection;
 import java.util.Optional;

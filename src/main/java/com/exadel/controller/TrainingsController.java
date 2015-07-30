@@ -1,50 +1,45 @@
 package com.exadel.controller;
 
-import com.exadel.model.entity.Training;
+import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.service.TrainingService;
+import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/trainings")
+@RequestMapping(value = "/trainings", headers = "Accept=application/json")
 public class TrainingsController {
     @Autowired
     private TrainingService trainingService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET)
-    public List<Training> getTrainings() {
-        List<Training> trainings = (List<Training>)trainingService.getAllTrainings();
-        return trainings;
+    public List<TrainingDTO> getTrainings() {
+        List<Training> trainings = (List<Training>) trainingService.getAllTrainings();
+        List<TrainingDTO> trainingDTOs = new ArrayList<>();
+        for (Training training : trainings) {
+            trainingDTOs.add(new TrainingDTO(training));
+        }
+        return trainingDTOs;
     }
 
-    @RequestMapping(value="/training", method = RequestMethod.GET)
-    public Training getTraining(@RequestParam String id) {
-        return trainingService.getTrainingById(Long.parseLong(id)).get();
+    @RequestMapping(value = "/training", method = RequestMethod.GET)
+    public TrainingDTO getTraining(@RequestParam String id) {
+        return new TrainingDTO(trainingService.getTrainingById(id));
     }
 
-    @RequestMapping(value = "/newTraining", method = RequestMethod.POST)    //DOESN'T WORK
-    public Training createTraining(@RequestBody Training training) {
-        System.out.println(training);
-        System.out.println(training.getId());
-        System.out.println(training.getDescription());
-        System.out.println(training.getName());
-        System.out.println(training.getTrainer());
-        System.out.println(training.getParticipants());
+    @RequestMapping(value = "/newTraining", method = RequestMethod.POST)
+    public void createTraining(@RequestBody TrainingDTO trainingDTO) {
+        Training training = new Training(trainingDTO);
+        ExternalTrainer trainer = userService.getTrainerById(String.valueOf(trainingDTO.getTrainerId()));
+        training.setTrainer(trainer);
         trainingService.addTraining(training);
-        return new Training();
-    }
-
-    @RequestMapping(value = "/training", method = RequestMethod.PUT)   //DOESN'T WORK
-    public Training modifyTraining(@RequestBody Training training) {
-        trainingService.addTraining(training);
-        return training;
-    }
-
-    @RequestMapping(value="/training", method = RequestMethod.DELETE)
-    public void deleteTraining(@RequestParam String id) {
-        trainingService.deleteById(Long.parseLong(id));
-        // or get training and set status CANCELLED
     }
 }

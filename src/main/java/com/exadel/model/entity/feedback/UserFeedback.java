@@ -1,6 +1,8 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.feedback;
 
-import com.exadel.model.constants.EnglishLevel;
+import com.exadel.dto.UserFeedbackDTO;
+import com.exadel.model.entity.user.Employee;
+import com.exadel.model.entity.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -46,7 +48,22 @@ public class UserFeedback {
 
     private Date date;
 
-    public UserFeedback() {}
+    public UserFeedback() {
+    }
+
+    public UserFeedback(UserFeedbackDTO feedbackDTO) {
+        this.id = feedbackDTO.getId();
+        this.attendance = feedbackDTO.getAttendance();
+        this.attitude = feedbackDTO.getAttitude();
+        this.communicationSkills = feedbackDTO.getCommunicationSkills();
+        this.questions = feedbackDTO.isQuestions();
+        this.interest = feedbackDTO.isInterest();
+        this.focusOnResult = feedbackDTO.isFocusOnResult();
+        this.level = feedbackDTO.getLevel();
+        this.grade = feedbackDTO.getGrade();
+        this.otherInfo = feedbackDTO.getOtherInfo();
+        this.date = feedbackDTO.getDate();
+    }
 
     public String getAttendance() {
         return attendance;

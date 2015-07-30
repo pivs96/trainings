@@ -1,8 +1,6 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.user;
 
-import com.exadel.model.constants.UserRole;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.exadel.dto.UserDTO;
 
 import javax.persistence.*;
 
@@ -10,19 +8,7 @@ import javax.persistence.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.INTEGER)
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User {
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                '}';
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +21,14 @@ public class User {
     private UserRole role;
 
     public User() {
+    }
+
+    public User(UserDTO userDTO) {
+        this.name = userDTO.getName();
+        this.surname = userDTO.getSurname();
+        this.phone = userDTO.getPhone();
+        this.email = userDTO.getEmail();
+        this.role = userDTO.getRole();
     }
 
     public long getId() {

@@ -1,5 +1,6 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.training;
 
+import com.exadel.model.entity.training.Entry;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

@@ -1,13 +1,15 @@
 package com.exadel.service.impl;
 
-import com.exadel.model.entity.Rating;
+import com.exadel.model.entity.training.Rating;
 import com.exadel.repository.RatingRepository;
 import com.exadel.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@Service
 public class RatingServiceImpl implements RatingService {
     private final RatingRepository ratingRepository;
 
@@ -17,8 +19,10 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public void addRating(Rating rating) {
-        ratingRepository.save(rating);
+    public boolean addRating(Rating rating) {
+        //if (ratingRepository.) todo: check unique combination.
+        ratingRepository.saveAndFlush(rating);
+        return true;
     }
 
     @Override

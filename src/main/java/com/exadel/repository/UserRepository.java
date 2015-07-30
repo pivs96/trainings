@@ -1,13 +1,13 @@
 package com.exadel.repository;
 
-import com.exadel.model.entity.User;
+import com.exadel.model.entity.user.User;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.*;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAll(Pageable pageable);

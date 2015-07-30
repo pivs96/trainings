@@ -1,16 +1,16 @@
-package com.exadel.model.entity;
+package com.exadel.model.entity.training;
 
-import com.exadel.model.constants.TrainingStatus;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.feedback.TrainingFeedback;
+import com.exadel.model.entity.user.ExternalTrainer;
+import com.exadel.model.entity.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "trainings")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,22 +43,43 @@ public class Training {
     @Transient
     private double rating;
 
+    @Column(name = "rating_sum")
+    private int ratingSum;
+
+    @Column(name = "valuer_count")
+    private int valuerCount;
+
     @ManyToMany
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @JsonIgnore
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<TrainingFeedback> feedbacks;
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private List<Entry> entries;
+
+    public Training(TrainingDTO trainingDTO) {
+        this.id = trainingDTO.getId();
+        this.name = trainingDTO.getName();
+        this.targetAudience = trainingDTO.getTargetAudience();
+        this.language = trainingDTO.getLanguage();
+        this.isExternal = trainingDTO.isExternal();
+        this.description = trainingDTO.getDescription();
+        this.status = trainingDTO.getStatus();
+        this.membersCountMax = trainingDTO.getMembersCountMax();
+        this.membersCount = trainingDTO.getMembersCount();
+
+        this.participants = new ArrayList<>();
+        this.feedbacks = new ArrayList<>();
+        this.entries = new ArrayList<>();
+    }
+
     public void addFeedback(TrainingFeedback feedback) {
         feedback.setTraining(this);
         feedbacks.add(feedback);
     }
-
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
-    private List<Entry> entries;
 
     public void addEntry(Entry entry) {
         entry.setTraining(this);
@@ -69,22 +90,7 @@ public class Training {
 
     public void addParticipant(User user){
         this.participants.add(user);
-    }
-
-    @Override
-    public String toString() {
-        return "Training{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", trainer=" + trainer +
-                ", targetAudience='" + targetAudience + '\'' +
-                ", language='" + language + '\'' +
-                ", isExternal=" + isExternal +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", membersCountMax=" + membersCountMax +
-                ", membersCount=" + membersCount +
-                '}';
+        this.membersCount++;
     }
 
     public long getId() {
@@ -189,6 +195,26 @@ public class Training {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isExternal() {
+        return isExternal;
+    }
+
+    public int getRatingSum() {
+        return ratingSum;
+    }
+
+    public void setRatingSum(int ratingSum) {
+        this.ratingSum = ratingSum;
+    }
+
+    public int getValuerCount() {
+        return valuerCount;
+    }
+
+    public void setValuerCount(int valuerCount) {
+        this.valuerCount = valuerCount;
     }
 
     public double getRating() {

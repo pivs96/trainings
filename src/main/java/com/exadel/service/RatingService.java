@@ -1,6 +1,6 @@
 package com.exadel.service;
 
-import com.exadel.model.entity.Rating;
+import com.exadel.model.entity.training.Rating;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,5 +13,5 @@ public interface RatingService {
 
     Collection<Rating> getAllRatings();
 
-    void addRating(Rating rating);
+    boolean addRating(Rating rating);
 }

@@ -1,12 +1,13 @@
 package com.exadel.service.impl;
 
-import com.exadel.model.entity.UserFeedback;
+import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.repository.UserFeedbackRepository;
 import com.exadel.service.UserFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +25,7 @@ public class UserFeedbackServiceImpl implements UserFeedbackService{
     }
 
     @Override
-    public Collection<UserFeedback> getFeedbacksByVisitor(long id) {
+    public List<UserFeedback> getFeedbacksByVisitor(long id) {
         return userFeedbackRepository.findByVisitor(id);
     }
 

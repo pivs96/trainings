@@ -1,7 +1,7 @@
 package com.exadel.controller;
 
-import com.exadel.model.entity.Journal;
-import com.exadel.model.entity.Training;
+import com.exadel.model.entity.training.Journal;
+import com.exadel.model.entity.training.Training;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
