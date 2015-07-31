@@ -1,0 +1,19 @@
+<div>
+  <label>{{tableLabel}}</label>
+  <table st-table="trainingsList" class="table table-striped text-center">
+    <thead>
+    <tr>
+      <th class="text-center">{{translation.NAME}}</th>
+      <th class="text-center">{{translation.DESCRIPTION}}</th>
+      <th class="text-center">{{translation.RATING}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in trainingsList">
+      <td>{{row.name}}</td>
+      <td>{{row.description}}</td>
+      <td>{{row.rating}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
