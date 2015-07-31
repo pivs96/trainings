@@ -11,20 +11,18 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String type;
     private String name;
     private String link;
 
     @ManyToOne
-    @JoinColumn(name = "entry_id", nullable = false)
-    private Entry entry;
+    @JoinColumn(name = "training_id", nullable = false)
+    private Training training;
 
     public Attachment() {
     }
 
     public Attachment(AttachmentDTO attachmentDTO) {
         this.id = attachmentDTO.getId();
-        this.type = attachmentDTO.getType();
         this.name = attachmentDTO.getName();
         this.link = attachmentDTO.getLink();
     }
@@ -37,12 +35,12 @@ public class Attachment {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public String getName() {
@@ -61,11 +59,4 @@ public class Attachment {
         this.link = link;
     }
 
-    public Entry getEntry() {
-        return entry;
-    }
-
-    public void setEntry(Entry entry) {
-        this.entry = entry;
-    }
 }

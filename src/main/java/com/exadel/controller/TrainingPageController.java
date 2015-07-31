@@ -1,6 +1,7 @@
 package com.exadel.controller;
 
 import com.exadel.dto.*;
+import com.exadel.model.entity.training.Attachment;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Rating;
 import com.exadel.model.entity.training.Training;
@@ -8,8 +9,6 @@ import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +31,9 @@ public class TrainingPageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AttachmentService attachmentService;
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public TrainingDTO getTrainingInfo(@RequestParam String id) {
@@ -139,8 +141,8 @@ public class TrainingPageController {
     }
 
     @RequestMapping(value = "/createEntries", method = RequestMethod.POST)
-    public void getNextEntry(@RequestParam(required = false) Long end,
-                             @RequestBody List<EntryDTO> entryDTOs) {
+    public void createEntries(@RequestParam(required = false) Long end,
+                              @RequestBody List<EntryDTO> entryDTOs) {
         Training training = new Training();
         training.setId(entryDTOs.get(0).getTrainingId());
 
@@ -178,5 +180,31 @@ public class TrainingPageController {
         newDate.setTime(calendar.getTime().getTime());
 
         return newDate;
+    }
+
+    @RequestMapping(value = "attachments", method = RequestMethod.GET)
+    public List<AttachmentDTO> getAttachments(@RequestParam String id) {
+        Training training = trainingService.getTrainingById(id);
+        List<Attachment> attachments = attachmentService.getAllAttachmentsByTrainingId(training.getId());
+        List<AttachmentDTO> attachmentDTOs = new ArrayList<>();
+
+        for (Attachment attachment : attachments) {
+            attachmentDTOs.add(new AttachmentDTO(attachment));
+        }
+        return attachmentDTOs;
+    }
+
+    @RequestMapping(value = "newAttachment", method = RequestMethod.POST)
+    public void createAttachment(@RequestBody AttachmentDTO attachmentDTO) {
+        Attachment attachment = new Attachment(attachmentDTO);
+        attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
+        attachmentService.addAttachment(attachment);
+    }
+
+    @RequestMapping(value = "editAttachment", method = RequestMethod.PUT)
+    public void editAttachment(@RequestBody AttachmentDTO attachmentDTO) {
+        Attachment attachment = attachmentService.getAttachmentById(attachmentDTO.getId());
+        attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
+        attachmentService.addAttachment(attachment);
     }
 }
