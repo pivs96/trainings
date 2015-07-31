@@ -13,8 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "trainings")
 public class Training {
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -63,6 +61,14 @@ public class Training {
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Entry> entries;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private List<Attachment> attachments;
+
+    public void addAttachment(Attachment attachment) {
+        attachment.setTraining(this);
+        attachments.add(attachment);
+    }
 
     public Training() {}
 
@@ -233,4 +239,11 @@ public class Training {
         this.rating = rating;
     }
 
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 }

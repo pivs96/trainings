@@ -30,14 +30,6 @@ public class Entry {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> absentees;
 
-    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
-    private List<Attachment> attachments;
-
-    public void addAttachment(Attachment attachment) {
-        attachment.setEntry(this);
-        attachments.add(attachment);
-    }
-
     public Entry() {
     }
 
@@ -94,13 +86,5 @@ public class Entry {
 
     public void setAbsentees(List<User> absentees) {
         this.absentees = absentees;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
     }
 }

@@ -7,7 +7,11 @@ import java.util.Optional;
 
 public interface AttachmentService {
 
-    List<Attachment> getAllAttachmentsByEntryId(long entryId);
+    List<Attachment> getAllAttachmentsByTrainingId(long entryId);
 
-    Optional<Attachment> addAttachment(Attachment attachment);
+    void addAttachment(Attachment attachment);
+
+    Attachment getAttachmentById(String id);
+
+    Attachment getAttachmentById(long id);
 }
