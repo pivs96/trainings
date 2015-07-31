@@ -1,5 +1,7 @@
 package com.exadel.controller;
 
+import com.exadel.dto.AttachmentDTO;
+import com.exadel.dto.EntryDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.Attachment;
 import com.exadel.model.entity.training.Entry;
@@ -12,6 +14,7 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,16 +24,27 @@ public class EntryController {
     private EntryService entryService;
 
     @RequestMapping(value = "attachments", method = RequestMethod.GET)
-    public List<Attachment> getAttachments(@RequestParam String id) {
-        Entry entry = new Entry();//trainingService.getTrainingById(id);
-        return entry.getAttachments();
+    public List<AttachmentDTO> getAttachments(@RequestParam String id) {
+        Entry entry = entryService.getEntryById(id);
+        List<Attachment> attachments = entry.getAttachments();
+        List<AttachmentDTO> attachmentDTOs = new ArrayList<>();
+
+        for (Attachment attachment : attachments) {
+            attachmentDTOs.add(new AttachmentDTO(attachment));
+        }
+        return attachmentDTOs;
     }
 
-    @RequestMapping(value = "/entry", method = RequestMethod.GET)
-    public Entry getEntry(@RequestParam String entryId) {
-        long id = Long.parseLong(entryId);
-        Entry entry = entryService.getEntryById(id).get();
-        System.out.println(entry);
-        return entry;
+    @RequestMapping(value = "attachments", method = RequestMethod.POST)
+    public void getAttachments(@RequestBody  AttachmentDTO attachmentDTO) {
+        Attachment attachment = new Attachment(attachmentDTO);
+        attachment.setEntry(entryService.getEntryById(attachmentDTO.getEntryId()));
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public EntryDTO getEntry(@RequestParam String entryId) {
+        Entry entry = entryService.getEntryById(entryId);
+        return new EntryDTO(entry);
     }
 }

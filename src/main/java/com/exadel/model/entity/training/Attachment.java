@@ -1,7 +1,6 @@
 package com.exadel.model.entity.training;
 
-import com.exadel.model.entity.training.Entry;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.exadel.dto.AttachmentDTO;
 
 import javax.persistence.*;
 
@@ -18,8 +17,17 @@ public class Attachment {
 
     @ManyToOne
     @JoinColumn(name = "entry_id", nullable = false)
-    @JsonIgnore
     private Entry entry;
+
+    public Attachment() {
+    }
+
+    public Attachment(AttachmentDTO attachmentDTO) {
+        this.id = attachmentDTO.getId();
+        this.type = attachmentDTO.getType();
+        this.name = attachmentDTO.getName();
+        this.link = attachmentDTO.getLink();
+    }
 
     public long getId() {
         return id;

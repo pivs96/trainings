@@ -30,11 +30,6 @@ public class TrainingsController {
         return trainingDTOs;
     }
 
-    @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public TrainingDTO getTraining(@RequestParam String id) {
-        return new TrainingDTO(trainingService.getTrainingById(id));
-    }
-
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)
     public void createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);

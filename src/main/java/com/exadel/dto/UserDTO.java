@@ -7,6 +7,7 @@ import com.exadel.model.entity.user.UserRole;
 
 public class UserDTO {
 
+    private long id;
     private String name;
     private String surname;
     private String phone;
@@ -17,6 +18,7 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
+        this.id = user.getId();
         this.name = user.getName();
         this.surname = user.getSurname();
         this.phone = user.getPhone();
@@ -62,5 +64,13 @@ public class UserDTO {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

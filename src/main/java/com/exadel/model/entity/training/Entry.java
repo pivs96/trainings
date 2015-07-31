@@ -1,8 +1,7 @@
 package com.exadel.model.entity.training;
 
+import com.exadel.dto.EntryDTO;
 import com.exadel.model.entity.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,13 +23,11 @@ public class Entry {
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
-    @JsonIgnore
     private Training training;
 
     @ManyToMany
     @JoinTable(name = "absentees", joinColumns = @JoinColumn(name = "entry_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @JsonManagedReference
     private List<User> absentees;
 
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
@@ -42,6 +39,13 @@ public class Entry {
     }
 
     public Entry() {
+    }
+
+    public Entry(EntryDTO entryDTO) {
+        this.id = entryDTO.getId();
+        this.place = entryDTO.getPlace();
+        this.beginTime = entryDTO.getBeginTime();
+        this.endTime = entryDTO.getEndTime();
     }
 
     public long getId() {
