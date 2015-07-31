@@ -15,7 +15,7 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
 
   $scope.startEdit = function () {
     $scope.editMode = true;
-  }
+  };
 
   $scope.saveChanges = function () {
     $scope.editMode = false;
@@ -28,7 +28,7 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
       alert("Users with role EXTERNAL_TRAINER or EXTERNAL_VISITOR can be updated");
       return;
     }
-    userService.update({type: 'saveType'}, $scope.selectedUser);
+    userService.update({type: saveType}, $scope.selectedUser);
   }
 }]);
 

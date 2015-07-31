@@ -115,8 +115,6 @@ angular
     $rootScope.i10n.selectedLanguage = 'en';
 
     $rootScope.translate();
-  }).constant('appConstants', {
-    LANGUAGES: [{label: 'English', value: 'en'}, {label: 'Русский', value: 'ru'}]
   });
 
 
