@@ -9,6 +9,8 @@
   "EMAIL" : "Email",
   "PHONE" : "Phone",
   "ROLE" : "Role",
+  "DESCRIPTION" : "Description",
+  "RATING" : "Rating",
   "USERNAME" : "Username",
   "ENQUEUED" : "Enqueued users",
   "EXTERNAL" : "isExternal",
@@ -76,5 +78,7 @@
   "REPEATING" : "Repeating",
   "ENTRY" : "Entry",
   "CREATE_TRAINER" : "Create trainer",
-  "USER_LIST" : "User List"
+  "USER_LIST" : "User List",
+  "VISITING_TRAINING_LIST" : "Visiting Trainings List",
+  "MENTORING_TRAINING_LIST" : "Mentoring Trainings List"
 }

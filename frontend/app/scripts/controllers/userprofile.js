@@ -8,9 +8,18 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
   $scope.languagesList = appConstants.LANGUAGES;
 
   //TODO add real userId here
-  userService.get({id:'2'}, function(user) {
+  var userId = '2';
+  userService.get({id:userId}, function(user) {
     $scope.selectedUser = user;
     $scope.isUserExternal = $scope.selectedUser.role == EXT_TRAINER || $scope.selectedUser.role == EXT_VISITOR;
+  });
+
+  userService.getMentoringTrainings({id: userId}, function(mentoringTrainings) {
+    $scope.mentoringTrainingsList = mentoringTrainings;
+  });
+
+  userService.getVisitingTrainings({id: userId}, function(visitingTrainings) {
+    $scope.visitingTrainingsList = visitingTrainings;
   });
 
   $scope.startEdit = function () {

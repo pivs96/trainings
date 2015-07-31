@@ -27,7 +27,7 @@
         <i class="fa fa-floppy-o"></i> {{translation.SAVE}}</a>
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-3">
       <div class="form-group">
         <label>{{translation.NAME}}
           <trn-editable-label editable-value='selectedUser.name' edit-mode="editMode"/>
@@ -52,4 +52,43 @@
       </div>
     </div>
   </div>
+
+  <!-- tables -->
+  <label>{{translation.MENTORING_TRAINING_LIST}}</label>
+  <table st-table="mentoringTrainingsList" class="table table-striped text-center">
+    <thead>
+    <tr>
+      <th class="text-center" st-sort="name">{{translation.NAME}}</th>
+      <th class="text-center" st-sort="description">{{translation.DESCRIPTION}}</th>
+      <th class="text-center" st-sort="rating">{{translation.RATING}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in mentoringTrainingsList">
+      <td>{{row.name}}</td>
+      <td>{{row.description}}</td>
+      <td>{{row.rating}}</td>
+    </tr>
+    </tr>
+    </tbody>
+  </table>
+
+  <label>{{translation.VISITING_TRAINING_LIST}}</label>
+
+  <table st-table="visitingTrainingsList" class="table table-striped text-center">
+    <thead>
+    <tr>
+      <th class="text-center" st-sort="name">{{translation.NAME}}</th>
+      <th class="text-center" st-sort="description">{{translation.DESCRIPTION}}</th>
+      <th class="text-center" st-sort="rating">{{translation.RATING}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in visitingTrainingsList">
+      <td>{{row.name}}</td>
+      <td>{{row.description}}</td>
+      <td>{{row.rating}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
