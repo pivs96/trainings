@@ -1,9 +1,6 @@
 package com.exadel.controller;
 
-import com.exadel.dto.RatingDTO;
-import com.exadel.dto.TrainingDTO;
-import com.exadel.dto.TrainingFeedbackDTO;
-import com.exadel.dto.UserDTO;
+import com.exadel.dto.*;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Rating;
 import com.exadel.model.entity.training.Training;
@@ -11,11 +8,12 @@ import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/training")
@@ -35,6 +33,11 @@ public class TrainingPageController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public TrainingDTO getTrainingInfo(@RequestParam String id) {
+        return new TrainingDTO(trainingService.getTrainingById(id));
+    }
+
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     public List<UserDTO> getParticipants(@RequestParam String id) {
         Training training = trainingService.getTrainingById(id);
@@ -53,8 +56,7 @@ public class TrainingPageController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Participation register(@RequestParam String userId, @RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
-        User visitor = new User();
-        visitor.setId(Long.parseLong(userId));
+        User visitor = userService.getUserById(userId);
         training.addParticipant(visitor);
         trainingService.addTraining(training);
 
@@ -62,6 +64,11 @@ public class TrainingPageController {
             return Participation.RESERVE;
         else
             return Participation.MEMBER;
+    }
+
+    @RequestMapping(value = "/register_visitor", method = RequestMethod.POST)
+    public void registerByAdmin(@RequestParam String userId, @RequestParam String trainingId) {
+        register(userId, trainingId);
     }
 
     @RequestMapping(value = "/rating", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -93,14 +100,6 @@ public class TrainingPageController {
         trainingFeedbackService.addTrainingFeedback(feedback);
     }
 
-    @RequestMapping(value = "/entry", method = RequestMethod.GET)
-    public Entry getEntry(@RequestParam String entryId) {
-        long id = Long.parseLong(entryId);
-        Entry entry = entryService.getEntryById(id).get();
-        System.out.println(entry);
-        return entry;
-    }
-
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
@@ -111,5 +110,73 @@ public class TrainingPageController {
     @RequestMapping(method = RequestMethod.DELETE)
     public void cancelTraining(@RequestParam String id) {
         trainingService.cancelById(id);
+    }
+
+    @RequestMapping(value = "/entries", method = RequestMethod.GET)
+    public List<EntryDTO> getEntries(@RequestParam String trainingId,
+                                     @RequestParam(required = false) Boolean future) {
+        Training training = trainingService.getTrainingById(trainingId);
+        List<Entry> entries;
+
+        if (future == null || !future)
+            entries = entryService.getAllEntriesByTrainingId(training.getId());
+        else
+            entries = entryService.findFutureEntriesByTrainingId(new Date(), training.getId());
+
+        List<EntryDTO> entryDTOs = new ArrayList<>();
+
+        for (Entry entry : entries) {
+            entryDTOs.add(new EntryDTO(entry));
+        }
+        return entryDTOs;
+    }
+
+    @RequestMapping(value = "/nextEntry", method = RequestMethod.GET)
+    public EntryDTO getNextEntry(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        Entry entry = entryService.findNextEntryByTrainingId(new Date(), training.getId());
+        return new EntryDTO(entry);
+    }
+
+    @RequestMapping(value = "/createEntries", method = RequestMethod.POST)
+    public void getNextEntry(@RequestParam(required = false) Long end,
+                             @RequestBody List<EntryDTO> entryDTOs) {
+        Training training = new Training();
+        training.setId(entryDTOs.get(0).getTrainingId());
+
+        for (EntryDTO entryDTO : entryDTOs) {
+            Entry entry = new Entry(entryDTO);
+            entry.setTraining(training);
+            entryService.addEntry(entry);
+        }
+
+        if (end != null) {
+            Date endDay = new Date(end);
+            Queue<EntryDTO> duplicates = new LinkedList<>(entryDTOs);
+            EntryDTO entryDTO = duplicates.remove();
+            entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
+
+            while (entryDTO.getBeginTime().before(endDay)) {
+                entryDTO.setEndTime(addWeekToDate(entryDTO.getEndTime()));
+                Entry entry = new Entry(entryDTO);
+                entry.setTraining(training);
+                entryService.addEntry(entry);
+                duplicates.add(entryDTO);
+
+                entryDTO = duplicates.remove();
+                entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
+            }
+        }
+    }
+
+    public static Date addWeekToDate(final Date date) {
+        Date newDate = new Date(date.getTime());
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(newDate);
+        calendar.add(Calendar.DATE, 7);
+        newDate.setTime(calendar.getTime().getTime());
+
+        return newDate;
     }
 }

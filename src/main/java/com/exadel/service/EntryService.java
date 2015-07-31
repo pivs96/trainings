@@ -1,17 +1,28 @@
 package com.exadel.service;
 
 import com.exadel.model.entity.training.Entry;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface EntryService {
 
-    Optional<Entry> getEntryById(long id);
+    Entry getEntryById(String id);
 
-    Collection<Entry> getAllEntriesByTrainingId(long trainingId);
+    Entry getEntryById(long id);
 
-    Collection<Entry> getAllEntries();
+    List<Entry> getAllEntriesByTrainingId(long trainingId);
 
-    Optional<Entry> addEntry(Entry training);
+    //List<Entry> getAllEntriesByTrainingId(long trainingId, Pageable pageable);
+
+    List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId);
+
+    Entry findNextEntryByTrainingId(Date time, long trainingId);
+
+    //List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId, Pageable pageable);
+
+    Optional<Entry> addEntry(Entry entry);
 }
