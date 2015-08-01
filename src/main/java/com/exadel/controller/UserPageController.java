@@ -70,7 +70,7 @@ public class UserPageController {
         userFeedbackService.addFeedback(feedback);
     }
 
-    @RequestMapping(value="/login",method = RequestMethod.GET)
+    @RequestMapping(value="/info",method = RequestMethod.GET)
     public UserDTO showUserInfo(@RequestParam String name) {
         User user = userService.getUserByLogin(name);
         return new UserDTO(user);
