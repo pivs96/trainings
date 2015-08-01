@@ -1,7 +1,6 @@
 package com.exadel.service.impl;
 
-
-import com.exadel.controller.Participation;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.exception.TrainingNotFoundException;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
@@ -97,7 +96,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Participation checkParticipation(String userId, String trainingId) {
+    public ParticipationStatus checkParticipation(String userId, String trainingId) {
         long id = userService.getUserById(userId).getId();
         Training training = getTrainingById(trainingId);
         List<User> participants = training.getParticipants();
@@ -105,13 +104,13 @@ public class TrainingServiceImpl implements TrainingService {
         for (int i = 0; i < participants.size(); ++i) {
             if (participants.get(i).getId() == id) {
                 if (i < training.getMembersCountMax())
-                    return Participation.MEMBER;
+                    return ParticipationStatus.MEMBER;
                 else
-                    return Participation.RESERVE;
+                    return ParticipationStatus.RESERVE;
             }
         }
 
-        return Participation.NONE;
+        return ParticipationStatus.NONE;
     }
 
     @Override

@@ -16,13 +16,11 @@ public interface EntryService {
 
     List<Entry> getAllEntriesByTrainingId(long trainingId);
 
-    //List<Entry> getAllEntriesByTrainingId(long trainingId, Pageable pageable);
-
     List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId);
 
     Entry findNextEntryByTrainingId(Date time, long trainingId);
 
-    //List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId, Pageable pageable);
-
     Optional<Entry> addEntry(Entry entry);
+
+    void deleteEntry(long id);
 }

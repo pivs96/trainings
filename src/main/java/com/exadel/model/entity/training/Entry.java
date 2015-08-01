@@ -40,6 +40,12 @@ public class Entry {
         this.endTime = entryDTO.getEndTime();
     }
 
+    public void updateEntry(EntryDTO entryDTO) {
+        this.place = entryDTO.getPlace();
+        this.beginTime = entryDTO.getBeginTime();
+        this.endTime = entryDTO.getEndTime();
+    }
+
     public long getId() {
         return id;
     }

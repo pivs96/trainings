@@ -69,4 +69,9 @@ public class EntryServiceImpl implements EntryService{
     public Optional<Entry> addEntry(Entry entry) {
         return Optional.ofNullable(entryRepository.save(entry));
     }
+
+    @Override
+    public void deleteEntry(long id) {
+        entryRepository.delete(id);
+    }
 }

@@ -3,11 +3,10 @@ package com.exadel.controller;
 
 import com.exadel.config.SecurityConfig;
 import com.exadel.dto.*;
-import com.exadel.model.entity.*;
-//import com.exadel.model.entity.User;
 import com.exadel.model.entity.feedback.TrainingFeedback;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.training.Attachment;
-import com.exadel.model.entity.training.Entry;
+import com.exadel.model.entity.training.Participation;
 import com.exadel.model.entity.training.Rating;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
@@ -40,9 +39,6 @@ public class TrainingPageController {
     private TrainingFeedbackService trainingFeedbackService;
 
     @Autowired
-    private EntryService entryService;
-
-    @Autowired
     private TrainingService trainingService;
 
     @Autowired
@@ -54,16 +50,19 @@ public class TrainingPageController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Autowired
+    private ParticipationService participationService;
+
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public TrainingDTO getTrainingInfo(@RequestParam String id) {
-        return new TrainingDTO(trainingService.getTrainingById(id));
+    public TrainingDTO getTrainingInfo(@RequestParam String trainingId) {
+        return new TrainingDTO(trainingService.getTrainingById(trainingId));
     }
 
     @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0')" )
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
-    public List<UserDTO> getParticipants(@RequestParam String id) {
-        Training training = trainingService.getTrainingById(id);
+    public List<UserDTO> getParticipants(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
         List<UserDTO> userDTOs = new ArrayList<>();
         for (User user : training.getParticipants()) {
             userDTOs.add(new UserDTO(user));
@@ -73,21 +72,32 @@ public class TrainingPageController {
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/check_participation", method = RequestMethod.GET)
-    public Participation checkParticipation(@RequestParam String userId, @RequestParam String trainingId) {
+    public ParticipationStatus checkParticipation(@RequestParam String userId, @RequestParam String trainingId) {
         return trainingService.checkParticipation(userId, trainingId);
     }
 
+    @RequestMapping(value = "/participation_time", method = RequestMethod.GET)
+    public List<ParticipationDTO> getParticipationTime(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        List<Participation> participations = participationService.getAllParticipationsByTrainingId(training.getId());
+        List<ParticipationDTO> participationDTOs = new ArrayList<>();
+
+        for (Participation participation : participations) {
+            participationDTOs.add(new ParticipationDTO(participation));
+        }
+        return participationDTOs;
+    }
 
     @PreAuthorize("hasAnyRole('0','1')")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Participation register(@RequestParam String userId, @RequestParam String trainingId) {
+    public ParticipationStatus register(@RequestParam String userId, @RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
         training.addParticipant(visitor);
         if (training.getMembersCount() > training.getMembersCountMax())
-            return Participation.RESERVE;
+            return ParticipationStatus.RESERVE;
         else
-            return Participation.MEMBER;
+            return ParticipationStatus.MEMBER;
     }
 
 
@@ -108,8 +118,8 @@ public class TrainingPageController {
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
-    public List<TrainingFeedbackDTO> getFeedbacks(@RequestParam String id) {
-        Training training = trainingService.getTrainingById(id);
+    public List<TrainingFeedbackDTO> getFeedbacks(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
         List<TrainingFeedback> feedbacks = (List<TrainingFeedback>)
                 trainingFeedbackService.getTrainingFeedbacksByTrainingId(training.getId());
         List<TrainingFeedbackDTO> feedbackDTOs = new ArrayList<>();
@@ -130,81 +140,10 @@ public class TrainingPageController {
         trainingFeedbackService.addTrainingFeedback(feedback);
     }
 
-    @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value = "/entries", method = RequestMethod.GET)
-    public List<EntryDTO> getEntries(@RequestParam String trainingId,
-                                     @RequestParam(required = false) Boolean future) {
-        Training training = trainingService.getTrainingById(trainingId);
-        List<Entry> entries;
-
-        if (future == null || !future)
-            entries = entryService.getAllEntriesByTrainingId(training.getId());
-        else
-            entries = entryService.findFutureEntriesByTrainingId(new Date(), training.getId());
-
-        List<EntryDTO> entryDTOs = new ArrayList<>();
-
-        for (Entry entry : entries) {
-            entryDTOs.add(new EntryDTO(entry));
-        }
-        return entryDTOs;
-    }
-
-    @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value = "/nextEntry", method = RequestMethod.GET)
-    public EntryDTO getNextEntry(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        Entry entry = entryService.findNextEntryByTrainingId(new Date(), training.getId());
-        return new EntryDTO(entry);
-    }
-
-    @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')" )
-    @RequestMapping(value = "/createEntries", method = RequestMethod.POST)
-    public void createEntries(@RequestParam(required = false) Long end,
-                              @RequestBody List<EntryDTO> entryDTOs) {
-        Training training = new Training();
-        training.setId(entryDTOs.get(0).getTrainingId());
-
-        for (EntryDTO entryDTO : entryDTOs) {
-            Entry entry = new Entry(entryDTO);
-            entry.setTraining(training);
-            entryService.addEntry(entry);
-        }
-
-        if (end != null) {
-            Date endDay = new Date(end);
-            Queue<EntryDTO> duplicates = new LinkedList<>(entryDTOs);
-            EntryDTO entryDTO = duplicates.remove();
-            entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
-
-            while (entryDTO.getBeginTime().before(endDay)) {
-                entryDTO.setEndTime(addWeekToDate(entryDTO.getEndTime()));
-                Entry entry = new Entry(entryDTO);
-                entry.setTraining(training);
-                entryService.addEntry(entry);
-                duplicates.add(entryDTO);
-
-                entryDTO = duplicates.remove();
-                entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
-            }
-        }
-    }
-
-    public static Date addWeekToDate(final Date date) {
-        Date newDate = new Date(date.getTime());
-
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(newDate);
-        calendar.add(Calendar.DATE, 7);
-        newDate.setTime(calendar.getTime().getTime());
-
-        return newDate;
-    }
-
     @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
     @RequestMapping(value = "attachments", method = RequestMethod.GET)
-    public List<AttachmentDTO> getAttachments(@RequestParam String id) {
-        Training training = trainingService.getTrainingById(id);
+    public List<AttachmentDTO> getAttachments(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
         List<Attachment> attachments = attachmentService.getAllAttachmentsByTrainingId(training.getId());
         List<AttachmentDTO> attachmentDTOs = new ArrayList<>();
 
@@ -233,7 +172,7 @@ public class TrainingPageController {
     @PreAuthorize("@trainerControlBean.isOkay(#trainingDTO) or hasRole('0')")
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
-        Training training = new Training(trainingDTO);
+        Training training = trainingService.getTrainingById(trainingDTO.getId());
         trainingService.updateTraining(training);
     }
 

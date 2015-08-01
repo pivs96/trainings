@@ -94,6 +94,17 @@ public class Training {
         this.entries = new ArrayList<>();
     }
 
+    public void updateTraining(TrainingDTO trainingDTO) {
+        this.name = trainingDTO.getName();
+        this.targetAudience = trainingDTO.getTargetAudience();
+        this.language = trainingDTO.getLanguage();
+        this.isExternal = trainingDTO.isExternal();
+        this.description = trainingDTO.getDescription();
+        this.status = trainingDTO.getStatus();
+        this.membersCountMax = trainingDTO.getMembersCountMax();
+        this.membersCount = trainingDTO.getMembersCount();
+    }
+
     public void addFeedback(TrainingFeedback feedback) {
         feedback.setTraining(this);
         feedbacks.add(feedback);

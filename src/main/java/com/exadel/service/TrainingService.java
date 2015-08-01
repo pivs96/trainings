@@ -1,6 +1,6 @@
 package com.exadel.service;
 
-import com.exadel.controller.Participation;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
 
@@ -20,7 +20,7 @@ public interface TrainingService {
 
     void updateTraining(Training training);
 
-    Participation checkParticipation(String userId, String trainingId);
+    ParticipationStatus checkParticipation(String userId, String trainingId);
 
     void cancelById(String id);
 

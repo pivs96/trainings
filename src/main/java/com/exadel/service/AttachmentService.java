@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AttachmentService {
 
-    List<Attachment> getAllAttachmentsByTrainingId(long entryId);
+    List<Attachment> getAllAttachmentsByTrainingId(long trainingId);
 
     void addAttachment(Attachment attachment);
 

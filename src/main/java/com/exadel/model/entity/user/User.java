@@ -28,6 +28,7 @@ public class User {
     }
 
     public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
         this.name = userDTO.getName();
         this.surname = userDTO.getSurname();
         this.phone = userDTO.getPhone();
