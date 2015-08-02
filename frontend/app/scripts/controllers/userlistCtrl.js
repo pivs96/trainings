@@ -2,8 +2,8 @@
 
 
 angular.module('frontendApp')
-  .controller('UserlistCtrl', ['$scope', 'ngDialog', 'data',
-    function ($scope, ngDialog, data) {
+  .controller('UserlistCtrl', ['$scope', 'ngDialog', 'data', 'userService', '$location',
+    function ($scope, ngDialog, data, userService, $location) {
       $scope.users = data;
 
       $scope.openCreatePopup = function (type) {
@@ -17,6 +17,12 @@ angular.module('frontendApp')
           }
         });
       };
+
+      $scope.rowClickHandler = function (user){
+        //todo set user.id here
+        userService.setUserId('1');
+        $location.path('/userprofile');
+      }
     }]);
 
 

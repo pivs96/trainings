@@ -1,21 +1,16 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'appConstants', function ($scope, userService, appConstants) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'appConstants', 'userProfileData', function ($scope, userService, appConstants, userProfileData) {
   $scope.editMode = false;
   $scope.languagesList = appConstants.LANGUAGES;
+  $scope.selectedUser = userProfileData;
+  $scope.isUserExternal = $scope.selectedUser.role == appConstants.EXT_TRAINER || $scope.selectedUser.role == appConstants.EXT_VISITOR;
 
-  //TODO add real userId here
-  var userId = '1';
-  userService.get({id: userId}, function(user) {
-    $scope.selectedUser = user;
-    $scope.isUserExternal = $scope.selectedUser.role == appConstants.EXT_TRAINER || $scope.selectedUser.role == appConstants.EXT_VISITOR;
-  });
-
-  userService.getMentoringTrainings({id: userId}, function(mentoringTrainings) {
+  userService.userResource.getMentoringTrainings(function (mentoringTrainings) {
     $scope.mentoringTrainingsList = mentoringTrainings;
   });
 
-  userService.getVisitingTrainings({id: userId}, function(visitingTrainings) {
+  userService.userResource.getVisitingTrainings(function (visitingTrainings) {
     $scope.visitingTrainingsList = visitingTrainings;
   });
 
@@ -28,9 +23,9 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
     var saveType;
     if ($scope.selectedUser.role == appConstants.EXT_TRAINER) {
       saveType = 'editTrainer';
-    }else if ($scope.selectedUser.role == appConstants.EXT_VISITOR){
+    } else if ($scope.selectedUser.role == appConstants.EXT_VISITOR) {
       saveType = 'editVisitor';
-    }else{
+    } else {
       alert("Users with role EXTERNAL_TRAINER or EXTERNAL_VISITOR can be updated");
       return;
     }

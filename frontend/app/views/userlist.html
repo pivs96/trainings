@@ -27,7 +27,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="user in users">
+  <tr ng-click="rowClickHandler(user)" ng-repeat="user in users">
     <!--   <td>{{row.id}}</td>-->
     <td>{{user.name}}</td>
     <td>{{user.surname}}</td>

@@ -2,12 +2,14 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', ['$location','$scope','$http','$rootScope','AuthenticationService',
-    function ($location, $scope,$http, $rootScope, AuthenticationService) {
+  .controller('HeaderCtrl', ['$location','$scope','$http','$rootScope','AuthenticationService','userService',
+    function ($location, $scope, $http, $rootScope, AuthenticationService, userService) {
 
     this.companyName = companyName;
 
     this.goToUserProfile = function (){
+      //TODO add logged in user Id here
+      userService.setUserId('1');
       $location.path('/userprofile');
     };
 

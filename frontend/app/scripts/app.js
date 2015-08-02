@@ -57,7 +57,11 @@ angular
       .when('/userprofile', {
         templateUrl: 'views/userprofile.html',
         controller: 'UserProfileCtrl',
-        controllerAs: 'userprofile'
+        resolve: {
+          userProfileData: function (userService) {
+            return userService.getUserProfileData();
+          }
+        }
       })
       .when('/login', {
         templateUrl: 'views/login.html',
