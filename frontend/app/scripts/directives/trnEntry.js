@@ -14,7 +14,6 @@ angular.module('frontendApp')
       },
       link: function(scope, element, attrs) {
 
-
         scope.entries[scope.index] = {};
         scope.days = ['Sunday', 'Monday','Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday'];
         scope.daySelect = function(day) {

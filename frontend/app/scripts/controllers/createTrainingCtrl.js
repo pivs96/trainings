@@ -26,6 +26,17 @@ angular.module('frontendApp')
       }
     });
 
+    $scope.$watch('repeating', function(newVal, oldVal) {
+      if(oldVal !== newVal) {
+        $scope.data.begin = null;
+        $scope.data.end = null;
+        while(angular.element(".entry").length > 0) {
+          angular.element(".entry").last().remove();
+          $scope.entryNum--;
+        }
+
+      }
+    });
 
     $scope.addEntry = function() {
       var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');

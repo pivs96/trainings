@@ -78,6 +78,4 @@ angular.module('frontendApp')
       //END_CALLBACKS
 
 
-
-
   }]);
