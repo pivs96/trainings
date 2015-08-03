@@ -6,6 +6,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -25,7 +26,9 @@ public class CORSFilter implements Filter {
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Access-Control-Allow-Headers","x-auth-token,x-requested-with,accept,content-type,authorization");
 
-		chain.doFilter(req, res);
+		if (!((HttpServletRequest)req).getMethod().equals("OPTIONS")) {
+			chain.doFilter(req, res);
+		}
 
 	}
 

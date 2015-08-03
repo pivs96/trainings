@@ -61,10 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .addFilterAfter(new CSRFTokenGeneratorFilter(), CsrfFilter.class)
-                .addFilterAfter(new CSRFCookieGeneratorFilter(), CsrfFilter.class);
-
+//        http
+//                .addFilterAfter(new CSRFTokenGeneratorFilter(), CsrfFilter.class)
+//                .addFilterAfter(new CSRFCookieGeneratorFilter(), CsrfFilter.class);
+        http.csrf().disable();
         http.httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
         http.authorizeRequests().antMatchers("/loguser", "/logout", "/login", "/").permitAll()
@@ -84,9 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .deleteCookies("XSRF-TOKEN")
                 .permitAll()
-                .logoutSuccessUrl("http://localhost:9000/#/")
-                .and()
-                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class).csrf().csrfTokenRepository(csrfTokenRepository());
+                .logoutSuccessUrl("http://localhost:9000/#/");
+//                .and()
+//                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class).csrf().csrfTokenRepository(csrfTokenRepository());
 
     }
 
