@@ -64,17 +64,6 @@ public class TrainingFeedback {
         this.feedbacker.setId(feedbackDTO.getFeedbackerId());
     }
 
-    public TrainingFeedback(TrainingFeedbackDTO feedbackDTO) {
-        this.understandable = feedbackDTO.isUnderstandable();
-        this.interesting = feedbackDTO.isInteresting();
-        this.newKnowledge = feedbackDTO.isNewKnowledge();
-        this.effectiveness = feedbackDTO.getEffectiveness();
-        this.studyWithTrainer = feedbackDTO.isStudyWithTrainer();
-        this.recommend = feedbackDTO.isRecommend();
-        this.otherInfo = feedbackDTO.getOtherInfo();
-        this.date = feedbackDTO.getDate();
-    }
-
     public boolean isUnderstandable() {
         return understandable;
     }
@@ -162,4 +151,5 @@ public class TrainingFeedback {
     public void setId(long id) {
         this.id = id;
     }
+
 }
