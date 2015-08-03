@@ -29,7 +29,7 @@
         <div ng-view=""></div>
       </div>
 
-    <footer ng-include="'views/footer.html'"></footer>
+    <footer class="navbar-fixed-bottom" ng-include="'views/footer.html'"></footer>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -50,6 +50,7 @@
     <script src="bower_components/angular-aside/dist/js/angular-aside.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular-base64/angular-base64.js"></script>
+    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -82,9 +83,7 @@
         <script src="scripts/controllers/popups/evntMenuCtrl.js"></script>
         <script src="scripts/controllers/trainingCtrl.js"></script>
         <script src="scripts/filters/yesNo.js"></script>
-        <script src="scripts/services/trainingInfoService.js"></script>
-        <script src="scripts/services/trainingParticipantsService.js"></script>
-        <script src="scripts/services/trainingFeedbacksService.js"></script>
+        <script src="scripts/services/trainingService.js"></script>
         <script src="scripts/controllers/popups/waitListCtrl.js"></script>
         <script src="scripts/controllers/createTrainingCtrl.js"></script>
         <script src="scripts/directives/trnEntry.js"></script>
@@ -93,6 +92,9 @@
         <script src="scripts/services/userServiceDelegate.js"></script>
         <script src="scripts/services/eventslistService.js"></script>
         <script src="scripts/controllers/eventslistCtrl.js"></script>
+        <script src="scripts/services/createTrainingService.js"></script>
+        <script src="scripts/controllers/editTrainingCtrl.js"></script>
+        <script src="scripts/services/shareTrainingInfoService.js"></script>
         <!-- endbuild -->
 
 </body>

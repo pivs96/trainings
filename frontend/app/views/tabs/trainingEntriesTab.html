@@ -1,15 +1,15 @@
-<table st-table="training.entries" class="table table-striped">
+<table ng-if="entries && entries.length" st-table="entries" class="table table-striped">
   <thead>
     <tr>
       <th st-sort="id">{{translation.NUM}}</th>
       <th st-sort="beginTime">{{translation.BEGIN_DATE}}</th>
       <th st-sort="place">{{translation.PLACE}}</th>
     </tr>
-<!--  <tr>
+  <tr>
     <th><input st-search="id" placeholder="search by number" class="input-sm form-control" type="search"/>
     <th><input st-search="beginTime" placeholder="search by begin date" class="input-sm form-control" type="search"/>
     <th><input st-search="place" placeholder="search by place" class="input-sm form-control" type="search"/>
-  </tr>-->
+  </tr>
   </thead>
   <tbody>
     <tr ng-repeat="entry in entries" ng-class="{strike: checkDate(entry.beginTime)}">

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('TrainingCtrl', ['$route', '$scope', '$location', 'ngDialog', 'training',
-    function ($route, $scope, $location, ngDialog, training) {
+  .controller('TrainingCtrl', ['$route', '$scope', '$location', 'ngDialog', 'training', 'shareTrainingInfo',
+    function ($route, $scope, $location, ngDialog, training, shareTrainingInfo) {
 
       $scope.feedbacks = [];
       $scope.training = {};
@@ -35,7 +35,6 @@ angular.module('frontendApp')
       };
 
       $scope.openUserpage = function (userId) {
-
         if ($scope.isAdmin()) {
           console.log(userId);
           $location.path('/userprofile/' + userId);
@@ -131,14 +130,20 @@ angular.module('frontendApp')
       $scope.registrated = false;
 
       $scope.edit = function() {
-
+        if(_.isEmpty($scope.entries)) {
+          training.getEntries({id: $route.current.params.trainingId}, function (resp) {
+            $scope.entries = angular.copy(resp);
+            shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
+            $location.path('/training/editTraining/' + $route.current.params.trainingId);
+          });
+        }
+        else {
+          shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
+          $location.path('/training/editTraining/' + $route.current.params.trainingId);
+        }
       };
 
-      $scope.cancel = function() {
-        training.cancel({id: $route.current.params.trainingId}, function (resp) {
-          console.log(resp);
-        });
-      };
+
 
       $scope.deleteFeedback = function(fid) {
         training.deleteFeedback({feedbackId: fid}, function(resp) {

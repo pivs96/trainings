@@ -21,7 +21,8 @@ angular
     'ngDialog',
     'ui.bootstrap',
     'ngAside',
-    'base64'
+    'base64',
+    'angularFileUpload'
   ])
   .config(function ($routeProvider,$httpProvider) {
     $routeProvider
@@ -79,13 +80,16 @@ angular
       })
       .when('/training/:trainingId', {
         templateUrl: 'views/training.html',
-        controller: 'TrainingCtrl',
-        controllerAs: 'training'
+        controller: 'TrainingCtrl'
       })
       .when('/training', {
         templateUrl: 'views/createTraining.html',
         controller: 'CreateTrainingCtrl',
         controllerAs: 'createTraining'
+      })
+      .when('/training/editTraining/:trainingId', {
+        templateUrl: 'views/createTraining.html',
+        controller: 'EditTrainingCtrl'
       })
       .otherwise({
         redirectTo: '/'

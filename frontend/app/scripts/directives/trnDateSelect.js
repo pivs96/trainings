@@ -5,15 +5,17 @@ angular.module('frontendApp')
     return {
       restrict: 'E',
       templateUrl: 'views/templates/dateSelect.html',
-      scope: {},
+      scope: {
+        entry: '='
+      },
       controller: ['$scope', function($scope) {
+
         $scope.today = function() {
-          $scope.dt = new Date();
+          $scope.entry = new Date();
         };
-        $scope.today();
 
         $scope.clear = function () {
-          $scope.dt = null;
+          $scope.entry = null;
         };
 
 
@@ -70,7 +72,6 @@ angular.module('frontendApp')
         };
       }],
       link: function(scope, element, attrs) {
-
       }
     };
   });

@@ -1,4 +1,7 @@
-<div class="col-sm-8">
-  <div class="col-sm-offset-4"><p class="entry-num"><b>{{translation.ENTRY}} {{::entryNum}}</b></p></div>
+<div class="entry">
+  <div class="col-sm-8">
+    <div class="col-sm-offset-4"><p class="entry-num"><b>{{translation.ENTRY}} {{::entryNum}}</b></p></div>
+  </div>
+  <trn-entry repeating="repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
+             is-admin="isAdmin()"></trn-entry>
 </div>
-<trn-entry></trn-entry>

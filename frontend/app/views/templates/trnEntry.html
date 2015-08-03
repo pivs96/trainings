@@ -1,9 +1,11 @@
 <!--template for creating new Training Entry  -->
 <div ng-show="!repeating" class="form-group col-sm-8 training-info-entry">
-  <label class="col-sm-4 control-label text-right create-training-entry-label">{{translation.CLOSEST_MEETING}}:</label>
-  <div class="col-sm-7">
-    <trn-date-select></trn-date-select>
-
+  <label class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DATE_TIME}}:</label>
+  <div class="col-sm-4">
+    <trn-date-select entry="date"></trn-date-select>
+  </div>
+  <div class="col-sm-3">
+    <input class="form-control" type="time" ng-model="time">
   </div>
 </div>
 
@@ -16,23 +18,37 @@
         {{translation.SELECT_DAY}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
-        <li ng-repeat="day in days"><a ng-click="daySelect($event);">{{day}}</a></li>
+        <li ng-repeat="day in days"><a ng-click="daySelect(day ,$event);">{{day}}</a></li>
       </ul>
+        <label class="text-right control-label col-sm-5" style="margin-top: 7px">{{translation.SELECT_TIME}}</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="time" ng-model="time">
+      </div>
     </div>
   </div>
 
 </div>
 
+<div class="form-group col-sm-8 training-info-entry">
+  <label for="duration" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DURATION}}:</label>
+
+  <div class="col-sm-7">
+    <input type="time" id="duration" class="form-control create-training-trainer-select" placeholder="input duration"
+           ng-model="duration">
+  </div>
+</div>
 
 <div class="col-sm-8 training-info-entry">
   <label for="city" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.CITY}}: </label>
   <div class="col-sm-7">
-    <input id="city" type="text" placeholder="input city" class="create-training-trainer-select form-control">
+    <input id="city" type="text" placeholder="input city" class="create-training-trainer-select form-control"
+           ng-model="entries[index].city">
   </div>
 </div>
 <div class="col-sm-8 training-info-entry">
   <label for="unit" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.UNIT}}: </label>
   <div class="col-sm-7">
-    <input id="unit" type="text" placeholder="input unit" class="create-training-trainer-select form-control" ng-disabled="!isAdmin();">
+    <input id="unit" type="text" placeholder="input unit" class="create-training-trainer-select form-control"
+           ng-disabled="!isAdmin();" ng-model="entries[index].unit">
   </div>
 </div>

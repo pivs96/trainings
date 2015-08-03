@@ -1,99 +1,147 @@
-
 <div class="create-training-header">
   {{translation.NEW_TRAINING}}
+  <button type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
+
 </div>
 
-<form class="form-inline">
+<form name="trainingForm" class="form-inline" ng-submit="save()" novalidate>
 
   <div class="col-sm-8 training-info-entry">
-    <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.STATUS}}:</label>
+    <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label">
+      {{translation.STATUS}}:</label>
+
     <div class="col-sm-7">
       <input id="rep" type="checkbox" ng-model="repeating"> {{translation.REPEATING}}
+    </div>
+  </div>
+
+  <div class="col-sm-8 training-info-entry">
+    <label for="external" class="col-sm-4 control-label text-right create-training-entry-label">
+      {{translation.EXTERNAL}}:</label>
+
+    <div class="col-sm-7">
+      <input id="external" type="checkbox" ng-model="data.external">
     </div>
   </div>
 
   <div class="col-sm-4 training-description">
     {{translation.DESCRIPTION}}:
     <div>
-      <textarea class="form-control create-training-trainer-select create-training-textarea" rows="17"></textarea>
+      <textarea class="form-control create-training-trainer-select create-training-textarea" rows="17"
+                ng-model="data.description"></textarea>
     </div>
     <div align="center" class="create-training-submit">
-      <button type="submit" class="btn btn-default" ng-click="">{{translation.SAVE}}</button>
+      <button type="submit" class="btn btn-default" >{{translation.SAVE}}</button>
     </div>
   </div>
 
   <div class="form-group col-sm-8 training-info-entry">
     <label for="trainingName" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.TRAINING_NAME}}:</label>
+
     <div class="col-sm-7">
-      <input type="text" id="trainingName" class="form-control create-training-trainer-select" placeholder="input training name">
+      <input type="text" id="trainingName" class="form-control create-training-trainer-select"
+             placeholder="input training name" ng-model="data.name">
     </div>
   </div>
 
+
+
   <div class="form-group col-sm-8 training-info-entry">
-    <label for="duration" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DURATION}}:</label>
+    <label for="maxUsers" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.MAX_USERS}}:</label>
+
     <div class="col-sm-7">
-      <input type="text" id="duration" class="form-control create-training-trainer-select" placeholder="input duration">
+      <input type="number" id="maxUsers" class="form-control create-training-trainer-select" placeholder="input duration"
+             ng-model="data.membersCountMax">
     </div>
   </div>
+
   <div id="trainingEntries">
     <div class="col-sm-8">
       <div class="col-sm-offset-4">
-       <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
-     </div>
+        <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
+      </div>
     </div>
-    <trn-entry></trn-entry>
+    <trn-entry repeating="repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation" is-admin="isAdmin()"></trn-entry>
   </div>
   <div class="col-sm-8 training-info-entry">
     <div class="col-sm-offset-4">
-    <button type="button" class="btn btn-default add-entry-button" ng-click="addEntry();">
-      <i class="fa fa-plus"></i>Add new entry
-    </button>
+      <button type="button" class="btn btn-default add-entry-button" ng-click="addEntry();">
+        <i class="fa fa-plus"></i>{{translation.ADD_NEW_ENTRY}}
+      </button>
     </div>
   </div>
   <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
+
     <div class="col-sm-7">
-      <trn-date-select></trn-date-select>
+      <trn-date-select entry="data.begin"></trn-date-select>
     </div>
   </div>
   <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
+
     <div class="col-sm-7">
-      <trn-date-select></trn-date-select>
+      <trn-date-select entry="data.end"></trn-date-select>
     </div>
   </div>
 
   <div class="col-sm-8 training-info-entry">
-    <label for="trgAud" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TARGET_AUDIENCE}}: </label>
+    <label for="trgAud" class="col-sm-4 control-label text-right create-training-entry-label">
+      {{translation.TARGET_AUDIENCE}}: </label>
+
     <div class="col-sm-7">
-      <input id="trgAud" type="text" placeholder="input target audience" class="form-control create-training-trainer-select">
+      <input id="trgAud" type="text" placeholder="input target audience"
+             class="form-control create-training-trainer-select" ng-model="data.targetAudience">
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
     <label for="language" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.LANGUAGE}}:</label>
+
     <div class="col-sm-7">
-      <input id="language" type="text" placeholder="input language" class="form-control create-training-trainer-select">
+      <input id="language" type="text" placeholder="input language" class="form-control create-training-trainer-select"
+        ng-model="data.language">
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
-    <label for="trainer" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.TRAINER}}:</label>
+    <label for="trainer" class="col-sm-4 control-label text-right create-training-entry-label">
+      {{translation.TRAINER}}:</label>
+
     <div class="col-sm-7">
-      <select id="trainer" class="form-control create-training-trainer-select" ng-model="user" ng-options="user for user in users"></select>
+      <select id="trainer" class="form-control create-training-trainer-select" ng-model="data.trainer"
+              ng-options="user for user in users"></select>
     </div>
   </div>
+
   <div class="col-sm-8 training-info-entry">
     <label class="col-sm-4 control-label text-right"> {{translation.ATTACHMENTS}}: </label>
-    <div class="col-sm-7 create-training-attachments">
-      <button type="button" ng-click="attach()" class="btn btn-default btn-sm training-attach-btn">
-        {{translation.ATTACH}}
-      </button>
-    </div>
+
+      <div class="col-sm-7 create-training-attachments">
+        <input type="file" nv-file-select uploader="uploader" multiple>
+        <ul>
+          <li ng-repeat="item in uploader.queue" style="margin-bottom: 5px">
+            {{item.file.name}} &nbsp; {{item.file.size / 1024 / 1024 | number:2}} MB &nbsp;
+            <button class="btn btn-danger btn-sm" ng-click="item.remove()"><i class="fa fa-trash-o"></i> remove</button>
+            <i ng-show="item.isSuccess" class="fa fa-check"></i>
+            <i ng-show="item.isError" class="fa fa-close"></i>
+          </li>
+        </ul>
+        PROGRESS:<br/>
+        <div class="progress">
+        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm training-attach-btn" ng-click="uploader.uploadAll()">
+          {{translation.ATTACH}}
+        </button>
+      </div>
+
+
+
     <ul class="list-inline">
-      <li ng-repeat="attachment in attachments">
+      <li ng-repeat="attachment in training.attachments">
         <a class="col-sm-7" href="{{attachment.value}}">{{attachment.key}}</a>
       </li>
     </ul>
   </div>
-
 </form>
+
 

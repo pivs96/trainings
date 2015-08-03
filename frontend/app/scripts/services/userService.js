@@ -15,6 +15,9 @@ angular.module('frontendApp').factory('userService', function ($resource, $q) {
       params:{id:getUserId},
       method: 'GET',
       isArray: true
+    },
+    getUser: {
+      method: 'GET'
     }
   });
   return {
