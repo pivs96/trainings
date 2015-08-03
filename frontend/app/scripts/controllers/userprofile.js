@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'appConstants', 'userProfileData', function ($scope, userService, appConstants, userProfileData) {
+angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userService', 'userServiceDelegate', 'appConstants', 'userProfileData',  function ($scope, userService, userServiceDelegate, appConstants, userProfileData) {
   $scope.editMode = false;
   $scope.languagesList = appConstants.LANGUAGES;
   $scope.selectedUser = userProfileData;
@@ -29,7 +29,7 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'userServ
       alert("Users with role EXTERNAL_TRAINER or EXTERNAL_VISITOR can be updated");
       return;
     }
-    userService.update({type: saveType}, $scope.selectedUser);
+    userServiceDelegate.updateUserInfo(saveType, $scope.selectedUser);
   }
 }]);
 

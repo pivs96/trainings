@@ -4,10 +4,6 @@ angular.module('frontendApp').factory('userService', function ($resource, $q) {
     return userId;
   };
   var $userResource = $resource('http://localhost:8080/user?id=:id', {id: '@id'}, {
-    update: {
-      url: 'http://localhost:8080/users/:type',
-      method: 'PUT'
-    },
     getMentoringTrainings: {
       url: 'http://localhost:8080/user/mentoringTrainings?userId=:id',
       params:{id:getUserId},

@@ -19,8 +19,7 @@ angular.module('frontendApp')
       };
 
       $scope.rowClickHandler = function (user){
-        //todo set user.id here
-        userService.setUserId('1');
+        userService.setUserId(user.id);
         $location.path('/userprofile');
       }
     }]);
