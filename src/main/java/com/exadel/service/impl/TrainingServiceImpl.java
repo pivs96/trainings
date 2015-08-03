@@ -2,9 +2,11 @@ package com.exadel.service.impl;
 
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.exception.TrainingNotFoundException;
+import com.exadel.model.entity.training.Participation;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.User;
+import com.exadel.repository.ParticipationRepository;
 import com.exadel.repository.TrainingRepository;
 import com.exadel.repository.UserRepository;
 import com.exadel.service.RatingService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,8 @@ public class TrainingServiceImpl implements TrainingService {
     private UserService userService;
     @Autowired
     private TrainingRepository trainingRepository;
+    @Autowired
+    private ParticipationRepository participationRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -63,7 +68,7 @@ public class TrainingServiceImpl implements TrainingService {
         @Override
         public List <Long> getParticipants(long id) {
             List<Long> participants = this.jdbcTemplate.queryForList(
-                    "select user_id FROM training_users where training_id=?",new Object[] {id},
+                    "select user_id FROM training_users where training_id=?", new Object[]{id},
                     Long.class);
             return participants;
         }
@@ -133,5 +138,18 @@ public class TrainingServiceImpl implements TrainingService {
         return (double)(training.getRatingSum() / training.getValuerCount());
     }
 
+    @Override
+    public void addEndDate(Date date,String id,String userId) {
+        this.jdbcTemplate.update(
+                "update training_users set end_day = ? where training_id = ? and user_id=?",
+                date, id, userId);
+    }
 
+    @Override
+    public void deleteParticipation(String id,String userId) {
+        this.jdbcTemplate.update(
+                "delete from training_users  where training_id = ? and user_id=?",
+                 id, userId);
+
+    }
 }

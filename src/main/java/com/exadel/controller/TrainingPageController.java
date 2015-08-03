@@ -1,7 +1,9 @@
 package com.exadel.controller;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,7 @@ public class TrainingPageController {
         return new TrainingDTO(trainingService.getTrainingById(trainingId));
     }
 
-    @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')" )
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     public List<UserDTO> getParticipants(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -110,6 +112,19 @@ public class TrainingPageController {
             return ParticipationStatus.RESERVE;
         else
             return ParticipationStatus.MEMBER;
+    }
+
+    @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId,#isRepeated)")
+    @RequestMapping(value = "/unregister", method = RequestMethod.POST)
+    public void unregister(@RequestParam String userId, @RequestParam String trainingId, @RequestBody Boolean isRepeated) {
+      if(isRepeated) {
+          Date date = new Date();
+         trainingService.addEndDate(date,trainingId,userId);
+      }
+        else {
+          trainingService.deleteParticipation(trainingId,userId);
+      }
+
     }
 
 
@@ -160,6 +175,7 @@ public class TrainingPageController {
         trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
     }
 
+    @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/entry", method = RequestMethod.GET)
     public Entry getEntry(@RequestParam String entryId) {
         long id = Long.parseLong(entryId);
@@ -168,7 +184,7 @@ public class TrainingPageController {
         return entry;
     }
 
-    @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
+    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0') or @visitControlBean.isVisit(#trainingId) and hasAnyRole('1','2')")
     @RequestMapping(value = "attachments", method = RequestMethod.GET)
     public List<AttachmentDTO> getAttachments(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -181,7 +197,7 @@ public class TrainingPageController {
         return attachmentDTOs;
     }
 
-    @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
+   // @PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
     @RequestMapping(value = "newAttachment", method = RequestMethod.POST)
     public void createAttachment(@RequestBody AttachmentDTO attachmentDTO) {
         Attachment attachment = new Attachment(attachmentDTO);
@@ -189,7 +205,7 @@ public class TrainingPageController {
         attachmentService.addAttachment(attachment);
     }
 
-    @PreAuthorize("@trainerControlBean.isOk(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
+    //@PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
     @RequestMapping(value = "editAttachment", method = RequestMethod.PUT)
     public void editAttachment(@RequestBody AttachmentDTO attachmentDTO) {
         Attachment attachment = attachmentService.getAttachmentById(attachmentDTO.getId());
@@ -212,7 +228,7 @@ public class TrainingPageController {
         }
     }
 
-    @PreAuthorize("@trainerControlBean.isOkay(#trainingDTO) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0')")
     @RequestMapping(method = RequestMethod.DELETE)
     public void cancelTraining(@RequestParam String id) {
         if (UserServiceImpl.hasRole(0)) {
@@ -226,5 +242,17 @@ public class TrainingPageController {
             trainingDTO.setEventDescription("Trainer wants to delete this training");
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
         }
+    }
+
+    @PreAuthorize("hasRole('0')")
+    @RequestMapping(value="/userFeedback",method = RequestMethod.GET)
+    public String AskUserFeedback(@RequestParam String userId,@RequestParam String trainingId) {
+        User user = userService.getUserById(userId);
+        Training training = trainingService.getTrainingById(trainingId);
+        User trainer = training.getTrainer();
+        String mail="Hi, "+trainer.getName()+" "+trainer.getSurname()+"!"+"\n"+"Notification from Exadel system:"+"\n"+"Admin asked feedback on "+user.getName()+" "+user.getSurname()+" about training "+training.getName();
+        String email = trainer.getEmail();
+        //TODO: send mail on email
+        return mail;
     }
 }

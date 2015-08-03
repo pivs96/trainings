@@ -1,5 +1,6 @@
 package com.exadel.repository;
 
+import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.user.User;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByEmail(String email);
 
-  /*  @Query("select user_id from authentification where login = ?1")
+  //  public Page<User> findBySyncJobIdOrderByLastUpdateDesc(long syncJobId, Pageable p);
+   /* @Query("select a.user_id from authentification a where a.login = ?1")
     Optional<Long> findIdByLogin(String login);*/
 }

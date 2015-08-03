@@ -23,7 +23,7 @@ public class TrainerControl {
         this.userService = userService;
         this.trainingService = trainingService;
     }
-    public boolean isOk(long id) {
+    public boolean isCoach(long id) {
         if (userService.getCurrentId()==trainingService.getTrainerId(id))
             return true;
         else

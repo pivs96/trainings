@@ -2,12 +2,15 @@ package com.exadel.access.control;
 
 import com.exadel.dto.TrainingFeedbackDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
+import com.exadel.model.entity.training.Entry;
+import com.exadel.model.entity.training.Training;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component(value="visitControlBean")
@@ -40,5 +43,21 @@ public class VisitControl {
             return true;
         }
         return false;
+    }
+
+    public boolean isStarted(String id, boolean isRepeated) {
+        if(isRepeated) {
+            return true;
+        }
+        Training training = trainingService.getTrainingById(id);
+        List<Entry> list =training.getEntries();
+            Entry firstEntry = list.get(0);
+            Date beginDate = firstEntry.getBeginTime();
+            Date currentDate = new Date();
+            if(beginDate.before(currentDate))
+                return false;
+            else
+                return true;
+
     }
 }

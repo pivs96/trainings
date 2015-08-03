@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http
 //                .addFilterAfter(new CSRFTokenGeneratorFilter(), CsrfFilter.class)
 //                .addFilterAfter(new CSRFCookieGeneratorFilter(), CsrfFilter.class);
+
         http.csrf().disable();
         http.httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
@@ -87,6 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("http://localhost:9000/#/");
 //                .and()
 //                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class).csrf().csrfTokenRepository(csrfTokenRepository());
+
 
     }
 

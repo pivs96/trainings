@@ -5,6 +5,7 @@ import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,8 @@ public interface TrainingService {
     long getTrainerId(long id);
 
     List<Long> getParticipants(long id);
+
+    void addEndDate(Date date,String id,String userId);
+
+    void deleteParticipation(String id,String userId);
 }
