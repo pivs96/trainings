@@ -4,7 +4,6 @@
     <!--<th st-sort="id">id</th>-->
     <th class="text-center" st-sort="role">Role</th>
     <th class="text-center" st-sort="name">Name</th>
-    <th class="text-center" st-sort="date">Date</th>
 
     <th class="text-center" st-sort="beginTime">Begin Time</th>
     <th class="text-center" st-sort="endTime">End Time</th>
@@ -13,32 +12,25 @@
     <th class="text-center" st-sort="targetAudience">Target audience</th>
     <th class="text-center" st-sort="trainingStatus">Training status</th>
     <th class="text-center" st-sort="rating">Rating</th>
-    <th class="text-center" st-sort="feedbackNumber">Feedback Number</th>
-    <!--<th st-sort="reviews">Reviews</th>-->
   </tr>
   <tr class="tableTextAlignment">
-    <!--<th> <input st-search="id"placeholder="search by name" class="input-sm form-control" type="search"/></th>-->
-    <th> <input st-search="role"placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="name"placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="date"placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="role" placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="name" placeholder="" class="input-sm form-control" type="search"/> </th>
 
-    <th> <input st-search="beginTime"placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="endTime"placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="beginTime" placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="endTime" placeholder="" class="input-sm form-control" type="search"/></th>
 
-    <th> <input st-search="trainer"placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="targetAudience"placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="trainingStatus"placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="rating"placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/> </th>
+    <th> <input st-search="trainingStatus" placeholder="" class="input-sm form-control" type="search"/> </th>
+    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
 
-    <th> <input st-search="feedbackNumber"placeholder="" class="input-sm form-control" type="search"/></th>
-   <!-- <th> <input st-search="reviews"placeholder="" class="input-sm form-control" type="search"/></th>-->
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="row in trainingsList">
+  <tr ng-repeat="row in trainingsList" ng-click="openTraining(row.id)">
     <td>{{row.role}}</td>
     <td>{{row.name}}</td>
-    <td>{{row.date}}</td>
 
     <td>{{row.beginTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{row.endTime | date:'yyyy-MM-dd HH:mm'}}</td>
@@ -46,10 +38,9 @@
     <td>{{row.trainer.name}}</td>
     <td>{{row.targetAudience}}</td>
 
-    <td>{{row.trainingStatus}}</td>
+    <td>{{row.status}}</td>
 
     <td>{{row.rating}}</td>
-    <td>{{row.feedbackNumber}}</td>
   </tr>
   </tbody>
   <tfoot>

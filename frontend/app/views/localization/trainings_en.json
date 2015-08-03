@@ -83,5 +83,13 @@
   "MENTORING_TRAINING_LIST" : "Mentoring Trainings List",
   "LOGIN" : "Login",
   "USER_NAME" : "Username",
-  "PASSWORD" : "Password"
+  "PASSWORD" : "Password",
+  "SELECT_TIME" : "Select time",
+  "DATE_TIME" : "Date, Time",
+  "ADD_NEW_ENTRY" : "Add new entry",
+  "MAX_USERS" : "Users limit",
+  "ENTRIES" : "Entries",
+  "NUM" : "#Number",
+  "BEGIN_DATE" : "Begin date",
+  "PLACE" : "Place"
 }

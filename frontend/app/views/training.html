@@ -1,12 +1,12 @@
-<div ng-controller="TrainingCtrl">
+<div>
 <div>
     <div class="training-menu">
 
         {{training.name}}
-        <span star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max"></span>
-        <button type="button" class="btn btn-link training-menu-btn">{{translation.EDIT}}</button>
+        <span trn-star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max"></span>
+        <button type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
         <button type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener')">{{translation.ADD_LISTENER}}</button>
-        <button type="button" class="btn btn-link training-menu-btn">{{translation.CANCEL}}</button>
+        <button type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
         <button type="button" class="btn btn-link training-menu-btn">{{translation.STATISTICS}}</button>
         <button type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
 
@@ -36,6 +36,10 @@
 
         <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
           <div ng-include="'views/tabs/trainingFeedbacksTab.html'"></div>
+        </tab>
+
+        <tab select="openEntries()" heading="{{translation.ENTRIES}}">
+          <div ng-include="'views/tabs/trainingEntriesTab.html'"></div>
         </tab>
 
     </tabset>

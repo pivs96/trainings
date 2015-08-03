@@ -1,5 +1,6 @@
-<div class="training-feedback-container" ng-repeat="feedback in training.feedbacks">
+<div class="training-feedback-container" ng-repeat="feedback in feedbacks">
   <p class="col-sm-8">{{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}} at {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
   <p class="col-sm-4 training-feedback-otherinfo"> recomended: {{feedback.recommend | yesNo}}</p>
+  <i ng-if="isAdmin()" class="col-sm-4 training-feedback-otherinfo fa fa-trash-o" ng-click="deleteFeedback(feedback.id)"></i>
   <p>{{feedback.otherInfo}}</p>
 </div>

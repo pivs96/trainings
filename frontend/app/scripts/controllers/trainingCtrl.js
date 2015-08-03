@@ -1,19 +1,23 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('TrainingCtrl', ['$scope', '$location', 'ngDialog', 'trainingInfo', 'trainingParticipants', 'trainingFeedbacks',
-    function ($scope, $location, ngDialog, trainingInfo, trainingParticipants, trainingFeedbacks) {
+  .controller('TrainingCtrl', ['$route', '$scope', '$location', 'ngDialog', 'training',
+    function ($route, $scope, $location, ngDialog, training) {
 
+      $scope.feedbacks = [];
+      $scope.training = {};
+      $scope.participants = [];
+      $scope.entries = [];
 
-      $scope.attachments = [{
-        key: "name",
-        value: "link"
-      }];
 
       $scope.rating = 0;
       $scope.ratings = {
-        current: 3,
+        current: 0,
         max: 5
+      };
+
+      $scope.checkDate = function(date) {
+        return date < new Date;
       };
 
       $scope.askFeedback = function (userId, $event) {
@@ -22,18 +26,19 @@ angular.module('frontendApp')
         $event.stopPropagation();
       };
 
-      $scope.leaveUserFeedbackDialog = function () {
+      $scope.leaveUserFeedbackDialog = function (userId, $event) {
         ngDialog.open({
           template: "views/popups/leaveUserFeedback.html",
           controller: 'LeaveFeedbackCtrl'
-        })
+        });
+        $event.stopPropagation();
       };
 
       $scope.openUserpage = function (userId) {
 
         if ($scope.isAdmin()) {
           console.log(userId);
-          $location.path('/users/user/' + userId);
+          $location.path('/userprofile/' + userId);
         }
       };
 
@@ -55,7 +60,9 @@ angular.module('frontendApp')
           controller: 'WaitListCtrl',
           resolve: {
             training: function() {
-              return _.pick($scope.training, 'participants', 'membersCountMax', 'membersCount');
+              return _.extend(
+                _.pick($scope.training, 'membersCountMax', 'membersCount'),
+                $scope.participants);
             }
           }
         })
@@ -69,91 +76,84 @@ angular.module('frontendApp')
       };
 
       $scope.openInfo = function() {
-        var info = new trainingInfo();
-        info.id = '1';
-        info.$get();
+        if(_.isEmpty($scope.training)) {
+          training.getInfo({id: $route.current.params.trainingId}, function(resp){
+            $scope.training = angular.copy(resp);
+            $scope.ratings.current = $scope.training.rating;
+            training.getEntry({id: $route.current.params.trainingId}, function(resp){
+              _.extend($scope.training, {entry: angular.copy(resp)});
+            });
+            training.getTrainer({id: $scope.training.trainerId}, function(resp) {
+              _.extend($scope.training, {trainer: angular.copy(resp)});
+            });
+            training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
+              _.extend($scope.training, {attachments: angular.copy(resp)});
+              console.log($scope.training);
+            })
+          });
+          training.checkParticipation({uid: '2', trainingId: $route.current.params.trainingId}, function(resp) {
+
+            $scope.registrated = (angular.copy(resp)[0] !== 'N');
+          });
+        }
       };
 
       $scope.openParticipantsList = function() {
-        var part = new trainingParticipants();
-        part.id = '1';
-        part.$query();
+        if(_.isEmpty($scope.participants)) {
+          training.getParticipants({id: $route.current.params.trainingId}, function(resp){
+            $scope.participants = angular.copy(resp);
+          });
+        }
       };
 
       $scope.openFeedbacks = function() {
-        var feedbacks = new trainingFeedbacks();
-        feedbacks.id = '1';
-        feedbacks.$query();
+        if (_.isEmpty($scope.feedbacks)) {
+          //TODO: make placeholder which is shown while request is ongoing
+          training.getFeedbacks({id: $route.current.params.trainingId}, function (resp) {
+            $scope.feedbacks = angular.copy(resp);
+          });
+        }
       };
 
       $scope.openJournal = function() {
 
       };
 
-      $scope.attach = function() {
-        console.log("WIP");
+      $scope.openEntries = function() {
+        if(_.isEmpty($scope.entries)) {
+          training.getEntries({id: $route.current.params.trainingId}, function (resp) {
+            $scope.entries = angular.copy(resp);
+          });
+        }
       };
+
 
       $scope.registrated = false;
 
-      $scope.training = {
-        id: 2,
-        name: "Angular",
-        trainer: {
-          id: 2,
-          name: "Jan",
-          surname: "Palaznik",
-          phone: "+375293368803",
-          email: "yan.palaznik@yandex.by",
-          role: "EMPLOYEE"
-        },
-        targetAudience: "front-end developers",
-        language: "russian",
-        description: "Interesting course",
-        status: "DRAFTED",
-        membersCountMax: 30,
-        membersCount: 35,
-        rating: 0,
-        participants: [
-          {
-            id: 4,
-            name: "Mihail",
-            surname: "Kukuev",
-            phone: "+375291817718",
-            email: "Mihail.Kukuev@yandex.by",
-            role: "EXTERNAL_TRAINER"
-          }
-        ],
-        feedbacks: [
-          {
-            id: 2,
-            understandable: false,
-            interesting: false,
-            newKnowledge: true,
-            effectiveness: 1,
-            studyWithTrainer: false,
-            recommend: false,
-            otherInfo: "awful!",
-            feedbacker: {
-              id: 5,
-              name: "Ivan",
-              surname: "Poyda",
-              phone: "+375291302232",
-              email: "rock.ivan.poyda@gmail.com",
-              role: "EMPLOYEE"
-            },
-            date: 1432656000000
-          }
-        ],
-        entries: [
-          {
-            id: 3,
-            place: "Minsk, 243",
-            beginTime: 1432821600000,
-            endTime: 1432825200000
-          }
-        ]
+      $scope.edit = function() {
 
+      };
+
+      $scope.cancel = function() {
+        training.cancel({id: $route.current.params.trainingId}, function (resp) {
+          console.log(resp);
+        });
+      };
+
+      $scope.deleteFeedback = function(fid) {
+        training.deleteFeedback({feedbackId: fid}, function(resp) {
+          console.log('WIP');
+        });
+      };
+
+      $scope.register = function() {
+        training.register({uid: 2, id: $route.current.params.trainingId}, function(resp) {
+          $scope.registrated = !$scope.registrated;
+        });
+      };
+
+      $scope.unregister = function() {
+        $scope.registrated = !$scope.registrated;
       };
 
     }]);

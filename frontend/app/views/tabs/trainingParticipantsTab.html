@@ -13,7 +13,7 @@
   <th class="text-center" st-sort="phone">{{translation.ATTACHMENTS}}</th>
   </thead>
   <tbody>
-  <tr ng-repeat="participant in training.participants" ng-click="openUserpage({{participant.id}})">
+  <tr ng-repeat="participant in participants" ng-click="openUserpage({{participant.id}})">
     <td>{{participant.name}}</td>
     <td>{{participant.surname}}</td>
     <td>{{participant.email}}</td>
@@ -21,7 +21,7 @@
     <td ng-if="isAdmin()">
       <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
       <!-- TODO Show 'User feedback' for trainer only -->
-      <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog()" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
+      <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog({{participant.id}}, $event)" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
     </td>
   </tr>
   </tbody>

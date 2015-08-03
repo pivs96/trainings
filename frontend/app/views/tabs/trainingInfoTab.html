@@ -12,33 +12,35 @@
       </div>
       <div class="panel-body training-desc-panel-body">{{training.description}}</div>
     </div>
+    <div ng-if="training.status === 'APPROVED'">
     <div ng-show="!registrated" align="center">
-      <button class="btn btn-success" ng-click="registrated = !registrated;">{{translation.REGISTER}}</button>
+      <button class="btn btn-success" ng-click="register();">{{translation.REGISTER}}</button>
     </div>
     <div ng-show="registrated" align="center">
-      <button class="btn btn-danger" ng-click="registrated = !registrated;">{{translation.UNREGISTER}}</button>
+      <button class="btn btn-danger" ng-click="unregister();">{{translation.UNREGISTER}}</button>
+    </div>
     </div>
   </div>
 
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right"> {{translation.DURATION}}: </label>
 
-    <p class="col-sm-7">{{(training.entities[0].endTime - training.entities[0].beginTime) | date:'HH:mm'}}</p>
+    <p class="col-sm-7">{{(training.entry.endTime - training.entry.beginTime) | date:'HH:mm'}}</p>
   </div>
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.CLOSEST_MEETING}}:</label>
 
-    <p class="col-sm-7">{{training.entries[0].beginTime | date:'dd.MM.yyyy HH:mm'}}</p>
+    <p class="col-sm-7">{{training.entry.beginTime | date:'dd.MM.yyyy HH:mm'}}</p>
   </div>
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right"> {{translation.CITY}}: </label>
 
-    <p class="col-sm-7">{{training.entries[0].place.split(", ")[0]}} </p>
+    <p class="col-sm-7">{{training.entry.place.split(", ")[0]}} </p>
   </div>
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.UNIT}}:</label>
 
-    <p class="col-sm-7">{{training.entries[0].place.split(", ")[1]}}</p>
+    <p class="col-sm-7">{{training.entry.place.split(", ")[1]}}</p>
   </div>
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.TARGET_AUDIENCE}}: </label>
@@ -52,7 +54,7 @@
   </div>
   <div class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.TRAINER}}:</label>
-    <a ng-if="isAdmin()" class="col-sm-7" href="">{{training.trainer.name + " " + training.trainer.surname}}</a>
+    <a ng-if="isAdmin()" class="col-sm-7" href="/#/userprofile/{{training.trainerId}}">{{training.trainer.name + " " + training.trainer.surname}}</a>
 
     <p ng-if="!isAdmin()" class="col-sm-7"> {{training.trainer.name + " " + training.trainer.surname}}</p>
   </div>
@@ -60,8 +62,8 @@
     <label class="col-sm-4 text-right"> {{translation.ATTACHMENTS}}: </label>
 
     <ul class="list-inline">
-      <li ng-repeat="attachment in attachments">
-        <a class="col-sm-7" href="{{attachment.value}}">{{attachment.key}}</a>
+      <li ng-repeat="attachment in training.attachments">
+        <a class="col-sm-7" href="{{attachment.link}}">{{attachment.name}}</a>
       </li>
     </ul>
   </div>
