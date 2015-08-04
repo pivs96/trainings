@@ -87,8 +87,9 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Optional<Training> addTraining(Training training) {
-        return Optional.ofNullable(trainingRepository.saveAndFlush(training));
+    public long addTraining(Training training) {
+        trainingRepository.saveAndFlush(training);
+        return training.getId();
     }
 
     @Override

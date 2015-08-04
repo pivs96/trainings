@@ -1,5 +1,6 @@
 package com.exadel.model.entity.training;
 
+import com.exadel.dto.EntryDTO;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
@@ -51,6 +52,8 @@ public class Training {
     @Column(name = "valuer_count")
     private int valuerCount;
 
+    private boolean repeated;
+
     @ManyToMany
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -88,6 +91,7 @@ public class Training {
         this.status = trainingDTO.getStatus();
         this.membersCountMax = trainingDTO.getMembersCountMax();
         this.membersCount = trainingDTO.getMembersCount();
+        this.repeated = trainingDTO.isRepeated();
 
         this.trainer = new ExternalTrainer();
         this.trainer.setId(trainingDTO.getTrainerId());
@@ -261,5 +265,13 @@ public class Training {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public boolean isRepeated() {
+        return repeated;
+    }
+
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
     }
 }

@@ -24,14 +24,4 @@ public class ParticipationServiceImpl implements ParticipationService {
     public void addParticipation(Participation participation) {
         participationRepository.save(participation);
     }
-
-    @Override
-    public Participation getAttachmentById(String id) {
-        return null;
-    }
-
-    @Override
-    public Participation getAttachmentById(long id) {
-        return null;
-    }
 }

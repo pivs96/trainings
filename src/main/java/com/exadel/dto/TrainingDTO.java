@@ -1,7 +1,13 @@
 package com.exadel.dto;
 
+import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class TrainingDTO {
     private long id;
@@ -15,6 +21,11 @@ public class TrainingDTO {
     private int membersCount;
     private double rating;
     private long trainerId;
+    private boolean repeated;
+    private List<EntryDTO> entries;
+
+    private Date begin;
+    private Date end;
 
     private String eventDescription;
 
@@ -33,6 +44,9 @@ public class TrainingDTO {
         this.membersCount = training.getMembersCount();
         this.rating = training.getRating();
         this.trainerId = training.getTrainer().getId();
+        this.repeated = training.isRepeated();
+
+        this.entries = null;
     }
 
     public String getName() {
@@ -129,5 +143,37 @@ public class TrainingDTO {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public List<EntryDTO> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<EntryDTO> entries) {
+        this.entries = entries;
+    }
+
+    public Date getBegin() {
+        return begin;
+    }
+
+    public void setBegin(Date begin) {
+        this.begin = begin;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public boolean isRepeated() {
+        return repeated;
+    }
+
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
     }
 }

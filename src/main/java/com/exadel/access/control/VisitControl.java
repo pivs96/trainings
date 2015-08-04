@@ -1,5 +1,6 @@
 package com.exadel.access.control;
 
+import com.exadel.dto.AttachmentDTO;
 import com.exadel.dto.TrainingFeedbackDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.Entry;
@@ -13,12 +14,11 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 
-@Component(value="visitControlBean")
+@Component(value = "visitControlBean")
 public class VisitControl {
 
     public final UserService userService;
     public final TrainingService trainingService;
-
 
 
     @Autowired
@@ -26,23 +26,24 @@ public class VisitControl {
         this.userService = userService;
         this.trainingService = trainingService;
     }
-    public boolean isVisit(long id) {
-        long currentId=userService.getCurrentId();
-        List<Long> participants = trainingService.getParticipants(id);
-        if(participants.contains(currentId)) {
-           return true;
-        }
-       return false;
+
+    public boolean isVisit(AttachmentDTO attachmentDTO) {
+        long currentId = userService.getCurrentId();
+        List<Long> participants = trainingService.getParticipants(attachmentDTO.getTrainingId());
+        return participants.contains(currentId);
+    }
+
+    public boolean isVisit(long trainingId) {
+        long currentId = userService.getCurrentId();
+        List<Long> participants = trainingService.getParticipants(trainingId);
+        return participants.contains(currentId);
     }
 
     public boolean isVisiting(TrainingFeedbackDTO feedbackDTO) {
-        long id=feedbackDTO.getTrainingId();
-        long currentId=userService.getCurrentId();
+        long id = feedbackDTO.getTrainingId();
+        long currentId = userService.getCurrentId();
         List<Long> participants = trainingService.getParticipants(id);
-        if(participants.contains(currentId)) {
-            return true;
-        }
-        return false;
+        return participants.contains(currentId);
     }
 
     public boolean isStarted(String id, boolean isRepeated) {

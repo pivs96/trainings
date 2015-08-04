@@ -5,11 +5,13 @@ import com.exadel.repository.RatingRepository;
 import com.exadel.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class RatingServiceImpl implements RatingService {
     @Autowired
     private RatingRepository ratingRepository;

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.exadel.dto.*;
+import com.exadel.model.entity.training.*;
+import com.exadel.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,30 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exadel.dto.AttachmentDTO;
-import com.exadel.dto.ParticipationDTO;
-import com.exadel.dto.RatingDTO;
-import com.exadel.dto.TrainingDTO;
-import com.exadel.dto.TrainingFeedbackDTO;
-import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
-import com.exadel.model.entity.training.Attachment;
-import com.exadel.model.entity.training.Entry;
-import com.exadel.model.entity.training.Participation;
-import com.exadel.model.entity.training.Rating;
-import com.exadel.model.entity.training.Training;
-import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.User;
-import com.exadel.service.AttachmentService;
-import com.exadel.service.EntryService;
-import com.exadel.service.ParticipationService;
-import com.exadel.service.RatingService;
-import com.exadel.service.TrainingFeedbackService;
-import com.exadel.service.TrainingService;
-import com.exadel.service.UserService;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
 import com.exadel.service.impl.UserServiceImpl;
@@ -67,10 +51,19 @@ public class TrainingPageController {
     @Autowired
     private ParticipationService participationService;
 
+    @Autowired
+    private ReserveService reserveService;
+
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public TrainingDTO getTrainingInfo(@RequestParam String trainingId) {
         return new TrainingDTO(trainingService.getTrainingById(trainingId));
+    }
+
+    @PreAuthorize("hasAnyRole('0','1','2')")
+    @RequestMapping(value = "/trainer", method = RequestMethod.GET)
+    public UserDTO getTrainer(@RequestParam String trainingId) {
+        return new UserDTO(trainingService.getTrainingById(trainingId).getTrainer());
     }
 
     @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')" )
@@ -90,7 +83,7 @@ public class TrainingPageController {
         return trainingService.checkParticipation(userId, trainingId);
     }
 
-    @RequestMapping(value = "/participation_time", method = RequestMethod.GET)
+    @RequestMapping(value = "/participation", method = RequestMethod.GET)
     public List<ParticipationDTO> getParticipationTime(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
         List<Participation> participations = participationService.getAllParticipationsByTrainingId(training.getId());
@@ -100,6 +93,18 @@ public class TrainingPageController {
             participationDTOs.add(new ParticipationDTO(participation));
         }
         return participationDTOs;
+    }
+
+    @RequestMapping(value = "/waitList", method = RequestMethod.GET)
+    public List<UserDTO> getWaitList(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        List<Reserve> reserves = reserveService.getAllReservesByTrainingId(training.getId());
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for (Reserve reserve : reserves) {
+            userDTOs.add(new UserDTO(userService.getUserById(reserve.getId())));
+        }
+        return userDTOs;
     }
 
     @PreAuthorize("hasAnyRole('0','1')")
@@ -126,7 +131,6 @@ public class TrainingPageController {
       }
 
     }
-
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/register_visitor", method = RequestMethod.POST)
@@ -156,7 +160,6 @@ public class TrainingPageController {
         }
         return feedbackDTOs;
     }
-
 
     @PreAuthorize("@visitControlBean.isVisiting(#feedbackDTO) and hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
@@ -197,7 +200,7 @@ public class TrainingPageController {
         return attachmentDTOs;
     }
 
-   // @PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
+    @PreAuthorize("@trainerControlBean.isCoach(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
     @RequestMapping(value = "newAttachment", method = RequestMethod.POST)
     public void createAttachment(@RequestBody AttachmentDTO attachmentDTO) {
         Attachment attachment = new Attachment(attachmentDTO);
@@ -205,7 +208,7 @@ public class TrainingPageController {
         attachmentService.addAttachment(attachment);
     }
 
-    //@PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0') or @visitControlBean.isVisit(#id) and hasAnyRole('1','2')")
+    @PreAuthorize("@trainerControlBean.isCoach(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
     @RequestMapping(value = "editAttachment", method = RequestMethod.PUT)
     public void editAttachment(@RequestBody AttachmentDTO attachmentDTO) {
         Attachment attachment = attachmentService.getAttachmentById(attachmentDTO.getId());
@@ -213,16 +216,15 @@ public class TrainingPageController {
         attachmentService.addAttachment(attachment);
     }
 
-    @PreAuthorize("@trainerControlBean.isOkay(#trainingDTO) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isCoach(#trainingDTO) or hasRole('0')")
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
-        Training training = new Training(trainingDTO);
+        Training training = trainingService.getTrainingById(trainingDTO.getId());
+        training.updateTraining(trainingDTO);
         if (UserServiceImpl.hasRole(0)) {
-            trainingService.updateTraining(training);
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
-            trainingService.updateTraining(training);
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
         }

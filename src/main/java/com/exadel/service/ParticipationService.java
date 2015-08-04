@@ -9,8 +9,4 @@ public interface ParticipationService {
     List<Participation> getAllParticipationsByTrainingId(long trainingId);
 
     void addParticipation(Participation participation);
-
-    Participation getAttachmentById(String id);
-
-    Participation getAttachmentById(long id);
 }

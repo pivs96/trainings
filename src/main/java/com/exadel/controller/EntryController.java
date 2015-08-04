@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static com.exadel.Utils.addWeekToDate;
+
 @RestController
 @PreAuthorize("hasAnyRole('0','1','2')")
 @RequestMapping("/training")
@@ -57,7 +59,8 @@ public class EntryController {
 
     @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')" )
     @RequestMapping(value = "/createEntries", method = RequestMethod.POST)
-    public void createEntries(@RequestParam(required = false) Long end,
+    public void createEntries(@RequestParam(required = false) Long begin,
+                              @RequestParam(required = false) Long end,
                               @RequestBody List<EntryDTO> entryDTOs) {
         Training training = new Training();
         training.setId(entryDTOs.get(0).getTrainingId());
@@ -85,17 +88,6 @@ public class EntryController {
                 entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
             }
         }
-    }
-
-    public static Date addWeekToDate(final Date date) {
-        Date newDate = new Date(date.getTime());
-
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(newDate);
-        calendar.add(Calendar.DATE, 7);
-        newDate.setTime(calendar.getTime().getTime());
-
-        return newDate;
     }
 
     @RequestMapping(value = "/entry", method = RequestMethod.PUT)
