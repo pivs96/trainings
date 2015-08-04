@@ -11,7 +11,7 @@
       {{translation.STATUS}}:</label>
 
     <div class="col-sm-7">
-      <input id="rep" type="checkbox" ng-model="repeating"> {{translation.REPEATING}}
+      <input id="rep" type="checkbox" ng-model="data.repeating"> {{translation.REPEATING}}
     </div>
   </div>
 
@@ -61,7 +61,7 @@
         <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
       </div>
     </div>
-    <trn-entry repeating="repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation" is-admin="isAdmin()"></trn-entry>
+    <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation" is-admin="isAdmin()"></trn-entry>
   </div>
   <div class="col-sm-8 training-info-entry">
     <div class="col-sm-offset-4">
@@ -70,14 +70,14 @@
       </button>
     </div>
   </div>
-  <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
+  <div ng-show="data.repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
 
     <div class="col-sm-7">
       <trn-date-select entry="data.begin"></trn-date-select>
     </div>
   </div>
-  <div ng-show="repeating" class="form-group col-sm-8 training-info-entry">
+  <div ng-show="data.repeating" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
 
     <div class="col-sm-7">
@@ -118,7 +118,7 @@
       <div class="col-sm-7 create-training-attachments">
         <input type="file" nv-file-select uploader="uploader" multiple>
         <ul>
-          <li ng-repeat="item in uploader.queue" style="margin-bottom: 5px">
+          <li ng-repeat="item in uploader.queue" class="create-training-upload-entry">
             {{item.file.name}} &nbsp; {{item.file.size / 1024 / 1024 | number:2}} MB &nbsp;
             <button class="btn btn-danger btn-sm" ng-click="item.remove()"><i class="fa fa-trash-o"></i> remove</button>
             <i ng-show="item.isSuccess" class="fa fa-check"></i>

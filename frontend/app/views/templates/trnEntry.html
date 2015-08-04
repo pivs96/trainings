@@ -10,7 +10,7 @@
 </div>
 
 <div ng-show="repeating" class="col-sm-8">
-  <label class="col-sm-4 text-right control-label" style="margin-top: 15px">{{translation.SELECT_DAY}}</label>
+  <label class="col-sm-4 text-right control-label create-training-day-select">{{translation.SELECT_DAY}}</label>
   <div class="form-group col-sm-8 training-info-entry">
 
     <div class="btn-group" dropdown keyboard-nav>
@@ -20,7 +20,7 @@
       <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
         <li ng-repeat="day in days"><a ng-click="daySelect(day ,$event);">{{day}}</a></li>
       </ul>
-        <label class="text-right control-label col-sm-5" style="margin-top: 7px">{{translation.SELECT_TIME}}</label>
+        <label class="text-right control-label col-sm-5 create-training-entry-label">{{translation.SELECT_TIME}}</label>
       <div class="col-sm-3">
         <input class="form-control" type="time" ng-model="time">
       </div>

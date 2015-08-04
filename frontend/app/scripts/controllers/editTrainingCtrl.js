@@ -23,11 +23,12 @@ angular.module('frontendApp')
 
     for(var i = 1; i < $scope.entries.length; i++) {
       var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');
-      $templateRequest(templateUrl).then(function(template) {
-        $scope.entryNum = i;
-        angular.element('#trainingEntries').append($compile(template)($scope));
-
-      });
+      (function (i) {
+        $templateRequest(templateUrl).then(function(template) {
+          $scope.entryNum = i;
+          angular.element('#trainingEntries').append($compile(template)($scope));
+          });
+      })(i);
     }
 
       var uploader = $scope.uploader = new FileUploader({

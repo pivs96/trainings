@@ -12,9 +12,9 @@ angular.module('frontendApp')
 
     $scope.entryNum = 1;
 
-    $scope.repeating = false;
+    $scope.data.repeating = false;
 
-    $scope.$watch('repeating', function(newVal, oldVal) {
+    $scope.$watch('data.repeating', function(newVal, oldVal) {
       if(oldVal !== newVal) {
         $scope.data.begin = null;
         $scope.data.end = null;
@@ -40,7 +40,6 @@ angular.module('frontendApp')
     $scope.save = function() {
 
       $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
-      $scope.data.repeating = $scope.repeating;
       var create = new createTraining();
       create.data = angular.copy($scope.data);
       createTraining.save($scope.data).$promise.then(function(resp){});
