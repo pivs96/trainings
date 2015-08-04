@@ -30,8 +30,4 @@ public interface TrainingService {
     long getTrainerId(long id);
 
     List<Long> getParticipants(long id);
-
-    void addEndDate(Date date,String id,String userId);
-
-    void deleteParticipation(String id,String userId);
 }

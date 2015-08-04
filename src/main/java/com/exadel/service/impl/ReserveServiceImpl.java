@@ -36,7 +36,12 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
-    public Reserve getNextReserve(String id) {
-        return null;
+    public Reserve getNextReserveByTrainingId(long trainingId) {
+        return reserveRepository.findFirstByTrainingId(trainingId);
+    }
+
+    @Override
+    public void deleteReserve(long id) {
+        reserveRepository.delete(id);
     }
 }

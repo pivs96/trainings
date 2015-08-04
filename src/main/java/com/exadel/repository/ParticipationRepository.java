@@ -10,4 +10,6 @@ import java.util.List;
 @Transactional
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
     List<Participation> findByTrainingId(long trainingId);
+
+    Participation findByTrainingIdAndUserId(long trainingId, long userId);
 }

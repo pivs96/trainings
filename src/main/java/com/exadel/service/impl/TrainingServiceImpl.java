@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@Configurable
 @Transactional(rollbackFor = {TrainingNotFoundException.class})
 public class TrainingServiceImpl implements TrainingService {
 
@@ -33,8 +32,6 @@ public class TrainingServiceImpl implements TrainingService {
     private UserService userService;
     @Autowired
     private TrainingRepository trainingRepository;
-    @Autowired
-    private ParticipationRepository participationRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -52,26 +49,26 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = trainingRepository.findOne(id);
         if (training != null) {
             return training;
-        }
-        else {
+        } else {
             throw new TrainingNotFoundException(String.valueOf(id));
         }
 
     }
 
-        public long getTrainerId(long id) {
-            long trainerId = this.jdbcTemplate.queryForObject(
-                    "select trainer_id from trainings where id = ?",
-                    Long.class, id);
-            return trainerId;
-        }
-        @Override
-        public List <Long> getParticipants(long id) {
-            List<Long> participants = this.jdbcTemplate.queryForList(
-                    "select user_id FROM training_users where training_id=?", new Object[]{id},
-                    Long.class);
-            return participants;
-        }
+    public long getTrainerId(long id) {
+        long trainerId = this.jdbcTemplate.queryForObject(
+                "select trainer_id from trainings where id = ?",
+                Long.class, id);
+        return trainerId;
+    }
+
+    @Override
+    public List<Long> getParticipants(long id) {
+        List<Long> participants = this.jdbcTemplate.queryForList(
+                "select user_id FROM training_users where training_id=?", new Object[]{id},
+                Long.class);
+        return participants;
+    }
 
     @Override
     public Collection<Training> getAllTrainings() {
@@ -81,7 +78,7 @@ public class TrainingServiceImpl implements TrainingService {
             if (training.getValuerCount() == 0)
                 training.setRating(0);
             else
-                training.setRating((double)(training.getRatingSum()) / ((double) training.getValuerCount()));
+                training.setRating((double) (training.getRatingSum()) / ((double) training.getValuerCount()));
         }
         return trainings;
     }
@@ -96,8 +93,7 @@ public class TrainingServiceImpl implements TrainingService {
     public void updateTraining(Training training) {
         if (trainingRepository.exists(training.getId())) {
             trainingRepository.save(training);
-        }
-        else
+        } else
             throw new TrainingNotFoundException(String.valueOf(training.getId()));
     }
 
@@ -126,8 +122,7 @@ public class TrainingServiceImpl implements TrainingService {
         if (training != null) {
             training.setStatus(TrainingStatus.CANCELLED);
             trainingRepository.save(training);
-        }
-        else
+        } else
             throw new TrainingNotFoundException(id);
     }
 
@@ -136,21 +131,6 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = getTrainingById(trainingId);
         training.setValuerCount(training.getValuerCount() + 1);
         training.setRatingSum(training.getRatingSum() + grade);
-        return (double)(training.getRatingSum() / training.getValuerCount());
-    }
-
-    @Override
-    public void addEndDate(Date date,String id,String userId) {
-        this.jdbcTemplate.update(
-                "update training_users set end_day = ? where training_id = ? and user_id=?",
-                date, id, userId);
-    }
-
-    @Override
-    public void deleteParticipation(String id,String userId) {
-        this.jdbcTemplate.update(
-                "delete from training_users  where training_id = ? and user_id=?",
-                 id, userId);
-
+        return (double) (training.getRatingSum() / training.getValuerCount());
     }
 }

@@ -8,11 +8,13 @@ public interface ReserveService {
 
     List<Reserve> getAllReservesByTrainingId(long trainingId);
 
-    void addReserve(Reserve participation);
+    void addReserve(Reserve reserve);
 
     Reserve getReserveById(String id);
 
     Reserve getReserveById(long id);
 
-    Reserve getNextReserve(String id);
+    Reserve getNextReserveByTrainingId(long id);
+
+    void deleteReserve(long id);
 }

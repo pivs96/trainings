@@ -38,9 +38,6 @@ public class Training {
     @Column(name = "members_count_max")
     private int membersCountMax;
 
-    @Column(name = "members_count")
-    private int membersCount;
-
     @Transient
     private double rating;
 
@@ -66,6 +63,9 @@ public class Training {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Attachment> attachments;
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    private List<Reserve> reserves;
+
     public void addAttachment(Attachment attachment) {
         attachment.setTraining(this);
         attachments.add(attachment);
@@ -87,7 +87,6 @@ public class Training {
         this.description = trainingDTO.getDescription();
         this.status = trainingDTO.getStatus();
         this.membersCountMax = trainingDTO.getMembersCountMax();
-        this.membersCount = trainingDTO.getMembersCount();
         this.repeated = trainingDTO.isRepeated();
 
         this.trainer = new ExternalTrainer();
@@ -96,6 +95,7 @@ public class Training {
         this.participants = new ArrayList<>();
         this.feedbacks = new ArrayList<>();
         this.entries = new ArrayList<>();
+        this.reserves = new ArrayList<>();
     }
 
     public void updateTraining(TrainingDTO trainingDTO) {
@@ -106,7 +106,6 @@ public class Training {
         this.description = trainingDTO.getDescription();
         this.status = trainingDTO.getStatus();
         this.membersCountMax = trainingDTO.getMembersCountMax();
-        this.membersCount = trainingDTO.getMembersCount();
     }
 
     public void addFeedback(TrainingFeedback feedback) {
@@ -121,7 +120,6 @@ public class Training {
 
     public void addParticipant(User user) {
         this.participants.add(user);
-        this.membersCount++;
     }
 
     public long getId() {
@@ -162,14 +160,6 @@ public class Training {
 
     public void setMembersCountMax(int membersCountMax) {
         this.membersCountMax = membersCountMax;
-    }
-
-    public int getMembersCount() {
-        return membersCount;
-    }
-
-    public void setMembersCount(int membersCount) {
-        this.membersCount = membersCount;
     }
 
     public TrainingStatus getStatus() {
@@ -270,5 +260,13 @@ public class Training {
 
     public void setRepeated(boolean repeated) {
         this.repeated = repeated;
+    }
+
+    public List<Reserve> getReserves() {
+        return reserves;
+    }
+
+    public void setReserves(List<Reserve> reserves) {
+        this.reserves = reserves;
     }
 }

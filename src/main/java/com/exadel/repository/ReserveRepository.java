@@ -9,4 +9,6 @@ import java.util.List;
 @Transactional
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     List<Reserve> findByTrainingId(long trainingId);
+
+    Reserve findFirstByTrainingId(long trainingId);
 }
