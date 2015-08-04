@@ -36,6 +36,19 @@ public class User {
         this.role = userDTO.getRole();
     }
 
+    public void update(UserDTO userDTO) {
+        this.name = userDTO.getName();
+        this.surname = userDTO.getSurname();
+        this.phone = userDTO.getPhone();
+        this.email = userDTO.getEmail();
+    }
+
+    public void update(User user) {
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+    }
 
     public long getId() {
         return id;

@@ -46,14 +46,15 @@ public class UserController {
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/editTrainer", method = RequestMethod.PUT)
     public void editExternalTrainer(@RequestBody UserDTO trainerDTO) {
-        userService.updateUser(new User(trainerDTO));
+        User user = new User(trainerDTO);
+        userService.updateUser(user);
     }
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/editVisitor", method = RequestMethod.PUT)
     public void editExternalVisitor(@RequestBody UserDTO visitorDTO) {
-        userService.updateUser(new User(visitorDTO));
-
+        User user = new User(visitorDTO);
+        userService.updateUser(user);
     }
 
     @PreAuthorize("hasRole('0')")

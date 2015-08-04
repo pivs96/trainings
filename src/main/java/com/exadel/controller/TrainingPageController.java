@@ -63,7 +63,8 @@ public class TrainingPageController {
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/trainer", method = RequestMethod.GET)
     public UserDTO getTrainer(@RequestParam String trainingId) {
-        return new UserDTO(trainingService.getTrainingById(trainingId).getTrainer());
+        Training training = trainingService.getTrainingById(trainingId);
+        return new UserDTO(training.getTrainer());
     }
 
     @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')" )

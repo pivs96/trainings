@@ -10,6 +10,7 @@ import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
+    @Transactional(readOnly = false)
     public User getUserById(long id) {
         User user = userRepository.findOne(id);
         if (user != null) {
@@ -100,12 +101,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Modifying
     public void updateUser(User user) {
-        if (userRepository.exists(user.getId())) {
-            userRepository.save(user);
-        }
-        else
-            throw new UserNotFoundException(String.valueOf(user.getId()));
+        User oldUser = userRepository.findOne(user.getId());
+        oldUser.update(user);
     }
 
     @Override
