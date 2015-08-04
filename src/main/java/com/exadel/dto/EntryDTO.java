@@ -1,29 +1,38 @@
 package com.exadel.dto;
 
 import com.exadel.model.entity.training.Entry;
+import com.exadel.model.entity.user.Absentee;
+import com.exadel.model.entity.user.User;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public class EntryDTO implements Comparable<EntryDTO> {
     private long id;
-    private String city;
-    private String unit;
+    private String place;
     private Date beginTime;
     private Date endTime;
     private long trainingId;
     private int dayOfWeek;
+
+    private List<AbsenteeDTO> absentees;
 
     public EntryDTO() {
     }
 
     public EntryDTO(Entry entry) {
         this.id = entry.getId();
-        this.city = entry.getCity();
-        this.unit = entry.getUnit();
+        this.place = entry.getPlace();
         this.beginTime = entry.getBeginTime();
         this.endTime = entry.getEndTime();
         this.trainingId = entry.getTraining().getId();
+
+        this.absentees = new ArrayList<>();
+        for (Absentee absentee : entry.getAbsentees()) {
+            this.absentees.add(new AbsenteeDTO(absentee));
+        }
     }
 
     public long getId() {
@@ -34,20 +43,12 @@ public class EntryDTO implements Comparable<EntryDTO> {
         this.id = id;
     }
 
-    public String getCity() {
-        return city;
+    public String getPlace() {
+        return place;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public Date getBeginTime() {
@@ -85,5 +86,13 @@ public class EntryDTO implements Comparable<EntryDTO> {
     @Override
     public int compareTo(EntryDTO entry) {
         return (int)(this.getBeginTime().getTime() - entry.getBeginTime().getTime());
+    }
+
+    public List<AbsenteeDTO> getAbsentees() {
+        return absentees;
+    }
+
+    public void setAbsentees(List<AbsenteeDTO> absentees) {
+        this.absentees = absentees;
     }
 }

@@ -8,14 +8,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.Date;
 import java.util.List;
 
-public interface EntryRepository extends PagingAndSortingRepository<Entry, Long> {
+public interface EntryRepository extends JpaRepository<Entry, Long> {
     List<Entry> findByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
 
-    List<Entry> findByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime, Pageable pageable);
+    List<Entry> findByTrainingIdAndBeginTimeAfterAndEndTimeBefore(long trainingId,
+                                                                  Date beginTime, Date endTime);
 
     Entry findFirstByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
 
     List<Entry> findByTrainingId(long trainingId);
-
-    List<Entry> findByTrainingId(long trainingId, Pageable pageable);
 }

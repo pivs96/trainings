@@ -21,8 +21,6 @@ public interface UserService {
 
     Employee getEmployeeById(String id);
 
-    User getUserByEmail(String email);
-
     Collection<User> getAllUsers();
 
     void addUser(User user);

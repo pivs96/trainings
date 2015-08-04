@@ -8,6 +8,7 @@ import com.exadel.model.entity.user.Absentee;
 import com.exadel.service.AbsenteeService;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
+import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ public class EntryController {
 
     @Autowired
     private AbsenteeService absenteeService;
+
+    @Autowired
+    private UserService userService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
@@ -103,15 +107,37 @@ public class EntryController {
     }
 
     @RequestMapping(value = "/absentees", method = RequestMethod.GET)
-    public List<AbsenteeDTO> getAbsentees(@RequestParam String entryId) {
-        Entry entry = entryService.getEntryById(entryId);
-        List<Absentee> absentees = absenteeService.getAllAbsenteesByEntryId(entry.getId());
-        List<AbsenteeDTO> absenteeDTOs = new ArrayList<>();
+    public List<EntryDTO> getAbsentees(@RequestParam String trainingId,
+                                       @RequestParam Long beginDate,
+                                       @RequestParam Long endDate) {
+        Training training = trainingService.getTrainingById(trainingId);
+        List<Entry> entries = entryService.findEntriesForJournal(new Date(--beginDate),
+                new Date(++endDate), training.getId());
+        List<EntryDTO> entryDTOs = new ArrayList<>();
 
-        for (Absentee absentee : absentees) {
-            absenteeDTOs.add(new AbsenteeDTO(absentee));
+        for (Entry entry : entries) {
+            entryDTOs.add(new EntryDTO(entry));
         }
-        return absenteeDTOs;
+        return entryDTOs;
     }
 
+    @RequestMapping(value = "/absentees", method = RequestMethod.POST)
+    public void createAbsentee(@RequestBody AbsenteeDTO absenteeDTO) {
+        Absentee absentee = new Absentee(absenteeDTO);
+        absentee.setEntry(entryService.getEntryById(absenteeDTO.getEntryId()));
+        absentee.setUser(userService.getUserById(absenteeDTO.getUserId()));
+        absenteeService.addAbsentee(absentee);
+
+    }
+
+    @RequestMapping(value = "/absentees", method = RequestMethod.PUT)
+    public void updateAbsentee(@RequestBody AbsenteeDTO absenteeDTO) {
+        Absentee absentee = new Absentee(absenteeDTO);
+        absenteeService.updateAbsentee(absentee);
+    }
+
+    @RequestMapping(value = "/absentees", method = RequestMethod.DELETE)
+    public void deleteAbsentee(@RequestParam String absenteeId) {
+        absenteeService.deleteAbsentee(absenteeId);
+    }
 }

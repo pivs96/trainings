@@ -1,7 +1,7 @@
 package com.exadel.model.entity.training;
 
 import com.exadel.dto.EntryDTO;
-import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.user.Absentee;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,8 +14,7 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String city;
-    private String unit;
+    private String place;
 
     @Column(name = "begin_time")
     private Date beginTime;
@@ -26,25 +25,21 @@ public class Entry {
     @JoinColumn(name = "training_id")
     private Training training;
 
-    @ManyToMany
-    @JoinTable(name = "absentees", joinColumns = @JoinColumn(name = "entry_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> absentees;
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
+    private List<Absentee> absentees;
 
     public Entry() {
     }
 
     public Entry(EntryDTO entryDTO) {
         this.id = entryDTO.getId();
-        this.city = entryDTO.getCity();
-        this.unit = entryDTO.getUnit();
+        this.place = entryDTO.getPlace();
         this.beginTime = entryDTO.getBeginTime();
         this.endTime = entryDTO.getEndTime();
     }
 
     public void updateEntry(EntryDTO entryDTO) {
-        this.city = entryDTO.getCity();
-        this.unit = entryDTO.getUnit();
+        this.place = entryDTO.getPlace();
         this.beginTime = entryDTO.getBeginTime();
         this.endTime = entryDTO.getEndTime();
     }
@@ -57,20 +52,12 @@ public class Entry {
         this.id = id;
     }
 
-    public String getCity() {
-        return city;
+    public String getPlace() {
+        return place;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public Date getBeginTime() {
@@ -97,11 +84,11 @@ public class Entry {
         this.training = training;
     }
 
-    public List<User> getAbsentees() {
+    public List<Absentee> getAbsentees() {
         return absentees;
     }
 
-    public void setAbsentees(List<User> absentees) {
+    public void setAbsentees(List<Absentee> absentees) {
         this.absentees = absentees;
     }
 }

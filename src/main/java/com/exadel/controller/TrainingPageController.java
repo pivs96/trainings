@@ -139,6 +139,13 @@ public class TrainingPageController {
         register(userId, trainingId);
     }
 
+    @PreAuthorize("hasRole('0')")
+    @RequestMapping(value = "/register_new_visitor", method = RequestMethod.POST)
+    public void registerNewExternalByAdmin(@RequestBody UserDTO visitorDTO, @RequestParam String trainingId) {
+        userService.addUser(new User(visitorDTO));
+        register(String.valueOf(visitorDTO.getId()), trainingId);
+    }
+
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/rating", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public double addTrainingRating(@RequestBody RatingDTO ratingDTO) {

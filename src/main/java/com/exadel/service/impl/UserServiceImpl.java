@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional(readOnly = false)
     public User getUserById(long id) {
         User user = userRepository.findOne(id);
         if (user != null) {
@@ -77,17 +76,6 @@ public class UserServiceImpl implements UserService {
             return (Employee)employee;
 
         throw new TrainerNotFoundException(id);
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        Optional<User> user = userRepository.findOneByEmail(email);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        else {
-            throw new UserNotFoundException(email);
-        }
     }
 
     @Override

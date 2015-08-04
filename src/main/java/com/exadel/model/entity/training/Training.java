@@ -1,11 +1,9 @@
 package com.exadel.model.entity.training;
 
-import com.exadel.dto.EntryDTO;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -60,7 +58,6 @@ public class Training {
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<TrainingFeedback> feedbacks;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)

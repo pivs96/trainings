@@ -45,24 +45,20 @@ public class EntryServiceImpl implements EntryService{
         return entryRepository.findByTrainingId(trainingId);
     }
 
-    //@Override
-    public List<Entry> getAllEntriesByTrainingId(long trainingId, Pageable pageable) {
-        return entryRepository.findByTrainingId(trainingId, pageable);
-    }
-
     @Override
     public List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId) {
         return entryRepository.findByTrainingIdAndBeginTimeAfter(trainingId, time);
     }
 
     @Override
-    public Entry findNextEntryByTrainingId(Date time, long trainingId) {
-        return entryRepository.findFirstByTrainingIdAndBeginTimeAfter(trainingId, time);
+    public List<Entry> findEntriesForJournal(Date beginDay, Date endDay, long trainingId) {
+        return entryRepository.findByTrainingIdAndBeginTimeAfterAndEndTimeBefore(trainingId,
+                beginDay, endDay);
     }
 
-    //@Override
-    public List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId, Pageable pageable) {
-        return entryRepository.findByTrainingIdAndBeginTimeAfter(trainingId, time, pageable);
+    @Override
+    public Entry findNextEntryByTrainingId(Date time, long trainingId) {
+        return entryRepository.findFirstByTrainingIdAndBeginTimeAfter(trainingId, time);
     }
 
     @Override

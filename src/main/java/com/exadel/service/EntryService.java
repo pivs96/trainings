@@ -18,6 +18,8 @@ public interface EntryService {
 
     List<Entry> findFutureEntriesByTrainingId(Date time, long trainingId);
 
+    List<Entry> findEntriesForJournal(Date beginDay, Date endDay, long trainingId);
+
     Entry findNextEntryByTrainingId(Date time, long trainingId);
 
     Optional<Entry> addEntry(Entry entry);

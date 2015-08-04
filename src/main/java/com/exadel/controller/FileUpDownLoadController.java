@@ -2,14 +2,13 @@ package com.exadel.controller;
 
 import com.exadel.model.entity.FileLoadStatus;
 import com.exadel.model.entity.training.Attachment;
+import com.exadel.model.entity.training.Training;
 import com.exadel.service.AttachmentService;
+import com.exadel.service.TrainingService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -23,24 +22,33 @@ public class FileUpDownLoadController {
 
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private TrainingService trainingService;
 
-    private static final String path = System.getProperty("catalina.home") + File.separator + "Attachments";
+    private static final String path = System.getProperty("user.dir") + File.separator + "Attachments";
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public FileLoadStatus handleFileUpload(@RequestParam("name") String name,
-                                   @RequestParam("file") MultipartFile file) {
+    public FileLoadStatus handleFileUpload(@RequestParam String trainingId,
+                                           @RequestBody MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
 
                 // Creating the directory to store file
-                File dir = new File(path);
+                File dir = new File(path + File.separator + trainingId);
                 if (!dir.exists())
                     dir.mkdirs();
 
                 // Create the file on server
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+
+                Attachment attachment = new Attachment();
+                attachment.setLink("/localhost:8080/Attachments/" + trainingId
+                        + "/" + file.getOriginalFilename());
+                attachment.setName(file.getOriginalFilename());
+                attachment.setTraining(trainingService.getTrainingById(trainingId));
+                attachmentService.addAttachment(attachment);
 
                 stream.write(bytes);
                 stream.close();
@@ -54,9 +62,8 @@ public class FileUpDownLoadController {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public FileLoadStatus handleFileDownload(@RequestParam String id,
-                                                 HttpServletRequest request,
-                                                 HttpServletResponse response) {
+    public FileLoadStatus handleFileDownload(@RequestParam String id, HttpServletRequest request,
+                                             HttpServletResponse response) {
         Attachment attachment = attachmentService.getAttachmentById(id);
         String filePath = path + File.separator + attachment.getName();
         File downloadFile = new File(filePath);

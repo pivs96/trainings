@@ -62,4 +62,10 @@ public class Absentee {
     public void setId(long id) {
         this.id = id;
     }
+
+    public void update(Absentee absentee) {
+        this.setReason(absentee.getReason());
+        this.setUser(absentee.getUser());
+        this.setEntry(absentee.getEntry());
+    }
 }
