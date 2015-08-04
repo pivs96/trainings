@@ -49,6 +49,15 @@ angular
           }
         }
       })
+      .when('/eventslist', {
+        templateUrl: 'views/eventslist.html',
+        controller: 'EventsListCtrl',
+        resolve: {
+          data: function (eventslistService) {
+            return eventslistService.getEventsList().$promise;
+          }
+        }
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',

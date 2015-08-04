@@ -1,0 +1,35 @@
+<div class="row zero_left_margin_row">
+  <h1 class="text-left">{{translation.EVENTS_LIST}}</h1>
+</div>
+<table st-table="eventsList" class="table table-striped text-center">
+  <thead>
+  <!-- {"id":2,"description":"qwerty","date":1435307072000,"subjectId":2,"eventType":"USER_FEEDBACK","watched":false}] -->
+  <tr>
+    <th class="text-center" st-sort="description">{{translation.DESCRIPTION}}</th>
+    <th class="text-center" st-sort="date">{{translation.DATE}}</th>
+    <th class="text-center" st-sort="eventType">{{translation.TYPE}}</th>
+    <th class="text-center" st-sort="watched">{{translation.WATCHED}}</th>
+  </tr>
+  <tr>
+    <th colspan="2"><input st-search="description" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+    <!--th SEARCH works by timestamps ><input st-search="date" class="input-sm form-control" type="search"/></th-->
+    <th colspan="2"><input st-search="eventType" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+    <!-- SEARCH works by boolean true-false values th><input st-search="watched" class="input-sm form-control" type="search"/></th-->
+  </tr>
+  <tbody>
+  <tr ng-repeat="_event in eventsList">
+    <td>{{_event.description}}</td>
+    <td>{{_event.date | date:'dd-MM-yyyy HH:mm'}}</td>
+    <td>{{_event.eventType}}</td>
+    <td>{{_event.watched ? translation.YES : translation.NO}}</td>
+
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr ng-if="pages.length >= 2">
+    <td colspan="10" class="text-center">
+      <div st-items-by-page="10" st-pagination="" st-template="views/pagination/pagination.html"></div>
+    </td>
+  </tr>
+  </tfoot>
+</table>

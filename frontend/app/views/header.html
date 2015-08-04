@@ -26,6 +26,9 @@
               ng-show="isAdmin()" >
           <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
           <li>
+          <li ng-class="{ active: isActive('eventslist')}"
+              ng-show="isAdmin()" >
+            <a ng-href="#/eventslist">{{translation.EVENTS_LIST}}</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl" ng-show="isLoginPage()">

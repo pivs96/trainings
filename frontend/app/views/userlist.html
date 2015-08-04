@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row zero_left_margin_row">
     <h1 class="text-left">{{translation.USER_LIST}}</h1>
     <button class="btn btn-default" ng-click="openCreatePopup('Trainer');"
             ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINER}}
@@ -7,33 +7,27 @@
 <table st-table="users" class="table table-striped text-center">
   <thead>
   <tr>
-    <!--    <th st-sort="id">id</th>-->
     <th class="text-center" st-sort="name">{{translation.NAME}}</th>
     <th class="text-center" st-sort="surname">{{translation.SURNAME}}</th>
     <th class="text-center" st-sort="role">{{translation.ROLE}}</th>
     <th class="text-center" st-sort="email">{{translation.EMAIL}}</th>
-    <th class="text-center" st-sort="login">{{translation.USERNAME}}</th>
     <th class="text-center" st-sort="phone">{{translation.PHONE}}</th>
   </tr>
   <tr>
-    <!--  <th><input st-search="id" placeholder="search by id" class="input-sm form-control" type="search"/></th>-->
     <th><input st-search="name" placeholder="search by first name" class="input-sm form-control" type="search"/>
     </th>
     <th><input st-search="surname" placeholder="search by last name" class="input-sm form-control" type="search"/></th>
     <th><input st-search="role" placeholder="search by role" class="input-sm form-control" type="search"/></th>
     <th><input st-search="email" placeholder="search by email" class="input-sm form-control" type="search"/></th>
-    <th><input st-search="login" placeholder="search by login" class="input-sm form-control" type="search"/></th>
     <th><input st-search="phone" placeholder="search by phone no." class="input-sm form-control" type="search"/></th>
   </tr>
   </thead>
   <tbody>
   <tr ng-click="rowClickHandler(user)" ng-repeat="user in users">
-    <!--   <td>{{row.id}}</td>-->
     <td>{{user.name}}</td>
     <td>{{user.surname}}</td>
     <td>{{user.role}}</td>
     <td>{{user.email}}</td>
-    <td>{{user.login}}</td>
     <td>{{user.phone}}</td>
   </tr>
   </tbody>

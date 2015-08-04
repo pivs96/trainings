@@ -1,6 +1,6 @@
 <div ng-controller="EventMenuCtrl" class="event-menu">
   <div class="modal-body">
-    <input class="form-control" ng-model="searchText" placeholder = {{translation.EVENT_SEARCH}} >
+    <input class="form-control" ng-model="searchText" placeholder = {{translation.SEARCH}} >
     <div ng-repeat="event in eventList | filter:searchText">
       <a class="event-link">
         <div class="event-menu-entry">
