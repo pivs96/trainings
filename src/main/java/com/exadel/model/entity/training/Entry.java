@@ -14,7 +14,8 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String place;
+    private String city;
+    private String unit;
 
     @Column(name = "begin_time")
     private Date beginTime;
@@ -22,7 +23,7 @@ public class Entry {
     private Date endTime;
 
     @ManyToOne
-    @JoinColumn(name = "training_id", nullable = false)
+    @JoinColumn(name = "training_id")
     private Training training;
 
     @ManyToMany
@@ -35,13 +36,15 @@ public class Entry {
 
     public Entry(EntryDTO entryDTO) {
         this.id = entryDTO.getId();
-        this.place = entryDTO.getPlace();
+        this.city = entryDTO.getCity();
+        this.unit = entryDTO.getUnit();
         this.beginTime = entryDTO.getBeginTime();
         this.endTime = entryDTO.getEndTime();
     }
 
     public void updateEntry(EntryDTO entryDTO) {
-        this.place = entryDTO.getPlace();
+        this.city = entryDTO.getCity();
+        this.unit = entryDTO.getUnit();
         this.beginTime = entryDTO.getBeginTime();
         this.endTime = entryDTO.getEndTime();
     }
@@ -54,12 +57,20 @@ public class Entry {
         this.id = id;
     }
 
-    public String getPlace() {
-        return place;
+    public String getCity() {
+        return city;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Date getBeginTime() {

@@ -2,21 +2,25 @@ package com.exadel.dto;
 
 import com.exadel.model.entity.training.Entry;
 
+import java.util.Comparator;
 import java.util.Date;
 
-public class EntryDTO {
+public class EntryDTO implements Comparable<EntryDTO> {
     private long id;
-    private String place;
+    private String city;
+    private String unit;
     private Date beginTime;
     private Date endTime;
     private long trainingId;
+    private int dayOfWeek;
 
     public EntryDTO() {
     }
 
     public EntryDTO(Entry entry) {
         this.id = entry.getId();
-        this.place = entry.getPlace();
+        this.city = entry.getCity();
+        this.unit = entry.getUnit();
         this.beginTime = entry.getBeginTime();
         this.endTime = entry.getEndTime();
         this.trainingId = entry.getTraining().getId();
@@ -30,12 +34,20 @@ public class EntryDTO {
         this.id = id;
     }
 
-    public String getPlace() {
-        return place;
+    public String getCity() {
+        return city;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Date getBeginTime() {
@@ -60,5 +72,18 @@ public class EntryDTO {
 
     public void setTrainingId(long trainingId) {
         this.trainingId = trainingId;
+    }
+
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    @Override
+    public int compareTo(EntryDTO entry) {
+        return (int)(this.getBeginTime().getTime() - entry.getBeginTime().getTime());
     }
 }

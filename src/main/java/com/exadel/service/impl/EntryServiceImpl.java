@@ -57,7 +57,7 @@ public class EntryServiceImpl implements EntryService{
 
     @Override
     public Entry findNextEntryByTrainingId(Date time, long trainingId) {
-        return entryRepository.findOneByTrainingIdAndBeginTimeAfter(trainingId, time);
+        return entryRepository.findFirstByTrainingIdAndBeginTimeAfter(trainingId, time);
     }
 
     //@Override

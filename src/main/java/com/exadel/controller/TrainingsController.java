@@ -1,9 +1,12 @@
 package com.exadel.controller;
 
+import com.exadel.dto.EntryDTO;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.events.TrainingEvent;
+import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import com.exadel.service.events.TrainingEventService;
@@ -15,20 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static com.exadel.Utils.addWeekToDate;
+import static com.exadel.Utils.getDayNumberToAdd;
 
 @RestController
 @PreAuthorize("hasAnyRole('0','1','2')")
 @RequestMapping(value = "/trainings", headers = "Accept=application/json")
-
 public class TrainingsController {
     @Autowired
     private TrainingService trainingService;
     @Autowired
-    private UserService userService;
-    @Autowired
     TrainingEventService trainingEventService;
+    @Autowired
+    private EntryService entryService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(method = RequestMethod.GET)
@@ -47,14 +51,67 @@ public class TrainingsController {
         Training training = new Training(trainingDTO);
         if (UserServiceImpl.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
-            trainingService.addTraining(training);
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
-            trainingService.addTraining(training);
 
             trainingDTO.setId(training.getId());
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+        }
+
+        trainingService.addTraining(training);
+        if (trainingDTO.isRepeated()) {
+            generateEntries(trainingDTO.getBegin(), trainingDTO.getEnd(),
+                    training, trainingDTO.getEntries());
+        } else {
+            for (EntryDTO entryDTO : trainingDTO.getEntries()) {
+                Entry entry = new Entry(entryDTO);
+                entry.setTraining(training);
+                entryService.addEntry(entry);
+            }
+        }
+    }
+
+    void generateEntries(Date beginDay, Date endDay, Training training, List<EntryDTO> entryDTOs) {
+
+        if (beginDay == null || endDay == null)
+            return;
+
+        Calendar begin = new GregorianCalendar();
+        begin.setTime(beginDay);
+        int beginDayOfWeek = begin.get(Calendar.DAY_OF_MONTH);
+
+        Calendar calendar = new GregorianCalendar();
+        for (EntryDTO entryDTO : entryDTOs) {
+            calendar.clear();
+            calendar.setTime(entryDTO.getBeginTime());
+            calendar.set(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH),
+                    begin.get(Calendar.DAY_OF_WEEK));
+            calendar.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
+            entryDTO.setBeginTime(calendar.getTime());
+
+            calendar.clear();
+            calendar.setTime(entryDTO.getEndTime());
+            calendar.set(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH),
+                    begin.get(Calendar.DAY_OF_WEEK));
+            calendar.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
+            entryDTO.setEndTime(calendar.getTime());
+        }
+
+        Collections.sort(entryDTOs);
+        Queue<EntryDTO> duplicates =  new LinkedList<>(entryDTOs);
+        EntryDTO entryDTO = duplicates.remove();
+
+        while (entryDTO.getBeginTime().before(endDay)) {
+            Entry entry = new Entry(entryDTO);
+            entry.setTraining(training);
+            entryService.addEntry(entry);
+
+            entryDTO.setEndTime(addWeekToDate(entryDTO.getEndTime()));
+            entryDTO.setBeginTime(addWeekToDate(entryDTO.getBeginTime()));
+            duplicates.add(entryDTO);
+
+            entryDTO = duplicates.remove();
         }
     }
 }

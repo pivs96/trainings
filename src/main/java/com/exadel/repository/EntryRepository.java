@@ -13,7 +13,7 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
 
     List<Entry> findByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime, Pageable pageable);
 
-    Entry findOneByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
+    Entry findFirstByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
 
     List<Entry> findByTrainingId(long trainingId);
 
