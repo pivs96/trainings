@@ -37,6 +37,13 @@ public class Participation {
         this.endDay = participationDTO.getEndDay();
     }
 
+    public Participation(User user, Training training, Date beginDay, Date endDay) {
+        this.user = user;
+        this.training = training;
+        this.beginDay = beginDay;
+        this.endDay = endDay;
+    }
+
     public long getId() {
         return id;
     }

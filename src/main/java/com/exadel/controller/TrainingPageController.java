@@ -47,10 +47,8 @@ public class TrainingPageController {
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private AttachmentService attachmentService;
-
     @Autowired
     private ParticipationService participationService;
-
     @Autowired
     private ReserveService reserveService;
 
@@ -67,7 +65,7 @@ public class TrainingPageController {
         return new UserDTO(training.getTrainer());
     }
 
-    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')")
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     public List<UserDTO> getParticipants(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -110,27 +108,45 @@ public class TrainingPageController {
 
     @PreAuthorize("hasAnyRole('0','1')")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ParticipationStatus register(@RequestParam String userId, @RequestParam String trainingId) {
+    public synchronized ParticipationStatus register(@RequestParam String userId,
+                                                     @RequestParam String trainingId) {
+
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
-        training.addParticipant(visitor);
-        if (training.getMembersCount() > training.getMembersCountMax())
+        List<User> participants = training.getParticipants();
+
+        if (participants.size() > training.getMembersCountMax()) {
+            Reserve reservist = new Reserve(training, visitor);
+            reserveService.addReserve(reservist);
+            training.getReserves().add(reservist);
             return ParticipationStatus.RESERVE;
-        else
+        } else {
+            training.addParticipant(visitor);
+            participationService.addParticipation(new Participation(visitor, training, new Date(), null));
             return ParticipationStatus.MEMBER;
+        }
     }
 
     @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId,#isRepeated)")
     @RequestMapping(value = "/unregister", method = RequestMethod.POST)
-    public void unregister(@RequestParam String userId, @RequestParam String trainingId, @RequestBody Boolean isRepeated) {
-      if(isRepeated) {
-          Date date = new Date();
-         trainingService.addEndDate(date,trainingId,userId);
-      }
-        else {
-          trainingService.deleteParticipation(trainingId,userId);
-      }
+    public synchronized void unregister(@RequestParam String userId, @RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        User visitor = userService.getUserById(userId);
+        Participation participation = participationService.getParticipationByTrainingAndUserId(
+                training.getId(), visitor.getId());
 
+        if (training.isRepeated()) {
+            participation.setEndDay(new Date());
+        } else {
+            participationService.deleteParticipation(participation.getId());
+        }
+
+        Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
+        if (reserve != null) {
+            reserveService.deleteReserve(reserve.getId());
+            register(String.valueOf(reserve.getReservist().getId()),
+                    String.valueOf(reserve.getTraining().getId()));
+        }
     }
 
     @PreAuthorize("hasRole('0')")
@@ -230,8 +246,7 @@ public class TrainingPageController {
         Training training = trainingService.getTrainingById(trainingDTO.getId());
         training.updateTraining(trainingDTO);
         if (UserServiceImpl.hasRole(0)) {
-        }
-        else {
+        } else {
             training.setStatus(TrainingStatus.DRAFTED);
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -243,8 +258,7 @@ public class TrainingPageController {
     public void cancelTraining(@RequestParam String id) {
         if (UserServiceImpl.hasRole(0)) {
             trainingService.cancelById(id);
-        }
-        else {
+        } else {
             Training training = trainingService.getTrainingById(Long.parseLong(id));
             training.setStatus(TrainingStatus.CANCELLED);
 
@@ -255,12 +269,12 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasRole('0')")
-    @RequestMapping(value="/userFeedback",method = RequestMethod.GET)
-    public String AskUserFeedback(@RequestParam String userId,@RequestParam String trainingId) {
+    @RequestMapping(value = "/userFeedback", method = RequestMethod.GET)
+    public String AskUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
         User trainer = training.getTrainer();
-        String mail="Hi, "+trainer.getName()+" "+trainer.getSurname()+"!"+"\n"+"Notification from Exadel system:"+"\n"+"Admin asked feedback on "+user.getName()+" "+user.getSurname()+" about training "+training.getName();
+        String mail = "Hi, " + trainer.getName() + " " + trainer.getSurname() + "!" + "\n" + "Notification from Exadel system:" + "\n" + "Admin asked feedback on " + user.getName() + " " + user.getSurname() + " about training " + training.getName();
         String email = trainer.getEmail();
         //TODO: send mail on email
         return mail;

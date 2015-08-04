@@ -9,4 +9,8 @@ public interface ParticipationService {
     List<Participation> getAllParticipationsByTrainingId(long trainingId);
 
     void addParticipation(Participation participation);
+
+    Participation getParticipationByTrainingAndUserId(long trainingId, long userId);
+
+    void deleteParticipation(long id);
 }

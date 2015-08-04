@@ -24,4 +24,14 @@ public class ParticipationServiceImpl implements ParticipationService {
     public void addParticipation(Participation participation) {
         participationRepository.save(participation);
     }
+
+    @Override
+    public Participation getParticipationByTrainingAndUserId(long trainingId, long userId) {
+        return participationRepository.findByTrainingIdAndUserId(trainingId, userId);
+    }
+
+    @Override
+    public void deleteParticipation(long id) {
+        participationRepository.delete(id);
+    }
 }

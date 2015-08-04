@@ -5,7 +5,7 @@ import com.exadel.model.entity.user.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "training_reserve")
+@Table(name = "reserve")
 public class Reserve {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +20,11 @@ public class Reserve {
     private User reservist;
 
     public Reserve() {
+    }
+
+    public Reserve(Training training, User reservist) {
+        this.training = training;
+        this.reservist = reservist;
     }
 
     public long getId() {
