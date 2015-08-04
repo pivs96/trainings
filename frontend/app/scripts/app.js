@@ -78,16 +78,16 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'loginController'
       })
-      .when('/training/:trainingId', {
-        templateUrl: 'views/training.html',
-        controller: 'TrainingCtrl'
-      })
-      .when('/training', {
+      .when('/training/edit', {
         templateUrl: 'views/createTraining.html',
         controller: 'CreateTrainingCtrl',
         controllerAs: 'createTraining'
       })
-      .when('/training/editTraining/:trainingId', {
+      .when('/training/:trainingId', {
+        templateUrl: 'views/training.html',
+        controller: 'TrainingCtrl'
+      })
+      .when('/training/:trainingId/edit', {
         templateUrl: 'views/createTraining.html',
         controller: 'EditTrainingCtrl'
       })

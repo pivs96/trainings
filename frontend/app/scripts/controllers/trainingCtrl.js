@@ -87,7 +87,6 @@ angular.module('frontendApp')
             });
             training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
               _.extend($scope.training, {attachments: angular.copy(resp)});
-              console.log($scope.training);
             })
           });
           training.checkParticipation({uid: '2', trainingId: $route.current.params.trainingId}, function(resp) {
@@ -134,12 +133,12 @@ angular.module('frontendApp')
           training.getEntries({id: $route.current.params.trainingId}, function (resp) {
             $scope.entries = angular.copy(resp);
             shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
-            $location.path('/training/editTraining/' + $route.current.params.trainingId);
+            $location.path('/training/' + $route.current.params.trainingId + '/edit');
           });
         }
         else {
           shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
-          $location.path('/training/editTraining/' + $route.current.params.trainingId);
+          $location.path('/training/' + $route.current.params.trainingId + '/edit');
         }
       };
 
