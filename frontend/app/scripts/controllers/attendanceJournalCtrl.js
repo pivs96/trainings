@@ -39,7 +39,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
         //check whether the user was registered to training for this entry
         for (var i = 0; i < participation.length; i++) {
           if (participation[i].userId == participant.id) {
-            if (participation[i].beginDay > entry.beginTime || participation[i].endDay < entry.beginTime) {
+            if (participation[i].beginDay > entry.beginTime || (participation[i].endDay != null && participation[i].endDay < entry.beginTime)) {
               entryAttendance.state = NOT_ATTEND;
             }
             break;
