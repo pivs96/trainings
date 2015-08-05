@@ -102,10 +102,6 @@ angular
         templateUrl: 'views/createTraining.html',
         controller: 'EditTrainingCtrl'
       })
-      .when('/training/editTraining/:trainingId', {
-        templateUrl: 'views/createTraining.html',
-        controller: 'EditTrainingCtrl'
-      })
       .otherwise({
         redirectTo: '/'
       });

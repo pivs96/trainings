@@ -6,12 +6,10 @@ angular.module('frontendApp')
     function($scope, $rootScope, $localStorage, $compile, $templateRequest, $sce, FileUploader, createTraining, userlist) {
 
 
-
-
     $scope.data = {};
     $scope.data.entries = [];
-      //STAB
-      $scope.data.trainerId = $localStorage.userData.id;
+
+    $scope.data.trainerId = $localStorage.userData.id;
 
     $scope.entryNum = 1;
 
@@ -21,37 +19,22 @@ angular.module('frontendApp')
 
     $scope.newTraining = true;
 
-    $scope.$watch('data.repeating', function(newVal, oldVal) {
-      if(oldVal !== newVal) {
-        $scope.data.begin = null;
-        $scope.data.end = null;
-        while(angular.element(".entry").length > 0) {
-          angular.element(".entry").last().remove();
-          $scope.entryNum--;
-        }
-
-      }
-    });
-
     $scope.removeEntry = function($event) {
       angular.element($event.currentTarget).parents('.entry').remove();
       var index = angular.element($event.currentTarget).parents('.entry').children('[index]').attr('index');
       if(index == $scope.entryNum - 1) {
         $scope.entryNum--;
-      }
-      else {
+      } else {
         $scope.data.entries[index] = null;
       }
     };
 
-    $scope.$watch('repeating', function(newVal, oldVal) {
+    $scope.$watch('data.repeating', function(newVal, oldVal) {
       if(oldVal !== newVal) {
         $scope.data.begin = null;
         $scope.data.end = null;
-        while(angular.element(".entry").length > 0) {
-          angular.element(".entry").last().remove();
-          $scope.entryNum--;
-        }
+        angular.element('.entry').remove();
+        $scope.entryNum = 1;
 
       }
     });
@@ -79,12 +62,11 @@ angular.module('frontendApp')
         create.data.begin = create.data.begin.valueOf();
         create.data.end = create.data.end.valueOf();
       }
-      createTraining.save({},$scope.data, function(resp){console.log(resp)}).$promise.then(function(resp){
+      createTraining.save({},$scope.data).$promise.then(function(resp){
         $scope.uploadUrl = 'http://localhost:8080/files/upload?trainingId=' + resp.id;
         uploader.uploadAll();
       });
-      /*var resp = new createTraining();
-      resp.data = angular.copy()*/
+
     };
 
 
