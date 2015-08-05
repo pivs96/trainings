@@ -9,7 +9,7 @@ angular.module('frontendApp')
       $scope.participants = [];
       $scope.entries = [];
 
-
+      $scope.trainingId = $route.current.params.trainingId;
       $scope.rating = 0;
       $scope.ratings = {
         current: 0,

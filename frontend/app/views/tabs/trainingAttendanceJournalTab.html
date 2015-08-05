@@ -1,1 +1,12 @@
-<h3>Work in progress</h3>
+<div ng-controller="AttendanceJournalCtrl">
+  <table id="attendanceJournalTable" st-table=""  class="table attendance-journal-table">
+    <thead>
+      <tr>
+        <th ng-repeat="th in entries" class="text-center">{{th.beginTime | date:'dd-MM-yy'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>

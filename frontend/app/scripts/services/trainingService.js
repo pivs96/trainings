@@ -63,6 +63,29 @@ angular.module('frontendApp').factory('training',['$resource',
           id: '@id'
         }
       },
+      // training/participation?trainingId=2
+
+      getParticipation: {
+        method: 'GET',
+        params: {
+          type: 'participation',
+          id: '@id'
+        },
+        isArray: true
+      },
+      //GET /training/absentees?trainingId=1&beginDate=123563432564&endDate=1233443535
+
+      getAbsentees: {
+        method: 'GET',
+        params: {
+          type: 'absentees',
+          id: '@id',
+          beginDate: '@beginDate',
+          endDate: '@endDate'
+        },
+        isArray: true
+      },
+
 
       checkParticipation: {
         url: 'http://localhost:8080/training/check_participation?userId=:uid',
