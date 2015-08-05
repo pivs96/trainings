@@ -118,6 +118,15 @@ angular.module('frontendApp').factory('training',['$resource',
           trainingId: '@id'
         },
         method: 'POST'
+      },
+
+      unregister: {
+        url: 'http://localhost:8080/training/unregister?',
+        params: {
+          userId: '@uid',
+          trainingId: "@id"
+        },
+        method: 'POST'
       }
 
     });

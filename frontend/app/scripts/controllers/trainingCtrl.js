@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('TrainingCtrl', ['$route', '$scope', '$location', 'ngDialog', 'training', 'shareTrainingInfo',
-    function ($route, $scope, $location, ngDialog, training, shareTrainingInfo) {
+  .controller('TrainingCtrl', ['$route', '$scope', '$location', '$localStorage', 'ngDialog', 'training',
+    'shareTrainingInfo', 'UserFeedbackService',
+    function ($route, $scope, $location, $localStorage, ngDialog, training, shareTrainingInfo, UserFeedbackService) {
 
       $scope.feedbacks = [];
       $scope.training = {};
@@ -22,7 +23,9 @@ angular.module('frontendApp')
 
       $scope.askFeedback = function (userId, $event) {
         // TODO add new "Ask feedback" Form. See http://chewbacca.myjetbrains.com/youtrack/issue/App-41
-        console.log(userId);
+        UserFeedbackService.askUserFeedback({userId: userId, trainingId:$route.current.params.trainingId}, function(resp) {
+          console.log('DONE');
+        });
         $event.stopPropagation();
       };
 
@@ -166,13 +169,15 @@ angular.module('frontendApp')
       };
 
       $scope.register = function() {
-        training.register({uid: 2, id: $route.current.params.trainingId}, function(resp) {
+        training.register({uid: $localStorage.userData.id, id: $route.current.params.trainingId}, function(resp) {
           $scope.registrated = !$scope.registrated;
         });
       };
 
       $scope.unregister = function() {
-        $scope.registrated = !$scope.registrated;
+        training.unregister({uid: $localStorage.userData.id, id: $route.current.params.trainingId}, function(resp) {
+          $scope.registrated = !$scope.registrated;
+        });
       };
 
     }]);
