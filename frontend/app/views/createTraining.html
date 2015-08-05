@@ -1,16 +1,17 @@
-<div class="create-training-header">
+<div ng-if="newTraining" class="create-training-header">
   {{translation.NEW_TRAINING}}
-  <button type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
-
+</div>
+<div ng-if="!newTraining" class="create-training-header">
+  {{data.name}}
 </div>
 
 <form name="trainingForm" class="form-inline" ng-submit="save()" novalidate>
 
-  <div class="col-sm-8 training-info-entry">
+  <div class="col-sm-8 training-info-entry" ng-if="newTraining">
     <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label">
       {{translation.STATUS}}:</label>
 
-    <div class="col-sm-7">
+    <div class="col-sm-7" >
       <input id="rep" type="checkbox" ng-model="data.repeating"> {{translation.REPEATING}}
     </div>
   </div>
@@ -24,14 +25,6 @@
     </div>
   </div>
 
-  <div class="col-sm-8 training-info-entry">
-    <label for="external" class="col-sm-4 control-label text-right create-training-entry-label">
-      {{translation.EXTERNAL}}:</label>
-
-    <div class="col-sm-7">
-      <input id="external" type="checkbox" ng-model="data.external">
-    </div>
-  </div>
 
   <div class="col-sm-4 training-description">
     {{translation.DESCRIPTION}}:
@@ -40,7 +33,7 @@
                 ng-model="data.description"></textarea>
     </div>
     <div align="center" class="create-training-submit">
-      <button type="submit" class="btn btn-default" >{{translation.SAVE}}</button>
+      <button type="submit" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
     </div>
   </div>
 
@@ -66,11 +59,12 @@
 
   <div id="trainingEntries">
     <div class="col-sm-8">
-      <div class="col-sm-offset-4">
+      <div class="col-sm-offset-4 col-sm-3">
         <p class="entry-num"><b>{{translation.ENTRY}} {{::++entryNum}}</b></p>
       </div>
     </div>
-    <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation" is-admin="isAdmin()"></trn-entry>
+    <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
+               is-admin="isAdmin()" new-training="newTraining"></trn-entry>
   </div>
   <div class="col-sm-8 training-info-entry">
     <div class="col-sm-offset-4">
@@ -116,8 +110,14 @@
       {{translation.TRAINER}}:</label>
 
     <div class="col-sm-7">
-      <select id="trainer" class="form-control create-training-trainer-select" ng-model="data.trainer"
-              ng-options="user for user in users"></select>
+      <ui-select id="trainer" ng-model="data.trainerId" theme="bootstrap" append-to-body="true">
+        <ui-select-match placeholder="select trainer">{{$select.selected.name + ' ' + $select.selected.surname}}</ui-select-match>
+        <ui-select-choices repeat="user.id as user in users | propsFilter: {name: $select.search}">
+          <div ng-bind-html="user.name + ' ' + user.surname | highlight: $select.search"></div>
+        </ui-select-choices>
+
+      </ui-select>
+
     </div>
   </div>
 
@@ -138,7 +138,8 @@
         <div class="progress">
         <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
-        <button type="button" class="btn btn-default btn-sm training-attach-btn" ng-click="uploader.uploadAll()">
+        <p ng-if="newTraining"><strong> Files will be uploaded automaticly after saving training </strong></p>
+        <button ng-if="!newTraining" type="button" class="btn btn-default btn-sm training-attach-btn" ng-click="uploader.uploadAll()">
           {{translation.ATTACH}}
         </button>
       </div>

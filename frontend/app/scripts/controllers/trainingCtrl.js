@@ -12,7 +12,7 @@ angular.module('frontendApp')
       $scope.trainingId = $route.current.params.trainingId;
       $scope.rating = 0;
       $scope.ratings = {
-        current: 0,
+        current: 1,
         max: 5
       };
 
@@ -64,14 +64,7 @@ angular.module('frontendApp')
       $scope.openWaitList = function() {
         ngDialog.open({
           template: "views/popups/waitList.html",
-          controller: 'WaitListCtrl',
-          resolve: {
-            training: function() {
-              return _.extend(
-                _.pick($scope.training, 'membersCountMax', 'membersCount'),
-                $scope.participants);
-            }
-          }
+          controller: 'WaitListCtrl'
         })
       };
 
@@ -158,11 +151,17 @@ angular.module('frontendApp')
         }
       };
 
-
+      $scope.cancel = function() {
+        training.cancel({id: $route.current.params.trainingId}, function (resp) {
+          console.log(resp);
+        });
+      };
 
       $scope.deleteFeedback = function(fid) {
         training.deleteFeedback({feedbackId: fid}, function(resp) {
-          console.log('WIP');
+          training.getFeedbacks({id: $route.current.params.trainingId}, function (resp) {
+            $scope.feedbacks = angular.copy(resp);
+          });
         });
       };
 

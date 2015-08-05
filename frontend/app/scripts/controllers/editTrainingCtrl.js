@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('EditTrainingCtrl', ['$scope', '$sce', '$templateRequest', '$compile', 'shareTrainingInfo', 'FileUploader',
-    function($scope, $sce, $templateRequest, $compile, shareTrainingInfo, FileUploader) {
+  .controller('EditTrainingCtrl', ['$scope', '$sce', '$templateRequest', '$route', '$compile', 'shareTrainingInfo',
+    'FileUploader', 'editTraining',
+    function($scope, $sce, $templateRequest, $route, $compile, shareTrainingInfo, FileUploader, editTraining) {
 
+    $scope.newTraining = false;
 
     console.log(shareTrainingInfo.getData());
     $scope.data = shareTrainingInfo.getData();
@@ -15,24 +17,32 @@ angular.module('frontendApp')
       $scope.addEntry = function() {
         var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');
         $templateRequest(templateUrl).then(function(template) {
-
           angular.element('#trainingEntries').append($compile(template)($scope));
-
+          $scope.entryNum++;
         });
       };
 
-    for(var i = 1; i < $scope.entries.length; i++) {
+
       var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');
-      (function (i) {
+      (function () {
         $templateRequest(templateUrl).then(function(template) {
-          $scope.entryNum = i;
-          angular.element('#trainingEntries').append($compile(template)($scope));
+          for(var i = 1; i < $scope.entries.length; i++) {
+            //$scope.entryNum = i;
+            angular.element('#trainingEntries').append($compile(template)($scope));
+            $scope.entryNum++;
+          }
           });
-      })(i);
-    }
+      })();
+
+      $scope.save = function() {
+        editTraining.updateTraining($scope.data).$promise.then(function(resp) {
+          console.log(resp);
+        });
+      };
+
 
       var uploader = $scope.uploader = new FileUploader({
-        url: 'http://localhost:8080/files/upload'
+        url: 'http://localhost:8080/files/upload?trainingId' + $scope.data.trainingId
       });
 
       uploader.withCredentials = true;

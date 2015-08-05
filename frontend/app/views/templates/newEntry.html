@@ -1,7 +1,12 @@
 <div class="entry">
   <div class="col-sm-8">
-    <div class="col-sm-offset-4"><p class="entry-num"><b>{{translation.ENTRY}} {{::entryNum}}</b></p></div>
+    <div class="col-sm-offset-4 col-sm-3">
+      <p class="entry-num">
+        <strong>{{translation.ENTRY}} {{::entryNum}}</strong>
+      </p>
+    </div>
+    <i class="fa fa-close col-sm-4 create-training-day-select text-right" ng-click="removeEntry($event);">DELETE ENTRY</i>
   </div>
-  <trn-entry repeating="repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
-             is-admin="isAdmin()"></trn-entry>
+  <trn-entry repeating="data.repeating" entries="data.entries" index="{{::entryNum - 1}}" translation="translation"
+             is-admin="isAdmin()" new-training="newTraining"></trn-entry>
 </div>

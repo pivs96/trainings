@@ -1,21 +1,25 @@
 <table ng-if="entries && entries.length" st-table="entries" class="table table-striped">
   <thead>
     <tr>
-      <th st-sort="id">{{translation.NUM}}</th>
       <th st-sort="beginTime">{{translation.BEGIN_DATE}}</th>
       <th st-sort="place">{{translation.PLACE}}</th>
     </tr>
   <tr>
-    <th><input st-search="id" placeholder="search by number" class="input-sm form-control" type="search"/>
     <th><input st-search="beginTime" placeholder="search by begin date" class="input-sm form-control" type="search"/>
     <th><input st-search="place" placeholder="search by place" class="input-sm form-control" type="search"/>
   </tr>
   </thead>
   <tbody>
     <tr ng-repeat="entry in entries" ng-class="{strike: checkDate(entry.beginTime)}">
-      <th>{{entry.id}}</th>
       <th>{{entry.beginTime | date:'yyyy-MM-dd HH:mm'}}</th>
       <th>{{entry.place}}</th>
     </tr>
   </tbody>
+  <tfoot>
+    <tr>
+     <td colspan="20" class="text-center">
+       <div st-items-by-page="10" st-pagination="" st-template="views/pagination/pagination.html"></div>
+      </td>
+    </tr>
+  </tfoot>
 </table>

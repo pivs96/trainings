@@ -59,7 +59,7 @@ angular.module('frontendApp').factory('training',['$resource',
       getTrainer: {
         method: 'GET',
         params: {
-          type: 'trainerName',
+          type: 'trainer',
           id: '@id'
         }
       },
@@ -86,6 +86,15 @@ angular.module('frontendApp').factory('training',['$resource',
         isArray: true
       },
 
+
+      getWaitList: {
+        method: 'GET',
+        params: {
+          type: 'waitList',
+          id: '@id'
+        },
+        isArray: true
+      },
 
       checkParticipation: {
         url: 'http://localhost:8080/training/check_participation?userId=:uid',

@@ -1,6 +1,7 @@
 <h2>
-  {{translation.REGISTERED}}: {{training.membersCount}}/{{training.membersCountMax}}
-  <button ng-if="isAdmin()" type="button" class="btn btn-default" style="float: right" ng-click="openWaitList()">
+  {{translation.REGISTERED}}: {{participants.length}}/{{training.membersCountMax}}
+  <button ng-if="isAdmin() && participants.length === training.membersCountMax"
+          type="button" class="btn btn-default" style="float: right" ng-click="openWaitList()">
     {{translation.WAITLIST}}
   </button>
 </h2>

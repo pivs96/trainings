@@ -1,18 +1,25 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('CreateTrainingCtrl', ['$scope', '$rootScope', '$compile', '$templateRequest', '$sce',
-    'FileUploader' ,'createTraining', 'training',
-    function($scope, $rootScope, $compile, $templateRequest, $sce, FileUploader, createTraining, training) {
+  .controller('CreateTrainingCtrl', ['$scope', '$rootScope', '$localStorage', '$compile', '$templateRequest', '$sce',
+    'FileUploader' ,'createTraining', 'userlist',
+    function($scope, $rootScope, $localStorage, $compile, $templateRequest, $sce, FileUploader, createTraining, userlist) {
+
+
+
 
     $scope.data = {};
     $scope.data.entries = [];
       //STAB
-      $scope.data.trainerId = 1;
+      $scope.data.trainerId = $localStorage.userData.id;
 
     $scope.entryNum = 1;
 
+    $scope.me = $localStorage.userData.name;
+
     $scope.data.repeating = false;
+
+    $scope.newTraining = true;
 
     $scope.$watch('data.repeating', function(newVal, oldVal) {
       if(oldVal !== newVal) {
@@ -25,6 +32,17 @@ angular.module('frontendApp')
 
       }
     });
+
+    $scope.removeEntry = function($event) {
+      angular.element($event.currentTarget).parents('.entry').remove();
+      var index = angular.element($event.currentTarget).parents('.entry').children('[index]').attr('index');
+      if(index == $scope.entryNum - 1) {
+        $scope.entryNum--;
+      }
+      else {
+        $scope.data.entries[index] = null;
+      }
+    };
 
     $scope.$watch('repeating', function(newVal, oldVal) {
       if(oldVal !== newVal) {
@@ -49,65 +67,46 @@ angular.module('frontendApp')
 
 
     $scope.save = function() {
-
       $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
       var create = new createTraining();
       create.data = angular.copy($scope.data);
-      createTraining.save($scope.data).$promise.then(function(resp){});
-
+      console.log(create.data);
+      for(var i = 0; i < create.data.entries.length; i++) {
+        create.data.entries[i].beginTime = create.data.entries[i].beginTime.valueOf();
+        create.data.entries[i].endTime = create.data.entries[i].endTime.valueOf();
+      }
+      if($scope.data.repeating) {
+        create.data.begin = create.data.begin.valueOf();
+        create.data.end = create.data.end.valueOf();
+      }
+      createTraining.save({},$scope.data, function(resp){console.log(resp)}).$promise.then(function(resp){
+        $scope.uploadUrl = 'http://localhost:8080/files/upload?trainingId=' + resp.id;
+        uploader.uploadAll();
+      });
+      /*var resp = new createTraining();
+      resp.data = angular.copy()*/
     };
 
 
-      $scope.cancel = function() {
-        training.cancel({id: $route.current.params.trainingId}, function (resp) {
-          console.log(resp);
-        });
-      };
-
-      var uploader = $scope.uploader = new FileUploader({
-        url: 'http://localhost:8080/files/upload'
-      });
-
+      var uploader = $scope.uploader = new FileUploader();
       uploader.withCredentials = true;
 
+
+
       //CALLBACKS
-
-      uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-      };
-      uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-      };
-      uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
-      };
       uploader.onBeforeUploadItem = function(item) {
-        console.info('onBeforeUploadItem', item);
+        item.url = $scope.uploadUrl;
       };
-      uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-      };
-      uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
-      };
-      uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
-      };
-      uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
-      };
-      uploader.onCancelItem = function(fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
-      };
-      uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
-      };
-      uploader.onCompleteAll = function() {
-        console.info('onCompleteAll');
-      };
-
-      console.info('uploader', uploader);
-
       //END_CALLBACKS
+
+      $scope.users = [];
+      if($rootScope.isAdmin() && _.isEmpty($scope.users)) {
+        userlist.getUserList(function(resp) {
+          $scope.users = angular.copy(resp);
+        })
+      }
+      else {
+        $scope.users = $localStorage.userData;
+      }
 
     }]);

@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('WaitListCtrl', ['$scope', 'training', function($scope, training) {
+  .controller('WaitListCtrl', ['$scope', '$route', 'training', function($scope, $route, training) {
 
-    $scope.participants = training.participants;
-    $scope.wlSize = training.membersCount - training.membersCountMax;
-    $scope.wlSize = ($scope.wlSize > 0) ? $scope.wlSize : 0;
+    training.getWaitList({id: $route.current.params.trainingId}, function(resp) {
+      $scope.wlSize = resp.participants.length;
+      $scope.participants = angular.copy(resp.participants);
+    });
 
   }]);

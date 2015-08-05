@@ -12,14 +12,7 @@
       </div>
       <div class="panel-body training-desc-panel-body">{{training.description}}</div>
     </div>
-    <div ng-if="training.status === 'APPROVED'">
-    <div ng-show="!registrated" align="center">
-      <button class="btn btn-success" ng-click="register();">{{translation.REGISTER}}</button>
-    </div>
-    <div ng-show="registrated" align="center">
-      <button class="btn btn-danger" ng-click="unregister();">{{translation.UNREGISTER}}</button>
-    </div>
-    </div>
+
   </div>
 
   <div class="col-sm-8 training-info-entry ">
@@ -67,6 +60,15 @@
       </li>
     </ul>
   </div>
-</div>
 
+
+</div>
+<div align="center" ng-if="training.status === 'APPROVED'">
+  <div ng-show="!registrated" align="center">
+    <button class="btn btn-success btn-lg" ng-click="register();">{{translation.REGISTER}}</button>
+  </div>
+  <div ng-show="registrated" align="center">
+    <button class="btn btn-danger btn-lg" ng-click="unregister();">{{translation.UNREGISTER}}</button>
+  </div>
+</div>
 

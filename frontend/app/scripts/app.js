@@ -22,7 +22,8 @@ angular
     'ui.bootstrap',
     'ngAside',
     'base64',
-    'angularFileUpload'
+    'angularFileUpload',
+    'ui.select'
   ])
   .config(function ($routeProvider,$httpProvider) {
     $routeProvider

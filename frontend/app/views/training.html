@@ -6,6 +6,7 @@
         <span trn-star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" ></span>
       <!-- TODO make check for trainer -->
         <button ng-if="true" type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
+        <button type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
         <button ng-if="isAdmin();" type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener')">{{translation.ADD_LISTENER}}</button>
         <button ng-if="registrated" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
         <button type="button" class="btn btn-link training-menu-btn">{{translation.STATISTICS}}</button>
