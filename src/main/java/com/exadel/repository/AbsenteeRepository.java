@@ -10,5 +10,5 @@ import java.util.List;
 public interface AbsenteeRepository extends JpaRepository<Absentee, Long> {
     List<Absentee> findByEntryId(long entryId);
 
-
+    Absentee findByUserIdAndEntryId(long userId, long entryId);
 }

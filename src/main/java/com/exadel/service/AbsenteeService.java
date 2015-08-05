@@ -7,11 +7,13 @@ import java.util.List;
 public interface AbsenteeService {
     List<Absentee> getAllAbsenteesByEntryId(long entryId);
 
-    void addAbsentee(Absentee absentee);
+    Absentee addAbsentee(Absentee absentee);
 
     void updateAbsentee(Absentee absentee);
 
     Absentee getAbsenteeById(String id);
+
+    Absentee getAbsentee(long userId, long entryId);
 
     Absentee getAbsenteeById(long id);
 

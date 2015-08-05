@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,10 +52,10 @@ public class TrainingServiceImpl implements TrainingService {
 
     }
 
-    public long getTrainerId(long id) {
+    public long getTrainerId(long trainingId) {
         long trainerId = this.jdbcTemplate.queryForObject(
                 "select trainer_id from trainings where id = ?",
-                Long.class, id);
+                Long.class, trainingId);
         return trainerId;
     }
 
@@ -85,12 +86,13 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public long addTraining(Training training) {
+    public Training addTraining(Training training) {
         trainingRepository.saveAndFlush(training);
-        return training.getId();
+        return training;
     }
 
     @Override
+    @Modifying
     public void updateTraining(Training training) {
         if (trainingRepository.exists(training.getId())) {
             trainingRepository.save(training);

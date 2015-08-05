@@ -49,7 +49,7 @@ public class TrainingsController {
     private SmtpMailSender smtpMailSender;
     @Autowired
     EmailMessages emailMessages;
-
+    @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
@@ -85,7 +85,7 @@ public class TrainingsController {
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
-    public long createTraining(@RequestBody TrainingDTO trainingDTO) {
+    public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
@@ -111,7 +111,7 @@ public class TrainingsController {
             }
         }
 
-        long trainingId = trainingService.addTraining(training);
+        Training createdTraining = trainingService.addTraining(training);
         if (trainingDTO.isRepeated()) {
             generateEntries(trainingDTO.getBegin(), trainingDTO.getEnd(),
                     training, trainingDTO.getEntries());
@@ -123,7 +123,7 @@ public class TrainingsController {
             }
         }
 
-        return trainingId;
+        return createdTraining;
     }
 
     void generateEntries(Date beginDay, Date endDay, Training training, List<EntryDTO> entryDTOs) {

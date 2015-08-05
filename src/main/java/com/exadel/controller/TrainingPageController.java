@@ -50,11 +50,9 @@ public class TrainingPageController {
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
     @Autowired
-    private AttachmentService attachmentService;
-    @Autowired
     private SmtpMailSender smtpMailSender;
     @Autowired
-    EmailMessages emailMessages;
+    private EmailMessages emailMessages;
 
     @Autowired
     private ParticipationService participationService;
@@ -74,7 +72,7 @@ public class TrainingPageController {
         return new UserDTO(training.getTrainer());
     }
 
-    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isTrainer(#trainingId) or hasRole('0')")
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     public List<UserDTO> getParticipants(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -255,8 +253,6 @@ public class TrainingPageController {
         }
     }
 
-
-
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.DELETE)   //called only by ADMIN
     public void deleteFeedback(@RequestParam String feedbackId) {
@@ -276,36 +272,7 @@ public class TrainingPageController {
         return entry;
     }
 
-    @PreAuthorize("@trainerControlBean.isCoach(#trainingId) or hasRole('0') or @visitControlBean.isVisit(#trainingId) and hasAnyRole('1','2')")
-    @RequestMapping(value = "attachments", method = RequestMethod.GET)
-    public List<AttachmentDTO> getAttachments(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        List<Attachment> attachments = attachmentService.getAllAttachmentsByTrainingId(training.getId());
-        List<AttachmentDTO> attachmentDTOs = new ArrayList<>();
-
-        for (Attachment attachment : attachments) {
-            attachmentDTOs.add(new AttachmentDTO(attachment));
-        }
-        return attachmentDTOs;
-    }
-
-    @PreAuthorize("@trainerControlBean.isCoach(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
-    @RequestMapping(value = "newAttachment", method = RequestMethod.POST)
-    public void createAttachment(@RequestBody AttachmentDTO attachmentDTO) {
-        Attachment attachment = new Attachment(attachmentDTO);
-        attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
-        attachmentService.addAttachment(attachment);
-    }
-
-    @PreAuthorize("@trainerControlBean.isCoach(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
-    @RequestMapping(value = "editAttachment", method = RequestMethod.PUT)
-    public void editAttachment(@RequestBody AttachmentDTO attachmentDTO) {
-        Attachment attachment = attachmentService.getAttachmentById(attachmentDTO.getId());
-        attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
-        attachmentService.addAttachment(attachment);
-    }
-
-    @PreAuthorize("@trainerControlBean.isCoach(#trainingDTO) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isTrainer(#trainingDTO) or hasRole('0')")
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = trainingService.getTrainingById(trainingDTO.getId());
@@ -325,10 +292,10 @@ public class TrainingPageController {
         trainingService.updateTraining(training);
     }
 
-    @PreAuthorize("@trainerControlBean.isCoach(#id) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isTrainer(#id) or hasRole('0')")
     @RequestMapping(method = RequestMethod.DELETE)
     public void cancelTraining(@RequestParam String id) {
-        Training training = trainingService.getTrainingById(Long.parseLong(id));
+        Training training = trainingService.getTrainingById(id);
         training.setStatus(TrainingStatus.CANCELLED);
 
         if (UserUtil.hasRole(0)) {

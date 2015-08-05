@@ -5,6 +5,7 @@ import com.exadel.model.entity.training.Attachment;
 import com.exadel.repository.AttachmentRepository;
 import com.exadel.service.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +24,10 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    @Modifying
     public void addAttachment(Attachment attachment) {
         attachmentRepository.save(attachment);
+        attachment.setLink("http://localhost:8080/files/download?id=" + attachment.getId());
     }
 
     @Override
@@ -46,5 +49,10 @@ public class AttachmentServiceImpl implements AttachmentService {
         else {
             throw new AttachmentNotFoundException(String.valueOf(id));
         }
+    }
+
+    @Override
+    public void deleteAttachment(long id) {
+        attachmentRepository.delete(id);
     }
 }

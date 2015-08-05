@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(String.valueOf(id));
         }
     }
+
     public User getUserByLogin(String login){
         long id = this.jdbcTemplate.queryForObject(
                 "select user_id from authentification where login = ?",
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll(new Sort("surname"));
     }
 
@@ -133,6 +134,7 @@ public class UserServiceImpl implements UserService {
         else
             throw new UserHasNotMentoringTrainingsException(String.valueOf(id));
     }
+
     public long getCurrentId() {
     org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     String currentName = user.getUsername();
@@ -145,6 +147,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersByRole(UserRole role) {
         return userRepository.findByRole(role);
+    }
+
+    @Override
+    public List<User> getTrainers() {
+        return userRepository.findByRoleNot(UserRole.EXTERNAL_VISITOR);
     }
 
     public Page<User> getUsers(Integer first, Integer size) {
