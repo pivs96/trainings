@@ -44,8 +44,7 @@ public class FileUpDownLoadController {
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 
                 Attachment attachment = new Attachment();
-                attachment.setLink("/localhost:8080/Attachments/" + trainingId
-                        + "/" + file.getOriginalFilename());
+
                 attachment.setName(file.getOriginalFilename());
                 attachment.setTraining(trainingService.getTrainingById(trainingId));
                 attachmentService.addAttachment(attachment);
@@ -65,7 +64,8 @@ public class FileUpDownLoadController {
     public FileLoadStatus handleFileDownload(@RequestParam String id, HttpServletRequest request,
                                              HttpServletResponse response) {
         Attachment attachment = attachmentService.getAttachmentById(id);
-        String filePath = path + File.separator + attachment.getName();
+        String filePath = path + File.separator + attachment.getTraining().getId()
+                + File.separator + attachment.getName();
         File downloadFile = new File(filePath);
         ServletContext context = request.getServletContext();
 
@@ -76,10 +76,13 @@ public class FileUpDownLoadController {
             inputStream = new FileInputStream(downloadFile);
 
             response.setContentLength((int) downloadFile.length());
+//            response.setContentType("application/x-please-download-m");
+//            response.setContentType("application/octet-stream");
+
             response.setContentType(context.getMimeType(filePath));
 
             String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+            String headerValue = String.format("attachment;filename=\"%s\"", downloadFile.getName());
             response.setHeader(headerKey, headerValue);
 
             outStream = response.getOutputStream();

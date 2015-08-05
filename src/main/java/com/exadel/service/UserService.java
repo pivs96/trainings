@@ -22,7 +22,7 @@ public interface UserService {
 
     Employee getEmployeeById(String id);
 
-    Collection<User> getAllUsers();
+    List<User> getAllUsers();
 
     void addUser(User user);
 
@@ -35,6 +35,8 @@ public interface UserService {
     long getCurrentId();
 
     List<User> getUsersByRole(UserRole role);
+
+    List<User> getTrainers();
 
     Long getUserIdByFeedbackId(String id);
 

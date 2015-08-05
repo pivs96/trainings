@@ -113,8 +113,8 @@ public class UserPageController {
 
     @RequestMapping("/byFeedback")
     public long getUserId(@RequestParam String id) {
-    long userId = userService.getUserIdByFeedbackId(id);
-    return userId;
-}
+        long userId = userService.getUserIdByFeedbackId(id);
+        return userId;
+    }
 
 }

@@ -23,8 +23,8 @@ public class AbsenteeServiceImpl implements AbsenteeService {
     }
 
     @Override
-    public void addAbsentee(Absentee absentee) {
-        absenteeRepository.save(absentee);
+    public Absentee addAbsentee(Absentee absentee) {
+        return absenteeRepository.save(absentee);
     }
 
     @Override
@@ -42,6 +42,11 @@ public class AbsenteeServiceImpl implements AbsenteeService {
         } catch (NumberFormatException ex) {
             throw new AbsenteeNotFoundException(id);
         }
+    }
+
+    @Override
+    public Absentee getAbsentee(long userId, long entryId) {
+        return absenteeRepository.findByUserIdAndEntryId(userId, entryId);
     }
 
     @Override

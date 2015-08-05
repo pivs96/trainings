@@ -34,7 +34,7 @@ public class EntryServiceImpl implements EntryService{
     }
 
     @Override
-    public Entry  getEntryById(long id) {
+    public Entry getEntryById(long id) {
         Entry entry = entryRepository.findOne(id);
         if (entry != null) {
             return entry;

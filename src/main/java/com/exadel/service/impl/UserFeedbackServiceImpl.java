@@ -22,7 +22,8 @@ public class UserFeedbackServiceImpl implements UserFeedbackService{
 
     @Override
     public List<UserFeedback> getFeedbacksOnVisitor(long id) {
-        return userFeedbackRepository.findByVisitor(id);
+        return userFeedbackRepository.findByVisitorId(id);
+//        return userFeedbackRepository.findByVisitor(id);
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface TrainingService {
 
     Collection<Training> getAllTrainings();
 
-    long addTraining(Training training);
+    Training addTraining(Training training);
 
     void updateTraining(Training training);
 

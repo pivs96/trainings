@@ -14,4 +14,6 @@ public interface AttachmentService {
     Attachment getAttachmentById(String id);
 
     Attachment getAttachmentById(long id);
+
+    void deleteAttachment(long id);
 }

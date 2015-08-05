@@ -20,7 +20,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/newTrainer", method = RequestMethod.POST)
     public void addExternalTrainer(@RequestBody UserDTO trainerDTO) {
@@ -50,7 +49,18 @@ public class UserController {
     @PreAuthorize("hasRole('0')")
     @RequestMapping(method = RequestMethod.GET)
     public List<UserDTO> showUsers() {
-        List<User> users = (List<User>)userService.getAllUsers();
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (User user : users) {
+            userDTOs.add(new UserDTO(user));
+        }
+        return userDTOs;
+    }
+
+    @PreAuthorize("hasRole('0')")
+    @RequestMapping(value = "/trainers", method = RequestMethod.GET)
+    public List<UserDTO> showTrainers() {
+        List<User> users = userService.getTrainers();
         List<UserDTO> userDTOs = new ArrayList<>();
         for (User user : users) {
             userDTOs.add(new UserDTO(user));
