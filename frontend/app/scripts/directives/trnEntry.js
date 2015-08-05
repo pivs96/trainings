@@ -14,7 +14,7 @@ angular.module('frontendApp')
         newTraining: '='
       },
       controller: ['$scope', function($scope) {
-        if(!$scope.newTraining) {
+        if(!$scope.newTraining && $scope.entries[$scope.index]) {
           $scope.time = new Date();
           $scope.duration = new Date();
           $scope.date = new Date($scope.entries[$scope.index].beginTime);

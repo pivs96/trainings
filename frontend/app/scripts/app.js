@@ -100,7 +100,18 @@ angular
       })
       .when('/training/:trainingId/edit', {
         templateUrl: 'views/createTraining.html',
-        controller: 'EditTrainingCtrl'
+        controller: 'EditTrainingCtrl',
+        resolve: {
+          data: ['$route', 'training', function($route ,training) {
+            return training.getInfo({id: $route.current.params.trainingId}).$promise;
+          }],
+          entries: ['$route', 'training', function($route ,training) {
+            return training.getEntries({id: $route.current.params.trainingId, future: true}).$promise;
+          }],
+          attachments: ['$route', 'training', function($route, training) {
+            return training.getAttachments({id: $route.current.params.trainingId, future: true}).$promise;
+          }]
+        }
       })
       .otherwise({
         redirectTo: '/'

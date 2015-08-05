@@ -2,8 +2,8 @@
 
 angular.module('frontendApp')
   .controller('TrainingCtrl', ['$route', '$scope', '$location', '$localStorage', 'ngDialog', 'training',
-    'shareTrainingInfo', 'UserFeedbackService',
-    function ($route, $scope, $location, $localStorage, ngDialog, training, shareTrainingInfo, UserFeedbackService) {
+    'UserFeedbackService',
+    function ($route, $scope, $location, $localStorage, ngDialog, training, UserFeedbackService) {
 
       $scope.feedbacks = [];
       $scope.training = {};
@@ -141,17 +141,7 @@ angular.module('frontendApp')
       $scope.registrated = false;
 
       $scope.edit = function() {
-        if(_.isEmpty($scope.entries)) {
-          training.getEntries({id: $route.current.params.trainingId}, function (resp) {
-            $scope.entries = angular.copy(resp);
-            shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
             $location.path('/training/' + $route.current.params.trainingId + '/edit');
-          });
-        }
-        else {
-          shareTrainingInfo.setData(_.extend($scope.training, {entries: $scope.entries}));
-          $location.path('/training/' + $route.current.params.trainingId + '/edit');
-        }
       };
 
       $scope.cancel = function() {

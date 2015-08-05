@@ -19,9 +19,10 @@ angular.module('frontendApp')
 
     $scope.newTraining = true;
 
+
     $scope.removeEntry = function($event) {
-      angular.element($event.currentTarget).parents('.entry').remove();
       var index = angular.element($event.currentTarget).parents('.entry').children('[index]').attr('index');
+      angular.element($event.currentTarget).parents('.entry').remove();
       if(index == $scope.entryNum - 1) {
         $scope.entryNum--;
       } else {
@@ -66,7 +67,6 @@ angular.module('frontendApp')
         $scope.uploadUrl = 'http://localhost:8080/files/upload?trainingId=' + resp.id;
         uploader.uploadAll();
       });
-
     };
 
 
@@ -86,8 +86,7 @@ angular.module('frontendApp')
         userlist.getUserList(function(resp) {
           $scope.users = angular.copy(resp);
         })
-      }
-      else {
+      } else {
         $scope.users = $localStorage.userData;
       }
 

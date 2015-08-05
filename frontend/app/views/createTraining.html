@@ -7,6 +7,8 @@
 
 <form name="trainingForm" class="form-inline" ng-submit="save()" novalidate>
 
+
+
   <div class="col-sm-8 training-info-entry" ng-if="newTraining">
     <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label">
       {{translation.STATUS}}:</label>
@@ -34,6 +36,16 @@
     </div>
     <div align="center" class="create-training-submit">
       <button type="submit" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
+    </div>
+  </div>
+
+  <div class="col-sm-8 training-info-entry" ng-if="!newTraining && isAdmin()">
+    <label for="st" class="col-sm-4 control-label text-right create-training-entry-label">
+      {{translation.STATUS}}:</label>
+
+    <div class="col-sm-7" >
+      <select id="st" ng-model="data.status" class="form-control create-training-trainer-select"
+              ng-options="status for status in statuses"></select>
     </div>
   </div>
 
@@ -144,11 +156,11 @@
         </button>
       </div>
 
-
-
-    <ul class="list-inline">
-      <li ng-repeat="attachment in training.attachments">
-        <a class="col-sm-7" href="{{attachment.value}}">{{attachment.key}}</a>
+    <ul class="list-inline col-sm-offset-4">
+      <li ng-repeat="attachment in data.attachments">
+        <a class="col-sm-7" href="{{attachment.link}}">{{attachment.name}}</a>
+        &nbsp;&nbsp;
+        <i class="fa fa-close"></i>
       </li>
     </ul>
   </div>
