@@ -6,7 +6,7 @@ angular.module('frontendApp')
     function ($scope, ngDialog,    userService, $location, userServiceDelegate, $http) {
 
       $scope.users = [];
-      $scope.callServer = function callServer (tableState) {
+      $scope.callServer = function (tableState) {
         $scope.isLoading = true;
         var pagination = tableState.pagination;
 
