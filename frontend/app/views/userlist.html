@@ -1,6 +1,6 @@
 <div class="training-menu">
     {{translation.USER_LIST}}
-    <button class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Trainer');"
+    <button ng-if="isAdmin()" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Trainer');"
             ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINER}}
     </button>
 </div>

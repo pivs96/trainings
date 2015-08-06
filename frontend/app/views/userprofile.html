@@ -43,7 +43,8 @@
     </div>
 
     <div class="col-md-3 watchUserFeedback">
-      <button class="btn btn-primary" ng-click="wathchFeedback()">{{translation.WATCH_USER_FEEDBACKS}}</button>
+      <button ng-if="isAdmin()" class="btn btn-primary" ng-click="wathchFeedback()">
+        {{translation.WATCH_USER_FEEDBACKS}}</button>
       <div class="btn-user-profile-edit" ng-if="isAdmin() && isUserExternal">
         <a class="btn btn-primary btn-sm" ng-click="startEdit()"
            ng-show="!editMode">

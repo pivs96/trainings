@@ -42,7 +42,7 @@ angular.module('frontendApp').controller('UserTrainingsCtrl', ['$location', '$sc
     };
 
     $scope.createTraining = function(){
-      $location.path('/training/edit');
+      $location.path('/training/create');
     };
 
   }]);

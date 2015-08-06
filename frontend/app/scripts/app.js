@@ -118,7 +118,7 @@ angular
         }
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/userTrainings'
       });
     $httpProvider.defaults.withCredentials = true;
     stConfig.pagination.template = '../views/pagination/pagination.html';

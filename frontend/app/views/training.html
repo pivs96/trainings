@@ -3,12 +3,10 @@
     <div class="training-menu">
 
         {{training.name}}
-        <span trn-star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" ></span>
-      <!-- TODO make check for trainer -->
-        <button ng-if="true" type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
-        <button ng-if="true" type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
+        <button ng-if="isAdmin() || isMentor()" type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
+        <button ng-if="isAdmin() || isMentor()" type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
         <button ng-if="isAdmin();" type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener')">{{translation.ADD_LISTENER}}</button>
-        <button ng-if="registrated" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
+        <button ng-if="registrated && !isMentor()" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
 
     </div>
 </div>
@@ -24,7 +22,7 @@
 
         </tab>
 
-        <tab select="openParticipantsList()" heading="{{translation.PARTICIPANTS}}">
+        <tab ng-if="isAdmin() || isMentor()" select="openParticipantsList()" heading="{{translation.PARTICIPANTS}}">
 
           <div ng-include="'views/tabs/trainingParticipantsTab.html'"></div>
 

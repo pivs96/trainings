@@ -5,6 +5,13 @@ angular.module('frontendApp')
     'UserFeedbackService',
     function ($route, $scope, $location, $localStorage, ngDialog, training, UserFeedbackService) {
 
+
+      $scope.isMentor = function() {
+        return $localStorage.userData.id === $scope.training.trainer.id;
+      };
+
+
+
       $scope.feedbacks = [];
       $scope.training = {};
       $scope.participants = [];
@@ -88,14 +95,12 @@ angular.module('frontendApp')
       $scope.openInfo = function() {
         if(_.isEmpty($scope.training)) {
           training.getInfo({id: $route.current.params.trainingId}, function(resp){
+
             $scope.training = angular.copy(resp);
-            $scope.rating = $scope.training.rating;
+            console.log($scope.training);
             $scope.ratings.current = $scope.training.rating;
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
               _.extend($scope.training, {entry: angular.copy(resp)});
-            });
-            training.getTrainer({id: $scope.training.trainerId}, function(resp) {
-              _.extend($scope.training, {trainer: angular.copy(resp)});
             });
             training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
               _.extend($scope.training, {attachments: angular.copy(resp)});
@@ -105,6 +110,7 @@ angular.module('frontendApp')
 
             $scope.registrated = (angular.copy(resp)[0] !== 'N');
           });
+
         }
       };
 

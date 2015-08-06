@@ -42,7 +42,7 @@
               </ul>
             </div>
           </li>
-          <li>
+          <li ng-if="isAdmin() || isExternalTrainer()">
             <a class="btn-link" ng-click="openAside()">
               <div class="col-md-8">
                 <i class="fa fa-bell fa-lg event-bell"
