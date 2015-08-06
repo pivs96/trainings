@@ -11,42 +11,31 @@
       </div>
 
       <div>
-        <label>{{translation.SELECT_LANGUAGE}}</label>
-        <select ng-change="translate()" ng-model="i10n.selectedLanguage">
-          <option ng-repeat="l in languagesList" value="{{l.value}}">{{l.label}}</option>
-        </select>
         </section>
       </div>
       <br/>
-      <div ng-if="isAdmin() && isUserExternal">
-        <a class="btn btn-default btn-sm" ng-click="startEdit()"
-           ng-show="!editMode">
-          <i class="fa fa-pencil"></i> {{translation.EDIT}}</a>
-        <a class="btn btn-default btn-sm" ng-click="saveChanges()"
-           ng-show="editMode">
-          <i class="fa fa-floppy-o"></i> {{translation.SAVE}}</a>
-      </div>
+
     </div>
 
-    <div class="col-md-3">
+    <div class="col-sm-4">
       <div class="form-group">
-        <label>{{translation.NAME}}
+        <label>{{translation.NAME}}:
           <trn-editable-label editable-value='selectedUser.name' edit-mode="editMode"/>
         </label>
       </div>
       <div class="form-group">
-        <label>{{translation.SURNAME}}
+        <label>{{translation.SURNAME}}:
           <trn-editable-label editable-value='selectedUser.surname' edit-mode="editMode"/>
         </label>
       </div>
       <div class="form-group">
-        <label>{{translation.PHONE}}
+        <label>{{translation.PHONE}}:
           <trn-editable-label editable-value='selectedUser.phone' edit-mode="editMode">
           </trn-editable-label>
         </label>
       </div>
       <div class="form-group">
-        <label>{{translation.EMAIL}}
+        <label>{{translation.EMAIL}}:
           <trn-editable-label editable-value='selectedUser.email' edit-mode="editMode">
           </trn-editable-label>
         </label>
@@ -55,7 +44,20 @@
 
     <div class="col-md-3 watchUserFeedback">
       <button class="btn btn-primary" ng-click="wathchFeedback()">{{translation.WATCH_USER_FEEDBACKS}}</button>
+      <div class="btn-user-profile-edit" ng-if="isAdmin() && isUserExternal">
+        <a class="btn btn-primary btn-sm" ng-click="startEdit()"
+           ng-show="!editMode">
+          <i class="fa fa-pencil"></i> {{translation.EDIT}}</a>
+        <a class="btn btn-primary btn-sm" ng-click="saveChanges()"
+           ng-show="editMode">
+          <i class="fa fa-floppy-o"></i> {{translation.SAVE}}</a>
+      </div>
+      <div>
+      <button ng-if="isAdmin()" class="btn btn-primary btn-user-profile-edit"
+              ng-click="getStatistics()">{{translation.STATISTICS}}</button>
+      </div>
     </div>
+
 
   </div>
   <div class="row" ng-if="mentoringTrainingsList && mentoringTrainingsList.length">

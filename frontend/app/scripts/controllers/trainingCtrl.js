@@ -11,7 +11,6 @@ angular.module('frontendApp')
       $scope.entries = [];
 
       $scope.trainingId = $route.current.params.trainingId;
-      $scope.rating = 0;
       $scope.ratings = {
         current: 1,
         max: 5
@@ -90,6 +89,7 @@ angular.module('frontendApp')
         if(_.isEmpty($scope.training)) {
           training.getInfo({id: $route.current.params.trainingId}, function(resp){
             $scope.training = angular.copy(resp);
+            $scope.rating = $scope.training.rating;
             $scope.ratings.current = $scope.training.rating;
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
               _.extend($scope.training, {entry: angular.copy(resp)});
@@ -101,7 +101,7 @@ angular.module('frontendApp')
               _.extend($scope.training, {attachments: angular.copy(resp)});
             })
           });
-          training.checkParticipation({uid: '2', trainingId: $route.current.params.trainingId}, function(resp) {
+          training.checkParticipation({uid: $localStorage.userData.id, trainingId: $route.current.params.trainingId}, function(resp) {
 
             $scope.registrated = (angular.copy(resp)[0] !== 'N');
           });

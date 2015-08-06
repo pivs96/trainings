@@ -55,6 +55,18 @@ angular.module('frontendApp')
 
 
       $scope.save = function() {
+        $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
+        var edit = new editTraining();
+        edit.data = angular.copy($scope.data);
+        console.log(edit.data);
+        for(var i = 0; i < edit.data.entries.length; i++) {
+          edit.data.entries[i].beginTime = edit.data.entries[i].beginTime.valueOf();
+          edit.data.entries[i].endTime = edit.data.entries[i].endTime.valueOf();
+        }
+        if($scope.data.repeating) {
+          edit.data.begin = edit.data.begin.valueOf();
+          edit.data.end = edit.data.end.valueOf();
+        }
         editTraining.updateTraining($scope.data).$promise.then(function(resp) {
           $scope.compareTrainingData();
           $scope.compareEntryData();

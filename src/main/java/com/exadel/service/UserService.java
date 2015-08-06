@@ -6,6 +6,7 @@ import com.exadel.model.entity.user.Employee;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,4 +38,5 @@ public interface UserService {
 
     Long getUserIdByFeedbackId(String id);
 
+    Page<User> getDeploymentLog(Integer pageNumber, Integer size);
 }

@@ -1,18 +1,24 @@
 'use strict';
 
-angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog', 'userService', 'userServiceDelegate', 'appConstants', 'userProfileData',  function ($scope, ngDialog, userService, userServiceDelegate, appConstants, userProfileData) {
+angular.module('frontendApp')
+  .controller('UserProfileCtrl', ['$scope', 'ngDialog', 'userService', 'userServiceDelegate', 'appConstants',
+    'userProfileData',
+    function ($scope, ngDialog, userService, userServiceDelegate, appConstants, userProfileData) {
   $scope.editMode = false;
-  $scope.languagesList = appConstants.LANGUAGES;
   $scope.selectedUser = userProfileData;
   $scope.isUserExternal = $scope.selectedUser.role == appConstants.EXT_TRAINER || $scope.selectedUser.role == appConstants.EXT_VISITOR;
 
-  userService.userResource.getMentoringTrainings(function (mentoringTrainings) {
-    $scope.mentoringTrainingsList = mentoringTrainings;
-  });
+  if($scope.selectedUser.role != appConstants.EXT_VISITOR) {
+    userService.userResource.getMentoringTrainings(function (mentoringTrainings) {
+      $scope.mentoringTrainingsList = mentoringTrainings;
+    });
+  }
 
-  userService.userResource.getVisitingTrainings(function (visitingTrainings) {
-    $scope.visitingTrainingsList = visitingTrainings;
-  });
+  if($scope.selectedUser.role != appConstants.EXT_TRAINER) {
+    userService.userResource.getVisitingTrainings(function (visitingTrainings) {
+      $scope.visitingTrainingsList = visitingTrainings;
+    });
+  }
 
   $scope.startEdit = function () {
     $scope.editMode = true;
@@ -30,6 +36,10 @@ angular.module('frontendApp').controller('UserProfileCtrl', ['$scope', 'ngDialog
       return;
     }
     userServiceDelegate.updateUserInfo(saveType, $scope.selectedUser);
+  };
+
+  $scope.getStatistics = function() {
+
   };
 
   $scope.wathchFeedback = function(){

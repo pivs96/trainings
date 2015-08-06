@@ -2,8 +2,11 @@
  * Created by Natsik on 11.07.2015.
  */
 angular.module('frontendApp')
-  .controller('HeaderCtrl', ['$location', '$scope', '$localStorage', '$http', '$rootScope', 'AuthenticationService', 'userService',
-    function ($location, $scope, $localStorage, $http, $rootScope, AuthenticationService, userService) {
+  .controller('HeaderCtrl', ['$location', '$scope', '$localStorage', '$http', '$rootScope', 'AuthenticationService',
+    'userService', 'appConstants',
+    function ($location, $scope, $localStorage, $http, $rootScope, AuthenticationService, userService, appConstants) {
+
+    $scope.languagesList = appConstants.LANGUAGES;
 
     this.goToUserProfile = function (){
       userService.setUserId($localStorage.userData.id);

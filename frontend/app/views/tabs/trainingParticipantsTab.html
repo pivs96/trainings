@@ -6,12 +6,12 @@
   </button>
 </h2>
 
-<table ng-if="participants && participants.length" st-table="participants" class="table table-striped text-center">
+<table ng-if="participants && participants.length" st-table="participants" class="table table-striped">
   <thead>
-  <th class="text-center" st-sort="name">{{translation.NAME}}</th>
-  <th class="text-center" st-sort="surname">{{translation.SURNAME}}</th>
-  <th class="text-center" st-sort="email">{{translation.EMAIL}}</th>
-  <th class="text-center" st-sort="phone">{{translation.ATTACHMENTS}}</th>
+  <th st-sort="name">{{translation.NAME}}</th>
+  <th st-sort="surname">{{translation.SURNAME}}</th>
+  <th st-sort="email">{{translation.EMAIL}}</th>
+  <th st-sort="phone">{{translation.ATTACHMENTS}}</th>
   </thead>
   <tbody>
   <tr ng-repeat="participant in participants" ng-click="openUserpage({{participant.id}})">
@@ -20,7 +20,7 @@
     <td>{{participant.email}}</td>
     <td>{{participant.phone}}</td>
     <td ng-if="isAdmin()">
-      <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
+      <button ng-if="isAdmin();" class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
       <!-- TODO Show 'User feedback' for trainer only -->
       <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog({{participant.id}}, $event, participant.name)" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
     </td>

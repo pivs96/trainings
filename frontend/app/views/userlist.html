@@ -1,10 +1,10 @@
-<div>
-    <h1 class="text-left">{{translation.USER_LIST}}</h1>
-    <button class="btn btn-default" ng-click="openCreatePopup('Trainer');"
+<div class="training-menu">
+    {{translation.USER_LIST}}
+    <button class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Trainer');"
             ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINER}}
     </button>
 </div>
-<table st-table="users" class="table table-striped text-center">
+<table st-table="users" st-pipe="callServer" class="table table-striped">
   <thead>
   <tr>
     <th class="text-center" st-sort="name">
@@ -47,9 +47,9 @@
   </tr>
   </tbody>
   <tfoot>
-  <tr ng-if="pages.length >= 2">
+  <tr ng-if="pages.length >= 2 || true">
     <td colspan="10" class="text-center">
-      <div st-items-by-page="10" st-pagination="" st-template="views/pagination/pagination.html"></div>
+      <div st-items-by-page="10" st-pagination=""></div>
     </td>
   </tr>
   </tfoot>

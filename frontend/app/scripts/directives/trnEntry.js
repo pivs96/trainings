@@ -61,6 +61,18 @@ angular.module('frontendApp')
             scope.duration = null;
           }
         });
+
+        scope.$watch('city', function(newVal, oldVal) {
+          if(oldVal !== newVal) {
+            scope.entries[scope.index].place = newVal + ', ' + scope.unit;
+          }
+        });
+
+        scope.$watch('unit', function(newVal, oldVal) {
+          if(oldVal !== newVal) {
+            scope.entries[scope.index].place = scope.city + ', ' + newVal;
+          }
+        });
       }
     }
   });

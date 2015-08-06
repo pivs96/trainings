@@ -42,13 +42,13 @@
   <label for="city" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.CITY}}: </label>
   <div class="col-sm-7">
     <input id="city" type="text" placeholder="input city" class="create-training-trainer-select form-control"
-           ng-model="entries[index].city">
+           ng-model="city">
   </div>
 </div>
 <div class="col-sm-8 training-info-entry">
   <label for="unit" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.UNIT}}: </label>
   <div class="col-sm-7">
     <input id="unit" type="text" placeholder="input unit" class="create-training-trainer-select form-control"
-           ng-disabled="!isAdmin();" ng-model="entries[index].unit">
+           ng-disabled="!isAdmin();" ng-model="unit">
   </div>
 </div>

@@ -25,7 +25,7 @@ angular
     'angularFileUpload',
     'ui.select'
   ])
-  .config(function ($routeProvider,$httpProvider) {
+  .config(function ($routeProvider,$httpProvider,stConfig) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -36,11 +36,11 @@ angular
         templateUrl: 'views/userlist.html',
         controller: 'UserlistCtrl',
         controllerAs: 'userlist',
-        resolve: {
+        /*resolve: {
           data: function (userlist) {
             return userlist.getUserList().$promise;
           }
-        }
+        }*/
       })
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',
@@ -93,7 +93,7 @@ angular
         controller: 'LoginCtrl',
         controllerAs: 'loginController'
       })
-      .when('/training/edit', {
+      .when('/training/create', {
         templateUrl: 'views/createTraining.html',
         controller: 'CreateTrainingCtrl',
         controllerAs: 'createTraining'
@@ -121,7 +121,8 @@ angular
         redirectTo: '/'
       });
     $httpProvider.defaults.withCredentials = true;
-  }).run(function ($http, $location, $cookies, $rootScope, $localStorage, translationService, appConstants) {
+    stConfig.pagination.template = '../views/pagination/pagination.html';
+  }).run(function ($http, $location, $cookies, $rootScope, $localStorage, appConstants, translationService) {
     $rootScope.globals = $cookies.get('globals');
     if ($rootScope.globals) {
       $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;

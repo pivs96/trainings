@@ -33,11 +33,22 @@
 
         <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl" ng-show="isLoginPage()">
           <li>
+            <div class="btn-group header-lang-select">
+              <button type="button" class="btn header-lang-select-button dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{i10n.selectedLanguage}} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li ng-repeat="l in languagesList"><a ng-click="i10n.selectedLanguage = l.value ;translate()">{{l.label}}</a></li>
+              </ul>
+            </div>
+          </li>
+          <li>
             <a class="btn-link" ng-click="openAside()">
               <div class="col-md-8">
-                <i class="fa fa-bell-o fa-lg event-bell"></i>
+                <i class="fa fa-bell fa-lg event-bell"
+                   ng-class="{bellYellow: eventList.length > 0, bellWhite: eventList.length === 0}"></i>
               </div>
-              <div  class="col-offcet-2 event-number">
+              <div class="col-offcet-2 event-number">
                 {{eventList.length}}
               </div>
             </a>
