@@ -50,10 +50,7 @@ angular.module('frontendApp')
 
       var templateUrl = $sce.getTrustedResourceUrl('views/templates/newEntry.html');
       if(entries.size > 1) {
-        $templateRequest(templateUrl).then(function (template) {
-          angular.element('#trainingEntries').append($compile(template)($scope));
-          $scope.entryNum++;
-        });
+        $scope.addEntry();
       }
 
 
