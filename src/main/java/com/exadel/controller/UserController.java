@@ -68,8 +68,8 @@ public class UserController {
         return userDTOs;
     }
 
-    @RequestMapping(value = "/{pageNumber}", method = RequestMethod.GET)
-    public List<UserDTO> getRunbookPage(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
+    public List<UserDTO> getUsers(@PathVariable Integer pageNumber, @RequestParam Integer size) {
         Page<User> page = userService.getDeploymentLog(pageNumber,size);
         List<User> users =  page.getContent();
         List<UserDTO> userDTOs = new ArrayList<>();

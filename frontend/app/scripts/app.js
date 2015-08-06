@@ -34,13 +34,7 @@ angular
       })
       .when('/users', {
         templateUrl: 'views/userlist.html',
-        controller: 'UserlistCtrl',
-        controllerAs: 'userlist',
-        /*resolve: {
-          data: function (userlist) {
-            return userlist.getUserList().$promise;
-          }
-        }*/
+        controller: 'UserlistCtrl'
       })
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',

@@ -4,7 +4,7 @@
 angular.module('frontendApp')
   .controller('UserlistCtrl', ['$scope', 'ngDialog',  'userService', '$location', 'userServiceDelegate', '$http',
     function ($scope, ngDialog,    userService, $location, userServiceDelegate, $http) {
-      //$scope.users = data;
+
       $scope.users = [];
       $scope.callServer = function callServer (tableState) {
         $scope.isLoading = true;

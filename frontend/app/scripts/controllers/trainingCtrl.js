@@ -6,7 +6,7 @@ angular.module('frontendApp')
     function ($route, $scope, $location, $localStorage, ngDialog, training, UserFeedbackService) {
 
 
-      $scope.isMentor = function() {
+      $scope.isTrainer = function() {
         return $localStorage.userData.id === $scope.training.trainer.id;
       };
 

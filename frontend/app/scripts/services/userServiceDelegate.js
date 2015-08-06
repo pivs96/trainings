@@ -8,7 +8,7 @@ angular.module('frontendApp').service('userServiceDelegate', function ($http) {
     return $http.get(_url);
   };
   this.getPage = function (pageStart, number, tableState) {
-    return $http.get('http://localhost:8080/users/'+pageStart+'?size='+number+'&state='+tableState);
+    return $http.get('http://localhost:8080/users/pages/'+pageStart+'?size='+number+'&state='+tableState);
   };
   this.getPageCount = function(start, number) {
     return $http.get('http://localhost:8080/users/pages/count/'+start+'?size='+number);
