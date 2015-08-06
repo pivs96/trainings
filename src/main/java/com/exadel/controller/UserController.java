@@ -2,24 +2,14 @@ package com.exadel.controller;
 
 import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.user.User;
-import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 
@@ -84,24 +74,5 @@ public class UserController {
             userDTOs.add(new UserDTO(user));
         }
         return userDTOs;
-    }
-
-    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public List<UserDTO> getUsers(@PathVariable Integer pageNumber, @RequestParam Integer size) {
-        Page<User> page = userService.getDeploymentLog(pageNumber,size);
-        List<User> users =  page.getContent();
-        List<UserDTO> userDTOs = new ArrayList<>();
-        //Page <User> testPage = userService.
-        for (User user : users) {
-            userDTOs.add(new UserDTO(user));
-        }
-        return userDTOs;
-    }
-
-    @RequestMapping(value = "/pages/count/{pageNumber}", method = RequestMethod.GET)
-    public Integer getCount(@PathVariable Integer pageNumber, @RequestParam Integer size) {
-        Page<User> page = userService.getDeploymentLog(pageNumber, size);
-        Integer count = page.getTotalPages();
-        return count;
     }
 }
