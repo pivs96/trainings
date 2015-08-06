@@ -139,9 +139,6 @@ public class UserServiceImpl implements UserService {
     long id = this.jdbcTemplate.queryForObject(
             "select user_id from authentification where login = ?",
             Long.class,currentName);
-    /*String name = this.jdbcTemplate.queryForObject(
-            "select name from users where id = ?",
-            String.class,id);*/
     return id;
     }
 
@@ -150,7 +147,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRole(role);
     }
 
-    public Page<User> getDeploymentLog(Integer first,Integer size) {
+    public Page<User> getUsers(Integer first, Integer size) {
         Integer pageNumber = first / size;
         PageRequest request =
                 new PageRequest(pageNumber, size);

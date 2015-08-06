@@ -38,5 +38,7 @@ public interface UserService {
 
     Long getUserIdByFeedbackId(String id);
 
+    Page<User> getUsers(Integer pageNumber, Integer size);
+
     Page<User> getDeploymentLog(Integer pageNumber, Integer size);
 }
