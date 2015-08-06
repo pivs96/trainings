@@ -124,5 +124,12 @@
   "ALL_TRAININGS_RAITINGS" : "Rating",
   "CREATE_TRAINING" : "Create training",
   "OR_ATTACH_LINKS" : "Or attach links",
-  "ADD_LINK" : "Add link"
+  "ADD_LINK" : "Add link",
+  "ADD_ABSENCE" : "Add information about absence",
+  "EDIT_ABSENCE" : "Edit information about absence",
+  "EDIT_REASON" : "Edit reason",
+  "SELECT_ACTION" : "Please, select action",
+  "ENTER_REASON_PLH" : "Enter absence reason here",
+  "DELETE" : "Delete",
+  "REASON": "Enter reason"
 }

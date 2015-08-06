@@ -1,0 +1,26 @@
+<div class="modal-header a-j-modal-dialog-header">
+  <h2>{{translation.EDIT_ABSENCE}}</h2>
+</div>
+
+<form ng-submit="editAbsence()" class="a-j-modal-dialog">
+  <label>{{translation.SELECT_ACTION}}</label>
+
+  <div class="radio">
+    <div>
+      <label><input type="radio" name="optradio" ng-model="editState" value="edit">{{translation.EDIT_REASON}}</label>
+    </div>
+    <div>
+      <label><input type="radio" name="optradio" ng-model="editState" value="del">{{translation.DELETE}}</label>
+    </div>
+  </div>
+
+  <div class="form-group" ng-show="editState == 'edit'">
+    <label>{{translation.REASON}}</label>
+    <textarea class="form-control" rows="5" ng-model="reason" placeholder="{{translation.ENTER_REASON_PLH}}"></textarea>
+  </div>
+
+  <div class="form-actions">
+    <button ng-click="closeThisDialog()" class="btn btn-primary">{{translation.CLOSE}}</button>
+    <button type="submit" class="btn btn-primary">{{translation.SAVE}}</button>
+  </div>
+</form>

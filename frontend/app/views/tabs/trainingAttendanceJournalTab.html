@@ -1,7 +1,8 @@
 <div ng-controller="AttendanceJournalCtrl">
-  <table id="attendanceJournalTable" class="table text-center attendance-journal-table">
+  <table id="attendanceJournalTable"  class="table text-center attendance-journal-table">
     <thead>
       <tr>
+
         <th class="attendance-journal-table text-center" >{{translation.NAME}}</th>
         <th class="attendance-journal-table text-center" ng-repeat="th in entries">{{th.beginTime | date:'dd-MM-yy'}}</th>
       </tr>
@@ -9,7 +10,7 @@
     <tbody>
     <tr ng-repeat="user in ajArray" >
       <td class="attendance-journal-table">{{user.userName}}</td>
-      <td class="attendance-journal-table" data-toggle="tooltip" title="{{attend.reason}}" ng-repeat="attend in user.attendance">{{attend.state}}</td>
+      <td class="attendance-journal-table" ng-click="cellClickHandler(attend, user)" data-toggle="tooltip" title="{{attend.reason}}" ng-repeat="attend in user.attendance">{{attend.state}}</td>
     </tr>
     </tbody>
   </table>

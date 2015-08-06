@@ -1,4 +1,4 @@
-angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q', 'training', function ($scope, $q, training) {
+angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $q, training, attendanceJournalService, ngDialog) {
 
   //TODO user real dates here
   var _beginDate = 1430450800000;
@@ -29,7 +29,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
     participants.forEach(function (participant) {
       var newUserRow = {};
       newUserRow.userName = participant.name + " " + participant.surname;
-
+      newUserRow.userId = participant.id;
       var newUserAttendanceArray = [];
 
       entries.forEach(function (entry) {
@@ -52,6 +52,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
           if (absenteesForEntry[j].userId == participant.id) {
             //found that user was absent
             entryAttendance.state = ABSENT;
+            entryAttendance.id = absenteesForEntry[j].id;
             entryAttendance.reason = absenteesForEntry[j].reason;
             break;
           }
@@ -65,6 +66,90 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
     $scope.entries = entries;
     $scope.ajArray = ajArray;
   });
+
+  $scope.cellClickHandler = function (attend, user) {
+    $scope.user = user;
+    $scope.attend = attend;
+    switch (attend.state) {
+      case ABSENT:
+        //delete or edit absence
+        showEditAbsenceDialog();
+        break;
+      case PRESENT:
+        //add absence
+        showAddAbsenceDialog();
+        break;
+      case NOT_ATTEND:
+        //is not editable
+        return;
+        break;
+      default:
+        return;
+    }
+  };
+
+  function showEditAbsenceDialog() {
+    ngDialog.open({
+      template: "views/popups/editAbsenceInfo.html",
+      controller: ['$scope', 'attendanceJournalService', function ($scope, attendanceJournalService) {
+        $scope.reason = $scope.attend.reason;
+        $scope.editState = 'edit';
+
+        $scope.editAbsence = function () {
+          if ($scope.editState == 'edit') {
+            attendanceJournalService.editAbsence(getAbsenceDTO($scope.attend.id, $scope.user.userId, $scope.attend.entryId, $scope.reason), function (result) {
+              $scope.attend.reason = $scope.reason;
+            });
+          } else {
+            attendanceJournalService.deleteAbsence($scope.attend.id, function (result) {
+              delete $scope.attend.reason;
+              delete $scope.attend.id;
+              $scope.attend.state = PRESENT;
+            });
+          }
+          $scope.closeThisDialog();
+        }
+      }],
+      scope: $scope
+    })
+
+  };
+
+  function showAddAbsenceDialog() {
+    ngDialog.open({
+      template: "views/popups/addAbsenceInfo.html",
+      controller: ['$scope', 'attendanceJournalService', function ($scope, attendanceJournalService) {
+        $scope.reason;
+        $scope.addAbsence = function () {
+          attendanceJournalService.addAbsence(getNewAbsenceDTO($scope.user.userId, $scope.attend.entryId, $scope.reason), function (result) {
+            //TODO set new absence id here
+            //$scope.attend.id = result.id;
+            $scope.attend.reason = $scope.reason;
+            $scope.attend.state = ABSENT;
+          });
+          $scope.closeThisDialog();
+        };
+      }],
+      scope: $scope
+    })
+  };
+
+  function getAbsenceDTO(_id, _userId, _entryId, _reason) {
+    return {
+      id: _id,
+      userId: _userId,
+      entryId: _entryId,
+      reason: _reason
+    }
+  }
+
+  function getNewAbsenceDTO(_userId, _entryId, _reason) {
+    return {
+      userId: _userId,
+      entryId: _entryId,
+      reason: _reason
+    }
+  }
 
 }]);
 

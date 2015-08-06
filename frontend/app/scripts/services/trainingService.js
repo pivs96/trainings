@@ -63,7 +63,6 @@ angular.module('frontendApp').factory('training',['$resource',
           id: '@id'
         }
       },
-      // training/participation?trainingId=2
 
       getParticipation: {
         method: 'GET',
@@ -73,7 +72,6 @@ angular.module('frontendApp').factory('training',['$resource',
         },
         isArray: true
       },
-      //GET /training/absentees?trainingId=1&beginDate=123563432564&endDate=1233443535
 
       getAbsentees: {
         method: 'GET',
@@ -85,7 +83,6 @@ angular.module('frontendApp').factory('training',['$resource',
         },
         isArray: true
       },
-
 
       getWaitList: {
         method: 'GET',

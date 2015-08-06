@@ -1,0 +1,15 @@
+<div class="modal-header a-j-modal-dialog-header">
+  <h2>{{translation.ADD_ABSENCE}}</h2>
+</div>
+
+<form ng-submit="addAbsence(reason)" class="a-j-modal-dialog">
+  <div class="form-group">
+    <label>{{translation.REASON}}</label>
+    <textarea class="form-control" rows="5" ng-model="reason" placeholder="{{translation.ENTER_REASON_PLH}}"></textarea>
+  </div>
+  <div class="form-actions">
+    <button ng-click="closeThisDialog()" class="btn btn-primary">{{translation.CLOSE}}</button>
+    <button type="submit" class="btn btn-primary">{{translation.SAVE}}</button>
+  </div>
+</form>
+
