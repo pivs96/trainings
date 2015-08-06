@@ -44,18 +44,20 @@
 
     <div class="col-md-3 watchUserFeedback">
       <button ng-if="isAdmin()" class="btn btn-primary" ng-click="wathchFeedback()">
-        {{translation.WATCH_USER_FEEDBACKS}}</button>
+        {{translation.WATCH_USER_FEEDBACKS}}
+      </button>
       <div class="btn-user-profile-edit" ng-if="isAdmin() && isUserExternal">
-        <a class="btn btn-primary btn-sm" ng-click="startEdit()"
-           ng-show="!editMode">
-          <i class="fa fa-pencil"></i> {{translation.EDIT}}</a>
-        <a class="btn btn-primary btn-sm" ng-click="saveChanges()"
-           ng-show="editMode">
-          <i class="fa fa-floppy-o"></i> {{translation.SAVE}}</a>
+        <a class="btn btn-primary btn-sm" ng-click="startEdit()" ng-show="!editMode">
+          <i class="fa fa-pencil"></i> {{translation.EDIT}}
+        </a>
+        <a class="btn btn-primary btn-sm" ng-click="saveChanges()" ng-show="editMode">
+          <i class="fa fa-floppy-o"></i> {{translation.SAVE}}
+        </a>
       </div>
       <div>
-      <button ng-if="isAdmin()" class="btn btn-primary btn-user-profile-edit"
-              ng-click="getStatistics()">{{translation.STATISTICS}}</button>
+        <button ng-if="isAdmin()" class="btn btn-primary btn-user-profile-edit"
+                ng-click="getStatistics()">{{translation.STATISTICS}}
+        </button>
       </div>
     </div>
 
