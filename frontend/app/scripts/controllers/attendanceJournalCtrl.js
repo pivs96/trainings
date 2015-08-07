@@ -1,8 +1,9 @@
-angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $localStorage, $q, training, attendanceJournalService, ngDialog) {
+'use strict';
+angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog) {
 
   //TODO user real dates here
-  var _beginDate = 1430450800000;
-  var _endDate = 1431939600000;
+  var _beginDate = 1430430800000;
+  var _endDate = 1443484800000;
 
   var ABSENT = 'н';
   var PRESENT = 'б';
@@ -38,7 +39,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$l
 
         //check whether the user was registered to training for this entry
         for (var i = 0; i < participation.length; i++) {
-          if (participation[i].userId == participant.id) {
+          if (participation[i].userId === participant.id) {
             if (participation[i].beginDay > entry.beginTime || (participation[i].endDay != null && participation[i].endDay < entry.beginTime)) {
               entryAttendance.state = NOT_ATTEND;
             }
@@ -126,7 +127,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$l
               $scope.attend.reason = $scope.reason;
             });
           } else {
-            attendanceJournalService.deleteAbsence($scope.attend.id, function (result) {
+            attendanceJournalService.deleteAbsence({absenteeId: $scope.attend.id}, function (result) {
               delete $scope.attend.reason;
               delete $scope.attend.id;
               $scope.attend.state = PRESENT;
@@ -147,9 +148,8 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$l
         $scope.reason;
         $scope.addAbsence = function () {
           attendanceJournalService.addAbsence(getNewAbsenceDTO($scope.user.userId, $scope.attend.entryId, $scope.reason), function (result) {
-            //TODO set new absence id here
-            //$scope.attend.id = result.id;
-            $scope.attend.reason = $scope.reason;
+            $scope.attend.id = result.id;
+            $scope.attend.reason = result.reason;
             $scope.attend.state = ABSENT;
           });
           $scope.closeThisDialog();
