@@ -9,7 +9,6 @@ angular.module('frontendApp')
     ]
   )
   .constant('Marks', [
-      { grade: 0},
       { grade: 1},
       { grade: 2},
       { grade: 3},

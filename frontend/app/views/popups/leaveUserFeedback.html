@@ -87,7 +87,7 @@
           <p>{{translation.ENGLISH_LEVEL}}</p>
         </div>
         <div class="feedback-field col-sm-8">
-          <select class="form-control feedback-dropdown" ng-model="entity.ddlLevel" ng-options="level.Name as level.Name for level in levels"></select>
+          <select class="form-control feedback-dropdown" ng-model="entity.level" ng-options="level.Name as level.Name for level in levels"></select>
         </div>
       </div>
 
@@ -96,7 +96,7 @@
           <p>{{translation.MARK}}</p>
         </div>
         <div class="feedback-field col-sm-8">
-          <select  class="form-control feedback-dropdown" ng-model="entity.ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
+          <select  class="form-control feedback-dropdown" ng-model="entity.grade" ng-options="mark.grade as mark.grade for mark in marks"></select>
         </div>
       </div>
 
