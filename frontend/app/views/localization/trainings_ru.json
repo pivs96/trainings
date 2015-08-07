@@ -122,5 +122,7 @@
   "ALL_TRAININGS_TARGET_AUDIENCE" : "Целевая аудитория",
   "ALL_TRAININGS_TRAINING_STATUS" : "Статус тренинга",
   "ALL_TRAININGS_RAITINGS" : "Рейтинг",
-  "CREATE_TRAINING" : "Создать тренинг"
+  "CREATE_TRAINING" : "Создать тренинг",
+  "OR_ATTACH_LINKS" : "Или прикрепите ссылки",
+  "ADD_LINK" : "Прикрепить ссылку"
 }

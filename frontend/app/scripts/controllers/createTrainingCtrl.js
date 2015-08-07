@@ -2,9 +2,9 @@
 
 angular.module('frontendApp')
   .controller('CreateTrainingCtrl', ['$scope', '$rootScope', '$localStorage', '$compile', '$location', '$templateRequest',
-    '$sce', 'FileUploader' ,'createTraining', 'userlist', 'postAttachLinks',
+    '$sce', 'FileUploader' ,'createTraining', 'trainerlist', 'postAttachLinks',
     function($scope, $rootScope, $localStorage, $compile, $location, $templateRequest,
-             $sce, FileUploader, createTraining, userlist, postAttachLinks) {
+             $sce, FileUploader, createTraining, trainerlist, postAttachLinks) {
 
 
     $scope.data = {};
@@ -89,7 +89,7 @@ angular.module('frontendApp')
       };
 
       $scope.removeLink = function($event) {
-        var name = angular.element($event.currentTarget).parents('li').children('a').html().split(' ')[0];
+        var name = angular.element($event.currentTarget).parents('li').children('a').html().trim();
         var link = angular.element($event.currentTarget).parents('li').children('a').attr('href');
         var index = _.findLastIndex($scope.attachments, {name: name, link: link});
         delete $scope.attachments[index];
@@ -112,7 +112,7 @@ angular.module('frontendApp')
 
       $scope.users = [];
       if($rootScope.isAdmin() && _.isEmpty($scope.users)) {
-        userlist.getUserList(function(resp) {
+        trainerlist.getUserList(function(resp) {
           $scope.users = angular.copy(resp);
         })
       } else {

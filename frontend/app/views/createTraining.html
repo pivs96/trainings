@@ -5,12 +5,12 @@
   {{data.name}}
 </div>
 
-<form name="trainingForm" class="form-inline" ng-submit="save()" novalidate>
+<form name="trainingForm" class="form-inline" ng-submit="save()">
 
 
 
   <div class="col-sm-8 training-info-entry" ng-if="newTraining">
-    <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label">
+    <label for="rep" class="col-sm-4 control-label text-right create-training-entry-label" >
       {{translation.STATUS}}:</label>
 
     <div class="col-sm-7" >
@@ -19,7 +19,7 @@
   </div>
 
   <div class="col-sm-8 training-info-entry">
-    <label for="external" class="col-sm-4 control-label text-right create-training-entry-label">
+    <label for="external" class="col-sm-4 control-label text-right create-training-entry-label" >
       {{translation.EXTERNAL}}:</label>
 
     <div class="col-sm-7">
@@ -54,7 +54,7 @@
 
     <div class="col-sm-7">
       <input type="text" id="trainingName" class="form-control create-training-trainer-select"
-             placeholder="input training name" ng-model="data.name">
+             placeholder="training name" ng-model="data.name" required>
     </div>
   </div>
 
@@ -64,8 +64,8 @@
     <label for="maxUsers" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.MAX_USERS}}:</label>
 
     <div class="col-sm-7">
-      <input type="number" id="maxUsers" class="form-control create-training-trainer-select" placeholder="input duration"
-             ng-model="data.membersCountMax">
+      <input type="number" id="maxUsers" class="form-control create-training-trainer-select" placeholder="maximum users"
+             ng-model="data.membersCountMax" required>
     </div>
   </div>
 
@@ -89,14 +89,14 @@
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.FROM}}</label>
 
     <div class="col-sm-7">
-      <trn-date-select entry="data.begin"></trn-date-select>
+      <trn-date-select req="data.repeated" entry="data.begin"></trn-date-select>
     </div>
   </div>
   <div ng-show="data.repeated" class="form-group col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right control-label create-training-entry-label">{{translation.TO}}</label>
 
     <div class="col-sm-7">
-      <trn-date-select entry="data.end"></trn-date-select>
+      <trn-date-select req="data.repeated" entry="data.end"></trn-date-select>
     </div>
   </div>
 
@@ -105,7 +105,7 @@
       {{translation.TARGET_AUDIENCE}}: </label>
 
     <div class="col-sm-7">
-      <input id="trgAud" type="text" placeholder="input target audience"
+      <input id="trgAud" type="text" placeholder="input target audience" required
              class="form-control create-training-trainer-select" ng-model="data.targetAudience">
     </div>
   </div>
@@ -114,7 +114,7 @@
 
     <div class="col-sm-7">
       <input id="language" type="text" placeholder="input language" class="form-control create-training-trainer-select"
-        ng-model="data.language">
+        ng-model="data.language" required>
     </div>
   </div>
   <div class="col-sm-8 training-info-entry">
@@ -154,14 +154,14 @@
         <button ng-if="!newTraining" type="button" class="btn btn-default btn-sm training-attach-btn" ng-click="uploader.uploadAll()">
           {{translation.ATTACH}}
         </button>
-        OR ATTACH LINKS
+        {{translation.OR_ATTACH_LINKS}}
         <ul class="links">
 
         </ul>
         <input type="text" popover-template="'views/templates/attachLinkPopover.html'" ng-model="attachment.name"
                      placeholder="input name" class="form-control create-training-entry-label" popover-title="Input link">
         <button type="button" class="btn btn-default create-training-entry-label" ng-click="addLink();">
-          ADD LINK
+          {{translation.ADD_LINK}}
         </button>
       </div>
 

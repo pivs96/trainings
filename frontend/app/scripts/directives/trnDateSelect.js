@@ -6,7 +6,8 @@ angular.module('frontendApp')
       restrict: 'E',
       templateUrl: 'views/templates/dateSelect.html',
       scope: {
-        entry: '='
+        entry: '=',
+        req: '='
       },
       controller: ['$scope', function($scope) {
 
@@ -18,6 +19,7 @@ angular.module('frontendApp')
           $scope.entry = null;
         };
 
+        $scope.minDate = new Date();
 
         $scope.toggleMin = function() {
           $scope.minDate = $scope.minDate ? null : new Date();

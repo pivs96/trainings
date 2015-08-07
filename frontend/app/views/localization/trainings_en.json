@@ -122,5 +122,7 @@
   "ALL_TRAININGS_TARGET_AUDIENCE" : "Target audience",
   "ALL_TRAININGS_TRAINING_STATUS" : "Training status",
   "ALL_TRAININGS_RAITINGS" : "Rating",
-  "CREATE_TRAINING" : "Create training"
+  "CREATE_TRAINING" : "Create training",
+  "OR_ATTACH_LINKS" : "Or attach links",
+  "ADD_LINK" : "Add link"
 }

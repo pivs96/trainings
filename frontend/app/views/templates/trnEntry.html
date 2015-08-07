@@ -2,10 +2,10 @@
 <div ng-show="!repeating" class="form-group col-sm-8 training-info-entry">
   <label class="col-sm-4 control-label text-right create-training-entry-label">{{translation.DATE_TIME}}:</label>
   <div class="col-sm-4">
-    <trn-date-select entry="date"></trn-date-select>
+    <trn-date-select req="!repeating" entry="date"></trn-date-select>
   </div>
   <div class="col-sm-2">
-    <input class="form-control" ng-disabled="!date" type="time" ng-model="time">
+    <input class="form-control" ng-disabled="!date" type="time" ng-model="time" ng-required="!repeating">
   </div>
 </div>
 
@@ -22,7 +22,7 @@
       </ul>
         <label class="text-right control-label col-sm-5 create-training-entry-label">{{translation.SELECT_TIME}}</label>
       <div class="col-sm-3">
-        <input class="form-control" ng-disabled="!date" type="time" ng-model="time">
+        <input class="form-control" type="time" ng-model="time" ng-required="repeating">
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
 
   <div class="col-sm-7">
     <input type="time" id="duration" class="form-control create-training-trainer-select" placeholder="input duration"
-           ng-model="duration" ng-disabled="!time">
+           ng-model="duration" ng-disabled="!time" required>
   </div>
 </div>
 
@@ -42,13 +42,13 @@
   <label for="city" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.CITY}}: </label>
   <div class="col-sm-7">
     <input id="city" type="text" placeholder="input city" class="create-training-trainer-select form-control"
-           ng-model="city">
+           ng-model="city" required>
   </div>
 </div>
 <div class="col-sm-8 training-info-entry">
   <label for="unit" class="col-sm-4 control-label text-right create-training-entry-label"> {{translation.UNIT}}: </label>
   <div class="col-sm-7">
     <input id="unit" type="text" placeholder="input unit" class="create-training-trainer-select form-control"
-           ng-disabled="!isAdmin();" ng-model="unit">
+           ng-disabled="!isAdmin();" ng-model="unit" ng-required="isAdmin()">
   </div>
 </div>

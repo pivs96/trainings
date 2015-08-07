@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .factory('userlist',['$resource', function($resource) {
+  .factory('trainerlist',['$resource', function($resource) {
 
 
     return $resource('http://localhost:8080/users/trainers', {}, {

@@ -3,7 +3,7 @@
 
 angular.module('frontendApp')
   .controller('UserlistCtrl', ['$scope', 'ngDialog',  'userService', '$location', 'userServiceDelegate', '$http',
-    function ($scope, ngDialog,    userService, $location, userServiceDelegate, $http) {
+    function ($scope, ngDialog, userService, $location, userServiceDelegate, $http) {
 
       $scope.users = [];
       $scope.callServer = function (tableState) {
