@@ -1,4 +1,4 @@
-angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $q, training, attendanceJournalService, ngDialog) {
+angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $localStorage, $q, training, attendanceJournalService, ngDialog) {
 
   //TODO user real dates here
   var _beginDate = 1430450800000;
@@ -68,11 +68,18 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
   });
 
   $scope.cellClickHandler = function (attend, user) {
+    if (!isActionAllowed(user)) {
+      return;
+    }
     $scope.user = user;
     $scope.attend = attend;
     switch (attend.state) {
       case ABSENT:
         //delete or edit absence
+        if (isListener(user.id)) {
+          //listener cannot edit or delete absence
+          return;
+        }
         showEditAbsenceDialog();
         break;
       case PRESENT:
@@ -87,6 +94,24 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$q
         return;
     }
   };
+
+  function isActionAllowed(user) {
+    //admin, trainer for this training and listener for his records can edit journal
+    if ($rootScope.isAdmin() || isMentor() || isListener(user.id)) {
+      return true;
+    }
+    return false;
+  }
+
+  //TODO take this method from trainingCtrl
+  function isMentor() {
+    return $localStorage.userData.id === $scope.training.trainer.id;
+  };
+
+  function isListener(editUserId) {
+    return $localStorage.userData.id === editUserId;
+  };
+
 
   function showEditAbsenceDialog() {
     ngDialog.open({

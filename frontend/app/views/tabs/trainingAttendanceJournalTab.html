@@ -1,8 +1,7 @@
 <div ng-controller="AttendanceJournalCtrl">
-  <table id="attendanceJournalTable"  class="table text-center attendance-journal-table">
+  <table id="attendanceJournalTable" ng-if="ajArray && ajArray.length" class="table text-center attendance-journal-table">
     <thead>
       <tr>
-
         <th class="attendance-journal-table text-center" >{{translation.NAME}}</th>
         <th class="attendance-journal-table text-center" ng-repeat="th in entries">{{th.beginTime | date:'dd-MM-yy'}}</th>
       </tr>
