@@ -5,7 +5,7 @@
     <trn-date-select entry="date"></trn-date-select>
   </div>
   <div class="col-sm-2">
-    <input class="form-control" type="time" ng-model="time">
+    <input class="form-control" ng-disabled="!date" type="time" ng-model="time">
   </div>
 </div>
 
@@ -22,7 +22,7 @@
       </ul>
         <label class="text-right control-label col-sm-5 create-training-entry-label">{{translation.SELECT_TIME}}</label>
       <div class="col-sm-3">
-        <input class="form-control" type="time" ng-model="time">
+        <input class="form-control" ng-disabled="!date" type="time" ng-model="time">
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
 
   <div class="col-sm-7">
     <input type="time" id="duration" class="form-control create-training-trainer-select" placeholder="input duration"
-           ng-model="duration">
+           ng-model="duration" ng-disabled="!time">
   </div>
 </div>
 

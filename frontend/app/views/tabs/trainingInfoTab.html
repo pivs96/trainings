@@ -20,17 +20,17 @@
 
     <p class="col-sm-7">{{(training.entry.endTime - training.entry.beginTime) | date:'HH:mm'}}</p>
   </div>
-  <div class="col-sm-8 training-info-entry ">
+  <div ng-if="training.status !== 'COMPLETED'" class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.CLOSEST_MEETING}}:</label>
 
     <p class="col-sm-7">{{training.entry.beginTime | date:'dd.MM.yyyy HH:mm'}}</p>
   </div>
-  <div class="col-sm-8 training-info-entry ">
+  <div ng-if="training.status !== 'COMPLETED'" class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right"> {{translation.CITY}}: </label>
 
     <p class="col-sm-7">{{training.entry.place.split(", ")[0]}} </p>
   </div>
-  <div class="col-sm-8 training-info-entry ">
+  <div ng-if="training.status !== 'COMPLETED'" class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right">{{translation.UNIT}}:</label>
 
     <p class="col-sm-7">{{training.entry.place.split(", ")[1]}}</p>

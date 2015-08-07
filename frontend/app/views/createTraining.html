@@ -154,13 +154,22 @@
         <button ng-if="!newTraining" type="button" class="btn btn-default btn-sm training-attach-btn" ng-click="uploader.uploadAll()">
           {{translation.ATTACH}}
         </button>
+        OR ATTACH LINKS
+        <ul class="links">
+
+        </ul>
+        <input type="text" popover-template="'views/templates/attachLinkPopover.html'" ng-model="attachment.name"
+                     placeholder="input name" class="form-control create-training-entry-label" popover-title="Input link">
+        <button type="button" class="btn btn-default create-training-entry-label" ng-click="addLink();">
+          ADD LINK
+        </button>
       </div>
 
     <ul class="list-inline col-sm-offset-4">
       <li ng-repeat="attachment in data.attachments">
         <a class="col-sm-7" href="{{attachment.link}}">{{attachment.name}}</a>
         &nbsp;&nbsp;
-        <i class="fa fa-close"></i>
+        <i class="fa fa-close" ng-click="deleteAttachment(attachment.id, $event);"></i>
       </li>
     </ul>
   </div>

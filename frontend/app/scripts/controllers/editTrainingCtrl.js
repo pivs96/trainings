@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('EditTrainingCtrl', ['$scope', '$rootScope', '$sce', '$templateRequest', '$route', '$compile',
-    'FileUploader', 'editTraining', 'userlist', 'data', 'entries', 'attachments',
-    function($scope, $rootScope, $sce, $templateRequest, $route, $compile, FileUploader,
-             editTraining, userlist, data, entries, attachments) {
+  .controller('EditTrainingCtrl', ['$scope', '$rootScope', '$sce', '$templateRequest', '$route', '$compile', '$location',
+    'FileUploader', 'editTraining', 'userlist', 'data', 'entries', 'attachments', 'postAttachLinks',
+    function($scope, $rootScope, $sce, $templateRequest, $route, $compile, $location, FileUploader,
+             editTraining, userlist, data, entries, attachments, postAttachLinks) {
 
     $scope.newTraining = false;
 
@@ -83,13 +83,38 @@ angular.module('frontendApp')
         $scope.compareTrainingData();
         $scope.compareEntryData();
         console.log($scope.description);
+        postAttachLinks.save($scope.attachments).$promise.then(function(resp) {});
         editTraining.updateTraining($scope.data).$promise.then(function(resp) {
           console.log(resp);
+          $location.path('/training/' + $route.current.params.trainingId);
+        });
+      };
+
+
+      $scope.addLink = function() {
+        _.extend($scope.attachment, $route.current.params.trainingId);
+        $scope.attachments.push(angular.copy($scope.attachment));
+        angular.element('.links').append($compile('<li><a href="'+$scope.attachment.link+'">'+$scope.attachment.name+' </a>&nbsp; <i class="fa fa-close" ng-click="removeLink($event)"></i> </li>')($scope));
+        $scope.attachment = {};
+
+      };
+
+      $scope.removeLink = function($event) {
+        var name = angular.element($event.currentTarget).parents('li').children('a').html().split(' ')[0];
+        var link = angular.element($event.currentTarget).parents('li').children('a').attr('href');
+        var index = _.findLastIndex($scope.attachments, {name: name, link: link});
+        delete $scope.attachments[index];
+        angular.element($event.currentTarget).parents('li').remove();
+      };
+
+      $scope.deleteAttachment = function(aid, $event) {
+        editTraining.deleteAttachment({aid: aid}, function(resp) {
+          angular.element($event.currentTarget).parents('li').remove();
         });
       };
 
       var uploader = $scope.uploader = new FileUploader({
-        url: 'http://localhost:8080/files/upload?trainingId' + $scope.data.trainingId
+        url: 'http://localhost:8080/files/upload?trainingId=' + $route.current.params.trainingId
       });
 
       uploader.withCredentials = true;

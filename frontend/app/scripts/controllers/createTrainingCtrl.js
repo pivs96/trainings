@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('CreateTrainingCtrl', ['$scope', '$rootScope', '$localStorage', '$compile', '$templateRequest', '$sce',
-    'FileUploader' ,'createTraining', 'userlist',
-    function($scope, $rootScope, $localStorage, $compile, $templateRequest, $sce, FileUploader, createTraining, userlist) {
+  .controller('CreateTrainingCtrl', ['$scope', '$rootScope', '$localStorage', '$compile', '$location', '$templateRequest',
+    '$sce', 'FileUploader' ,'createTraining', 'userlist', 'postAttachLinks',
+    function($scope, $rootScope, $localStorage, $compile, $location, $templateRequest,
+             $sce, FileUploader, createTraining, userlist, postAttachLinks) {
 
 
     $scope.data = {};
@@ -19,8 +20,10 @@ angular.module('frontendApp')
 
     $scope.newTraining = true;
 
+    $scope.attachments = [];
+    $scope.attachment = {};
 
-    $scope.removeEntry = function($event) {
+      $scope.removeEntry = function($event) {
       var index = angular.element($event.currentTarget).parents('.entry').children('[index]').attr('index');
       angular.element($event.currentTarget).parents('.entry').remove();
       if(index == $scope.entryNum - 1) {
@@ -65,10 +68,33 @@ angular.module('frontendApp')
       }
       createTraining.save({},$scope.data).$promise.then(function(resp){
         $scope.uploadUrl = 'http://localhost:8080/files/upload?trainingId=' + resp.id;
-        uploader.uploadAll();
+        $scope.trainingId = resp.id;
+        for(var i = 0; i < $scope.attachments.length; i++) {
+          _.extend($scope.attachments[i], {trainingId : $scope.trainingId});
+        }
+        postAttachLinks.save($scope.attachments).$promise.then(function(resp) {
+          uploader.uploadAll();
+          if(_.isEmpty(uploader.queue)) {
+            $location.path('/training/' + $scope.trainingId);
+          }
+        });
       });
     };
 
+      $scope.addLink = function() {
+        $scope.attachments.push(angular.copy($scope.attachment));
+        angular.element('.links').append($compile('<li><a href="'+$scope.attachment.link+'">'+$scope.attachment.name+' </a>&nbsp;<i class="fa fa-close" ng-click="removeLink($event)"></i></li>')($scope));
+        $scope.attachment = {};
+
+      };
+
+      $scope.removeLink = function($event) {
+        var name = angular.element($event.currentTarget).parents('li').children('a').html().split(' ')[0];
+        var link = angular.element($event.currentTarget).parents('li').children('a').attr('href');
+        var index = _.findLastIndex($scope.attachments, {name: name, link: link});
+        delete $scope.attachments[index];
+        angular.element($event.currentTarget).parents('li').remove();
+      };
 
       var uploader = $scope.uploader = new FileUploader();
       uploader.withCredentials = true;
@@ -78,6 +104,9 @@ angular.module('frontendApp')
       //CALLBACKS
       uploader.onBeforeUploadItem = function(item) {
         item.url = $scope.uploadUrl;
+      };
+      uploader.onCompleteAll = function() {
+        $location.path('/training/' + $scope.trainingId);
       };
       //END_CALLBACKS
 
