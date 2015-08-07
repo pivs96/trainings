@@ -11,8 +11,10 @@ import java.util.List;
 public interface EntryRepository extends JpaRepository<Entry, Long> {
     List<Entry> findByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
 
-    List<Entry> findByTrainingIdAndBeginTimeAfterAndEndTimeBefore(long trainingId,
-                                                                  Date beginTime, Date endTime);
+    List<Entry> findByTrainingIdAndEndTimeAfterAndBeginTimeBefore(long trainingId,
+                                                                  Date endTime, Date beginTime);
+
+    List<Entry> findByTrainingIdAndBeginTimeBefore(long trainingId, Date beginTime);
 
     Entry findFirstByTrainingIdAndBeginTimeAfter(long trainingId, Date beginTime);
 
