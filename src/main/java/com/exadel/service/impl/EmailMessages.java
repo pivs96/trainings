@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 public class EmailMessages  {
     @Autowired
     private MessageSource messageSource;
-    private static final String domain = "http://localhost:8080/";
+    private static final String domain = "http://localhost:9000/#/";
 
     private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat fullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -50,7 +50,7 @@ public class EmailMessages  {
     public String modifyTraining(Training training) {
         Object[] arr = {
                 training.getName(),
-                domain + "training/info/?trainingId=" + training.getId()
+                domain + "training/" + training.getId()
         };
         return messageSource.getMessage("emailNotification.training.modify", arr, null);
     }
@@ -63,7 +63,7 @@ public class EmailMessages  {
     public String modifyEntry(Entry entry) {
         Object[] arr = {
                 entry.getTraining().getName(),
-                domain + "training/entries/?trainingId=" + entry.getTraining().getId()
+                domain + "training/" + entry.getTraining().getId()
         };
         return messageSource.getMessage("emailNotification.training.modify", arr, null);
     }
@@ -72,7 +72,7 @@ public class EmailMessages  {
         Object[] arr = {
                 fullDate.format(entry.getBeginTime()),
                 entry.getTraining().getName(),
-                domain + "training/entries/?trainingId=" + entry.getTraining().getId()
+                domain + "training/" + entry.getTraining().getId()
         };
         return messageSource.getMessage("emailNotification.training.deleteEntry", arr, null);
     }
@@ -126,7 +126,7 @@ public class EmailMessages  {
                 fullDate.format(nextEntry.getBeginTime()),
                 nextEntry.getPlace(),
                 domain + "training/become_member/" + userId + "/" + trainingId,
-                domain + "training/entries/?trainingId=" + nextEntry.getTraining().getId()
+                domain + "training/" + nextEntry.getTraining().getId()
         };
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);
     }
@@ -139,7 +139,7 @@ public class EmailMessages  {
                 user.getName(),
                 entry.getTraining().getName(),
                 time.format(entry.getBeginTime()),
-                domain + "training/entries/?trainingId=" + entry.getTraining().getId(),
+                domain + "training/" + entry.getTraining().getId(),
                 domain + "training/cancel_participation/" + userId + "/" + trainingId
         };
         return messageSource.getMessage("emailNotification.training.beforeDay", arr, null);
@@ -152,17 +152,21 @@ public class EmailMessages  {
 
     //Event notifications for admin
     public String deleteEntryToAdmin(Entry entry) {
-        Object[] arr = {fullDate.format(entry.getBeginTime()), entry.getTraining().getName()};
+        Object[] arr = {
+                fullDate.format(entry.getBeginTime()),
+                entry.getTraining().getName(),
+                domain + "training/" + entry.getTraining().getId()
+        };
         return messageSource.getMessage("eventNotification.training.entry.delete", arr, null);
     }
 
     public String deleteTrainingToAdmin(Training training) {
-        Object[] arr = {training.getName()};
+        Object[] arr = {training.getName(), domain + "training/" + training.getId()};
         return messageSource.getMessage("eventNotification.training.delete", arr, null);
     }
 
     public String lessThanHalf(Training training) {
-        Object[] arr = {training.getName()};
+        Object[] arr = {training.getName(), domain + "training/" + training.getId()};
         return messageSource.getMessage("eventNotification.training.lessThanHalf", arr, null);
     }
 
@@ -170,7 +174,7 @@ public class EmailMessages  {
         Object[] arr = {
                 training.getTrainer().getName(),
                 training.getName(),
-                domain + "training/info/?trainingId=" + training.getId()
+                domain + "training/" + training.getId()
         };
         return messageSource.getMessage("eventNotification.training.new", arr, null);
     }

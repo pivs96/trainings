@@ -3,10 +3,12 @@ package com.exadel.service.impl;
 import com.exadel.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -40,22 +42,34 @@ public class SmtpMailSender {
     public void send(String to, String subject, String body){
         mailSender.setUsername(username);
         mailSender.setPassword(password);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(username);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
+            helper.setFrom(username);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         mailSender.send(message);
     }
 
     public void send(Collection<String> receivers, String subject, String body){
         mailSender.setUsername(username);
         mailSender.setPassword(password);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(username);
-        message.setTo(receivers.toArray(new String[receivers.size()]));
-        message.setSubject(subject);
-        message.setText(body);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(receivers.toArray(new String[receivers.size()]));
+            helper.setSubject(subject);
+            helper.setText(body, true);
+            helper.setFrom(username);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         mailSender.send(message);
     }
 
