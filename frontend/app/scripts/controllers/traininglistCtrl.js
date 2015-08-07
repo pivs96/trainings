@@ -6,7 +6,7 @@ angular.module('frontendApp').controller('TrainingListCtrl', ['$location', '$sco
 
     $scope.filtreData = function(){
       for(var i = 0; i < $scope.trainingsList.length; ++i){
-        $scope.trainingsList[i].rating = Math.floor($scope.trainingsList[i].rating+1);
+        $scope.trainingsList[i].rating = Math.floor($scope.trainingsList[i].rating);
       }
       return $scope.trainingsList;
     };

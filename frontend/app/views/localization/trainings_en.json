@@ -30,7 +30,7 @@
   "NEW_KNOWLEDGE" : "Have you learnt something new?",
   "RATINGS" : "Set effectiveness of the class (rate it from 1 to 5)?",
   "STUDY_WITH_TRAINER" : "Would you like to learn from this trainer?",
-  "RECOMMEND" : "Will you recommend your colleagues this training to attend?",
+  "RECOMMEND" : "Recommend to colleagues?",
   "OTHER_INFO_T" : "Other info",
   "FEEDBACK_YES" : "Yes",
   "FEEDBACK_NO" : "No",
@@ -132,5 +132,8 @@
   "ENTER_REASON_PLH" : "Enter absence reason here",
   "DELETE" : "Delete",
   "REASON": "Enter reason",
-  "APP_DESCRITION": "Exadel training management system."
+  "APP_DESCRITION": "Exadel training management system.",
+  "FEEDBACK_FROM" : "From",
+  "FEEDBACK_RECOMMEND" : "Recommendation to visit",
+  "FEEDBACK_RATINGS" : "Mark"
 }
