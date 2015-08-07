@@ -20,7 +20,6 @@ public class VisitControl {
     public final UserService userService;
     public final TrainingService trainingService;
 
-
     @Autowired
     public VisitControl(UserService userService, TrainingService trainingService) {
         this.userService = userService;

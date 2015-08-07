@@ -14,7 +14,7 @@ public class TrainingFeedbackDTO {
     private boolean studyWithTrainer;
     private boolean recommend;
     private String otherInfo;
-    private long feedbackerId; // who leaves feedback
+    private UserDTO feedbacker; // who leaves feedback
     private Date date;
 
     private String eventDescription;
@@ -32,7 +32,7 @@ public class TrainingFeedbackDTO {
         this.studyWithTrainer = feedback.isStudyWithTrainer();
         this.recommend = feedback.isRecommend();
         this.otherInfo = feedback.getOtherInfo();
-        this.feedbackerId = feedback.getFeedbacker().getId();
+        this.feedbacker = new UserDTO(feedback.getFeedbacker());
         this.date = feedback.getDate();
     }
 
@@ -108,12 +108,12 @@ public class TrainingFeedbackDTO {
         this.otherInfo = otherInfo;
     }
 
-    public long getFeedbackerId() {
-        return feedbackerId;
+    public UserDTO getFeedbacker() {
+        return feedbacker;
     }
 
-    public void setFeedbackerId(long feedbackerId) {
-        this.feedbackerId = feedbackerId;
+    public void setFeedbacker(UserDTO feedbacker) {
+        this.feedbacker = feedbacker;
     }
 
     public Date getDate() {
