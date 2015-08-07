@@ -65,7 +65,5 @@ public class Absentee {
 
     public void update(Absentee absentee) {
         this.setReason(absentee.getReason());
-        this.setUser(absentee.getUser());
-        this.setEntry(absentee.getEntry());
     }
 }

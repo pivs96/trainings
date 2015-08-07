@@ -3,9 +3,8 @@ package com.exadel.dto;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +42,13 @@ public class TrainingDTO {
         this.rating = training.getRating();
         this.trainer = new UserDTO(training.getTrainer());
         this.repeated = training.isRepeated();
+
+        List<Entry> entries = training.getEntries();
+        if (entries != null && entries.size() > 0) {
+            Collections.sort(entries);
+            this.begin = entries.get(0).getBeginTime();
+            this.end = entries.get(entries.size() - 1).getEndTime();
+        }
 
         this.entries = null;
     }
