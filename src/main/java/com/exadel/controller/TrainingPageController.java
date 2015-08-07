@@ -2,24 +2,6 @@ package com.exadel.controller;
 
 
 import com.exadel.dto.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-
-import com.exadel.model.entity.events.Event;
-import com.exadel.repository.TrainingFeedbackRepository;
-import com.exadel.service.events.UserFeedbackEventService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
@@ -28,6 +10,7 @@ import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.*;
 import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
+import com.exadel.repository.TrainingFeedbackRepository;
 import com.exadel.service.*;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
@@ -258,7 +241,8 @@ public class TrainingPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
-        trainingFeedbackService.addTrainingFeedback(feedback);
+        feedback = trainingFeedbackService.addTrainingFeedback(feedback).get();
+
         feedbackDTO.setId(feedback.getId());
         trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {

@@ -5,7 +5,6 @@ import com.exadel.dto.TrainingDTO;
 import com.exadel.dto.UserDTO;
 import com.exadel.dto.UserFeedbackDTO;
 import com.exadel.model.entity.events.Event;
-import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
@@ -86,8 +85,9 @@ public class UserPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody UserFeedbackDTO feedbackDTO) {
         UserFeedback feedback = new UserFeedback(feedbackDTO);
-        userFeedbackService.addFeedback(feedback);
+        feedback = userFeedbackService.addFeedback(feedback);
         feedbackDTO.setId(feedback.getId());
+
         userFeedbackEventService.addEvent(new UserFeedbackEvent(feedbackDTO));
         smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Feedback on visitor", feedbackDTO.getEventDescription());
         List<EventDTO> list = new ArrayList<>();
