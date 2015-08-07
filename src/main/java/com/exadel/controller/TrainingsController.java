@@ -40,15 +40,15 @@ public class TrainingsController {
     @Autowired
     private TrainingService trainingService;
     @Autowired
-    TrainingEventService trainingEventService;
+    private TrainingEventService trainingEventService;
     @Autowired
     private EntryService entryService;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
     private SmtpMailSender smtpMailSender;
     @Autowired
-    EmailMessages emailMessages;
+    private EmailMessages emailMessages;
     @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
@@ -92,22 +92,22 @@ public class TrainingsController {
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
-
             trainingDTO.setId(training.getId());
             trainingDTO.setEventDescription(emailMessages.newTrainingToAdmin(training));
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
-            List<EventDTO> list = new ArrayList<>();
+            List<EventDTO> eventDTOs = new ArrayList<>();
+
             List<Event> events = new ArrayList<>();
             events.addAll(trainingEventService.getUnwatchedEvents());
             events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
             events.addAll(userFeedbackEventService.getUnwatchedEvents());
+
             for (Event event: events){
-                list.add(event.toEventDTO());
+                eventDTOs.add(event.toEventDTO());
             }
             for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
-                entry.getKey().setResult(list);
-
+                entry.getKey().setResult(eventDTOs);
             }
         }
 
@@ -116,7 +116,9 @@ public class TrainingsController {
             generateEntries(trainingDTO.getBegin(), trainingDTO.getEnd(),
                     training, trainingDTO.getEntries());
         } else {
-            for (EntryDTO entryDTO : trainingDTO.getEntries()) {
+            List<EntryDTO> entryDTOs = trainingDTO.getEntries();
+            Collections.sort(entryDTOs);
+            for (EntryDTO entryDTO : entryDTOs) {
                 Entry entry = new Entry(entryDTO);
                 entry.setTraining(training);
                 entryService.addEntry(entry);

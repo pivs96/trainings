@@ -7,12 +7,12 @@ import com.exadel.model.entity.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "trainings")
 public class Training {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -27,11 +27,10 @@ public class Training {
     @Column(name = "target_audience")
     private String targetAudience;
 
-    private String language;
-
     @Column(name = "is_external")
     private boolean isExternal;
 
+    private String language;
     private String description;
     private TrainingStatus status;
 

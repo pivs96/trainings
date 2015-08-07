@@ -69,6 +69,8 @@ public class EntryController {
         for (Entry entry : entries) {
             entryDTOs.add(new EntryDTO(entry));
         }
+
+        Collections.sort(entryDTOs);
         return entryDTOs;
     }
 

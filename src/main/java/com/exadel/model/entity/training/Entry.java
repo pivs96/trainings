@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "entries")
-public class Entry {
+public class Entry implements Comparable<Entry> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -90,5 +90,10 @@ public class Entry {
 
     public void setAbsentees(List<Absentee> absentees) {
         this.absentees = absentees;
+    }
+
+    @Override
+    public int compareTo(Entry entry) {
+        return (int) (this.getBeginTime().getTime() - entry.getBeginTime().getTime());
     }
 }
