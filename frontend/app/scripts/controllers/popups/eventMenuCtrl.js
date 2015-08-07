@@ -6,7 +6,7 @@ angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location
   $scope.eventList = [];
 
   (function poll (){
-    EventService.getEventList({eventIndex : ($scope.eventList.length+1)}, function(resp) {
+    EventService.getEventList({eventIndex : ($scope.eventList.length)}, function(resp) {
       $scope.eventList = angular.copy(resp);
       poll();
     })

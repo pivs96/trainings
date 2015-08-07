@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 
 @RestController
-@PreAuthorize("hasRole('0')")
 @RequestMapping(value = "/events", headers = "Accept=application/json")
 public class EventController {
     @Autowired
@@ -59,7 +58,6 @@ public class EventController {
 
     }
 
-    @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/unwatched", method = RequestMethod.GET)
     public DeferredResult<List<EventDTO>> getUnwatchedEvents(@RequestParam int eventIndex) {
         final DeferredResult<List<EventDTO>> deferredResult = new DeferredResult<List<EventDTO>>(null, Collections.emptyList());

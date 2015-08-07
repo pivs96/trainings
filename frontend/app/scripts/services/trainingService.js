@@ -127,6 +127,14 @@ angular.module('frontendApp').factory('training',['$resource',
           trainingId: "@id"
         },
         method: 'POST'
+      },
+
+      getTrainingIdByFeedbackId : {
+        method : 'GET',
+        url : 'http://localhost:8080/training/byFeedback',
+        params : {
+          id: '@id'
+        }
       }
 
     });

@@ -2,6 +2,24 @@ package com.exadel.controller;
 
 
 import com.exadel.dto.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+
+import com.exadel.model.entity.events.Event;
+import com.exadel.repository.TrainingFeedbackRepository;
+import com.exadel.service.events.UserFeedbackEventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
@@ -353,5 +371,15 @@ public class TrainingPageController {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
         smtpMailSender.send(training.getTrainer().getEmail(), "Feedback", emailMessages.askFeedback(training, user));
+    }
+
+    @Autowired
+    TrainingFeedbackRepository trainingFeedbackRepository;
+    @RequestMapping("/byFeedback")
+    public TrainingDTO getTrainingId(@RequestParam String id)
+    {
+        TrainingFeedback feedback=trainingFeedbackRepository.findById(Long.parseLong(id));
+        TrainingDTO trainingDTO = new TrainingDTO(feedback.getTraining());
+        return trainingDTO;
     }
 }

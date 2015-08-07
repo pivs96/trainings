@@ -1,18 +1,28 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('EventCtrl', ['$scope', '$http', '$location', 'userService', 'data', 'userServiceDelegate', 'SingleEventService',
-    function($scope, $http, $location, userService, data, userServiceDelegate, SingleEventService) {
+  .controller('EventCtrl', ['$scope', '$http', '$location', 'userService', 'data', 'userServiceDelegate', 'SingleEventService', 'training',
+    function($scope, $http, $location, userService, data, userServiceDelegate, SingleEventService, training) {
      $scope.singleevent = data;
 
       $scope.userId = 0;
-     userServiceDelegate.getUserByFeedbackId($scope.singleevent.subjectId).then(function(resp){
-       $scope.userId =  resp.data;
+      $scope.trainingId = 0;
+
+      if($scope.singleevent.eventType == "TRAINING_FEEDBACK" || $scope.singleevent.eventType == "TRAINING"){
+        training.getTrainingIdByFeedbackId({id : $scope.singleevent.subjectId}, function(resp){
+          $scope.trainingId = resp.id;
+        });
+      }
+      if($scope.singleevent.eventType == "USER_FEEDBACK")
+       userServiceDelegate.getUserByFeedbackId($scope.singleevent.subjectId).then(function(resp){
+         $scope.userId =  resp.data;
      });
+
+
 
       $scope.redirectToEntity = function(singleevent){
         if(singleevent.eventType == "TRAINING"){
-          $location.path("/training/editTraining/"+singleevent.subjectId);
+          $location.path("/training/editTraining/"+$scope.trainingId);
         }
         if(singleevent.eventType == "USER_FEEDBACK"){
           $scope.setWatched();
@@ -21,7 +31,7 @@ angular.module('frontendApp')
         }
         if(singleevent.eventType == "TRAINING_FEEDBACK"){
           $scope.setWatched();
-          $location.path("/training/"+singleevent.subjectId);
+          $location.path("/training/"+$scope.trainingId);
         }
         $scope.closeThisDialog();
       };

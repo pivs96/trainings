@@ -67,7 +67,7 @@ angular.module('frontendApp')
 
       $scope.save = function() {
         $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
-        $scope.data.repeated = !(constTrainingData.repeated == $scope.data.repeated);
+
         var edit = new editTraining();
         edit.data = angular.copy($scope.data);
         console.log(edit.data);
@@ -79,6 +79,7 @@ angular.module('frontendApp')
           edit.data.begin = edit.data.begin.valueOf();
           edit.data.end = edit.data.end.valueOf();
         }
+        $scope.data.repeated = !(constTrainingData.repeated == $scope.data.repeated);
         $scope.compareTrainingData();
         $scope.compareEntryData();
         console.log($scope.description);

@@ -14,4 +14,6 @@ public interface TrainingFeedbackRepository extends JpaRepository<TrainingFeedba
     void delete(TrainingFeedback deleted);
 
     TrainingFeedback save(TrainingFeedback persisted);
+
+    TrainingFeedback findById(long id);
 }
