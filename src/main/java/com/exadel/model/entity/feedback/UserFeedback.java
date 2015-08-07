@@ -39,7 +39,7 @@ public class UserFeedback {
     private boolean focusOnResult;
 
     private EnglishLevel level;
-    @Min(1)
+    @Min(0)
     @Max(4)
     private int grade;    //for English from 1 to 4
 

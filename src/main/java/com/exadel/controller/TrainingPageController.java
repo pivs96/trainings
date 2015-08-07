@@ -141,7 +141,6 @@ public class TrainingPageController {
         List<User> participants = training.getParticipants();
 
         if (participants.size() < training.getMembersCountMax() && reserveService.getNextReserveByTrainingId(training.getId())==null) {
-            training.addParticipant(visitor);
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
 
             smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
@@ -151,7 +150,6 @@ public class TrainingPageController {
         } else {
             Reserve reservist = new Reserve(training, visitor);
             reserveService.addReserve(reservist);
-            training.getReserves().add(reservist);
 
             smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
                     emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.RESERVE));
@@ -195,12 +193,9 @@ public class TrainingPageController {
         Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(Long.parseLong(trainingID), Long.parseLong(userID));
 
         if (training.getParticipants().size() < training.getMembersCountMax()) {
-            reserveService.deleteReserve(reserve.getId());
             User visitor = reserve.getReservist();
-
-            training.addParticipant(visitor);
+            reserveService.deleteReserve(reserve.getId());
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
-            trainingService.updateTraining(training);
 
             smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
                     emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.MEMBER));
@@ -334,7 +329,7 @@ public class TrainingPageController {
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value="/userFeedback",method = RequestMethod.POST)
-    public void AskUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
+    public void askUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
         smtpMailSender.send(training.getTrainer().getEmail(), "Feedback", emailMessages.askFeedback(training, user));
