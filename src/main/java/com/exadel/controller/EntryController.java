@@ -82,7 +82,7 @@ public class EntryController {
         return null;
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')")
     @RequestMapping(value = "/createEntries", method = RequestMethod.POST)
     public void createEntries(@RequestParam(required = false) Long begin,
                               @RequestParam(required = false) Long end,
@@ -120,13 +120,13 @@ public class EntryController {
         events.addAll(trainingEventService.getUnwatchedEvents());
         events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
         events.addAll(userFeedbackEventService.getUnwatchedEvents());
-        for (Event event: events){
+        for (Event event : events) {
             list.add(event.toEventDTO());
         }
         return list;
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isTrainer(#entryDTOs) or hasRole('0')")
     @RequestMapping(value = "/entries", method = RequestMethod.PUT)
     public void updateEntries(@RequestBody List<EntryDTO> entryDTOs) {
         for (EntryDTO entryDTO : entryDTOs) {
@@ -146,15 +146,14 @@ public class EntryController {
         }
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainerByEntryId(#entryId) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isTrainerByEntryId(#entryId) or hasRole('0')")
     @RequestMapping(value = "/entry", method = RequestMethod.DELETE)
     public void deleteEntry(@RequestParam String entryId) {
         Entry entry = entryService.getEntryById(entryId);
         if (UserUtil.hasRole(0)) {
             entryService.deleteEntry(entry.getId());
             smtpMailSender.sendToUsers(trainingService.getTrainingById(entry.getTraining().getId()).getParticipants(), "Trainings", emailMessages.deleteEntry(entry));
-        }
-        else {
+        } else {
             entry.getTraining().setStatus(TrainingStatus.DRAFTED);
             trainingService.updateTraining(entry.getTraining());
 
@@ -169,23 +168,32 @@ public class EntryController {
         }
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#trainingId) or hasRole('0')" )
+    @PreAuthorize("@trainerControlBean.isTrainer(#trainingId) or hasRole('0')")
     @RequestMapping(value = "/absentees", method = RequestMethod.GET)
     public List<EntryDTO> getAbsentees(@RequestParam String trainingId,
-                                       @RequestParam Long beginDate,
+                                       @RequestParam(required = false) Long beginDate,
                                        @RequestParam Long endDate) {
         Training training = trainingService.getTrainingById(trainingId);
-        List<Entry> entries = entryService.findEntriesForJournal(new Date(--beginDate),
-                new Date(++endDate), training.getId());
+        List<Entry> entries;
+
+        if (beginDate != null)
+            entries = entryService.findEntriesForJournal(new Date(--beginDate),
+                    new Date(++endDate), training.getId());
+        else
+            entries = entryService.findEntriesForJournal(new Date(endDate), training.getId());
+
         List<EntryDTO> entryDTOs = new ArrayList<>();
 
         for (Entry entry : entries) {
             entryDTOs.add(new EntryDTO(entry));
         }
+
+        Collections.sort(entryDTOs);
         return entryDTOs;
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#absenteeDTO) or hasRole('0')" )
+    // TODO: add check for visitor
+    @PreAuthorize("@trainerControlBean.isTrainer(#absenteeDTO) or hasRole('0')")
     @RequestMapping(value = "/absentees", method = RequestMethod.POST)
     public AbsenteeDTO createAbsentee(@RequestBody AbsenteeDTO absenteeDTO) {
         Absentee absentee = new Absentee(absenteeDTO);

@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(rollbackFor = {EntryNotFoundException.class})
-public class EntryServiceImpl implements EntryService{
+public class EntryServiceImpl implements EntryService {
     @Autowired
     private EntryRepository entryRepository;
 
@@ -38,8 +38,7 @@ public class EntryServiceImpl implements EntryService{
         Entry entry = entryRepository.findOne(id);
         if (entry != null) {
             return entry;
-        }
-        else {
+        } else {
             throw new EntryNotFoundException(String.valueOf(id));
         }
     }
@@ -56,8 +55,13 @@ public class EntryServiceImpl implements EntryService{
 
     @Override
     public List<Entry> findEntriesForJournal(Date beginDay, Date endDay, long trainingId) {
-        return entryRepository.findByTrainingIdAndBeginTimeAfterAndEndTimeBefore(trainingId,
+        return entryRepository.findByTrainingIdAndEndTimeAfterAndBeginTimeBefore(trainingId,
                 beginDay, endDay);
+    }
+
+    @Override
+    public List<Entry> findEntriesForJournal(Date endDay, long trainingId) {
+        return entryRepository.findByTrainingIdAndBeginTimeBefore(trainingId, endDay);
     }
 
     @Override
