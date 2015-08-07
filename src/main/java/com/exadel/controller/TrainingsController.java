@@ -83,6 +83,7 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
+        Training createdTraining = null;
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
             training = trainingService.addTraining(training);
