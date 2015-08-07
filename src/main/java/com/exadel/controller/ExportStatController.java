@@ -22,10 +22,8 @@ import java.util.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files/export")
+@RequestMapping("/user")
 public class ExportStatController {
-    /*@Autowired
-    private TrainingService trainingService;*/
     @Autowired
     private UserService userService;
     @Autowired
@@ -37,17 +35,7 @@ public class ExportStatController {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HHmmss");
     private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-   /* @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public boolean getTrainingPdf(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        long userId = userService.getCurrentId();
-        User creator = userService.getUserById(userId);
-
-        ExportTrainingToPdf.createPdf(training, creator);
-        return true;
-    }*/
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public void getUserPdf(@RequestParam String userId) {
         User user = userService.getUserById(userId);
 

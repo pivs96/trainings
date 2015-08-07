@@ -9,7 +9,9 @@ public interface AttachmentService {
 
     List<Attachment> getAllAttachmentsByTrainingId(long trainingId);
 
-    void addAttachment(Attachment attachment);
+    void addAttachmentFile(Attachment attachment);
+
+    void addAttachmentLink(Attachment attachment);
 
     Attachment getAttachmentById(String id);
 
