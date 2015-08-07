@@ -2,8 +2,8 @@
 angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog) {
 
   //TODO user real dates here
-  var _beginDate = 1430430800000;
-  var _endDate = 1443484800000;
+  var _endDate = (new Date()).getTime();
+  var _beginDate = _endDate - 2629746000;
 
   var ABSENT = 'н';
   var PRESENT = 'б';
