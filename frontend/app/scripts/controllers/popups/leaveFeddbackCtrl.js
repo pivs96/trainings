@@ -10,7 +10,7 @@ angular.module('frontendApp')
       max: 5
     };
 
-    $scope.usernInfo = $localStorage.userData;
+    $scope.userInfo = $localStorage.userData;
       // 0 - admin, 1 - employe,  2 - external trainer, 3 - external visitor
 
     $scope.levels = angular.copy(Levels);
@@ -21,10 +21,10 @@ angular.module('frontendApp')
 
       _.extend(feed, {
         trainingId : trainingData.trainingId,
-        feedbackerId :  $scope.usernInfo.id,
+        feedbacker :  $scope.userInfo,
         effectiveness: $scope.$$childHead.ratingValue,
         date : new Date(),
-        eventDescription : "User " + $scope.usernInfo.name + " left feedback on training " + trainingData.trainingName
+        eventDescription : "User " + $scope.userInfo.name + " left feedback on training " + trainingData.trainingName
       });
       _.extend(feed, $scope.entity);
 
@@ -37,10 +37,10 @@ angular.module('frontendApp')
       var feed = new UserFeedbackService();
 
       _.extend(feed, {
-        trainerId : $scope.usernInfo.id,
+        trainerId : $scope.userInfo.id,
         visitorId : trainingData.userId,
         date : new Date(),
-        eventDescription : "Trainer " + $scope.usernInfo.name + "left feedback on visitor " + trainingData.userName
+        eventDescription : "Trainer " + $scope.userInfo.name + "left feedback on visitor " + trainingData.userName
       });
       $scope.entity.otherInfo = "Training name : " + trainingData.trainingName + "\n" + $scope.entity.otherInfo;
       _.extend(feed, $scope.entity);

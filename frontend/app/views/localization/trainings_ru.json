@@ -124,5 +124,8 @@
   "ALL_TRAININGS_RAITINGS" : "Рейтинг",
   "CREATE_TRAINING" : "Создать тренинг",
   "OR_ATTACH_LINKS" : "Или прикрепите ссылки",
-  "ADD_LINK" : "Прикрепить ссылку"
+  "ADD_LINK" : "Прикрепить ссылку",
+  "FEEDBACK_FROM" : "От",
+  "FEEDBACK_RECOMMEND" : "Рекомендациия посетить",
+  "FEEDBACK_RATINGS" : "Оценка"
 }

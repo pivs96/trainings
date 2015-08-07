@@ -1,6 +1,16 @@
-<div class="training-feedback-container" ng-repeat="feedback in feedbacks">
-  <p class="col-sm-8">{{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}} at {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
-  <p class="col-sm-4 training-feedback-otherinfo"> recomended: {{feedback.recommend | yesNo}}</p>
-  <i ng-if="isAdmin()" class="col-sm-4 training-feedback-otherinfo fa fa-trash-o" ng-click="deleteFeedback(feedback.id)"></i>
-  <p>{{feedback.otherInfo}}</p>
+<div class="panel panel-primary training-feedback-container" ng-repeat="feedback in feedbacks">
+  <div class="panel-heading panel-text">
+    <label class="col-sm-8">
+      {{translation.FEEDBACK_FROM}} : {{(feedback.feedbacker.name + " " + feedback.feedbacker.surname)}}
+    </label>
+     <label class="col-sm-4 training-feedback-otherinfo">
+       {{feedback.date | date:'yyyy-MM-dd HH:mm'}}
+    </label>
+  </div>
+  <div class="panel-body">
+    <i ng-if="isAdmin()" class="col-sm-4 training-feedback-otherinfo fa fa-trash-o fa-2x" ng-click="deleteFeedback(feedback.id)"></i>
+    <p> {{translation.FEEDBACK_RATINGS}} : {{feedback.effectiveness}}</p>
+    <p> {{translation.FEEDBACK_RECOMMEND}} : {{feedback.recommend | yesNo}}</p>
+    <p> {{translation.OTHER_INFO_T}} : {{feedback.otherInfo}}</p>
+  </div>
 </div>
