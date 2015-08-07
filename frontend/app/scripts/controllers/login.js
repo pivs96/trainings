@@ -14,11 +14,10 @@ angular.module('frontendApp')
           AuthenticationService.SetCredentials(response.name, response.details.sessionId, true);
           $scope.userData = UserDataService.getUserNameAndId({login : $localStorage.userName}, function(response) {
             $localStorage.userData = response;
+            $location.path("/myTainings");
           });
           if($rootScope.locationPath !== "/login" && $rootScope.locationPath){
             $location.path($rootScope.locationPath);
-          } else {
-            $location.path("/traininglist");
           }
         } else {
           $location.path("/login");
