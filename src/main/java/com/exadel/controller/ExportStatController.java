@@ -13,6 +13,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static com.exadel.export.PdfExporter.*;
 
 import java.io.File;
@@ -22,10 +24,8 @@ import java.util.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files/export")
+@RequestMapping("/user")
 public class ExportStatController {
-    /*@Autowired
-    private TrainingService trainingService;*/
     @Autowired
     private UserService userService;
     @Autowired
@@ -37,18 +37,8 @@ public class ExportStatController {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HHmmss");
     private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-   /* @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public boolean getTrainingPdf(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        long userId = userService.getCurrentId();
-        User creator = userService.getUserById(userId);
-
-        ExportTrainingToPdf.createPdf(training, creator);
-        return true;
-    }*/
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public void getUserPdf(@RequestParam String userId) {
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    public void getUserPdf(@RequestParam String userId, HttpServletResponse response) {
         User user = userService.getUserById(userId);
 
         long creatorId = userService.getCurrentId();

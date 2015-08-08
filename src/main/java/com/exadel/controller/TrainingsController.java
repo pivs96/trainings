@@ -3,7 +3,6 @@ package com.exadel.controller;
 import com.exadel.dto.EntryDTO;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
-import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
@@ -14,6 +13,8 @@ import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import com.exadel.service.events.TrainingEventService;
+import com.exadel.service.events.TrainingFeedbackEventService;
+import com.exadel.service.events.UserFeedbackEventService;
 import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
@@ -21,17 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.*;
 
 import static com.exadel.Utils.addWeekToDate;
 import static com.exadel.Utils.getDayNumberToAdd;
-import com.exadel.service.events.TrainingFeedbackEventService;
-import com.exadel.service.events.UserFeedbackEventService;
-import org.springframework.web.context.request.async.DeferredResult;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @PreAuthorize("hasAnyRole('0','1','2')")
@@ -87,12 +83,15 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
+        Training createdTraining = null;
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
+            createdTraining = trainingService.addTraining(training);
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
-            trainingDTO.setId(training.getId());
+            createdTraining = trainingService.addTraining(training);
+            trainingDTO.setId(createdTraining.getId());
             trainingDTO.setEventDescription(emailMessages.newTrainingToAdmin(training));
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -111,7 +110,6 @@ public class TrainingsController {
             }
         }
 
-        Training createdTraining = trainingService.addTraining(training);
         if (trainingDTO.isRepeated()) {
             generateEntries(trainingDTO.getBegin(), trainingDTO.getEnd(),
                     training, trainingDTO.getEntries());

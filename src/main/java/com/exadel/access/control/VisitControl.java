@@ -20,17 +20,10 @@ public class VisitControl {
     public final UserService userService;
     public final TrainingService trainingService;
 
-
     @Autowired
     public VisitControl(UserService userService, TrainingService trainingService) {
         this.userService = userService;
         this.trainingService = trainingService;
-    }
-
-    public boolean isVisit(AttachmentDTO attachmentDTO) {
-        long currentId = userService.getCurrentId();
-        List<Long> participants = trainingService.getParticipants(attachmentDTO.getTrainingId());
-        return participants.contains(currentId);
     }
 
     public boolean isVisit(long trainingId) {

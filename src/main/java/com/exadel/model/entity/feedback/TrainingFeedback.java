@@ -60,8 +60,7 @@ public class TrainingFeedback {
 
         this.training = new Training();
         this.training.setId(feedbackDTO.getTrainingId());
-        this.feedbacker = new User();
-        this.feedbacker.setId(feedbackDTO.getFeedbackerId());
+        this.feedbacker = new User(feedbackDTO.getFeedbacker());
     }
 
     public boolean isUnderstandable() {

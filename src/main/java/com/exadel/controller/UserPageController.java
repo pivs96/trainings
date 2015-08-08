@@ -5,7 +5,6 @@ import com.exadel.dto.TrainingDTO;
 import com.exadel.dto.UserDTO;
 import com.exadel.dto.UserFeedbackDTO;
 import com.exadel.model.entity.events.Event;
-import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
@@ -37,9 +36,9 @@ public class UserPageController {
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
     @Autowired
-    SmtpMailSender smtpMailSender;
+    private SmtpMailSender smtpMailSender;
     @Autowired
-    EmailMessages emailMessages;
+    private EmailMessages emailMessages;
 
     @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
@@ -52,11 +51,13 @@ public class UserPageController {
         User user = userService.getUserById(id);
         return new UserDTO(user);
     }
+
     @PreAuthorize("hasRole('0') or @userControlBean.isMyAccount(#userId) and hasAnyRole('1','2')")
     @RequestMapping(value = "/mentoringTrainings", method = RequestMethod.GET)
     public List<TrainingDTO> showMentoringTrainings(@RequestParam String userId) {
         return getTrainingDTOs(userService.getMentoringTrainings(userId));
     }
+
     @PreAuthorize("hasRole('0') or  @userControlBean.isMyAccount(#userId) and hasRole('1')")
     @RequestMapping(value = "/visitingTrainings", method = RequestMethod.GET)
     public List<TrainingDTO> showVisitingTrainings(@RequestParam String userId) {
@@ -71,6 +72,7 @@ public class UserPageController {
         return trainingDTOs;
 
     }
+
     @PreAuthorize("hasRole('0') or @userControlBean.isMyAccount(#userId) and hasAnyRole('1','2')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
     public List<UserFeedbackDTO> getFeedbacks(@RequestParam String userId) {
@@ -82,12 +84,14 @@ public class UserPageController {
         }
         return feedbackDTOs;
     }
+
     @PreAuthorize("hasAnyRole('1','2')")
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody UserFeedbackDTO feedbackDTO) {
         UserFeedback feedback = new UserFeedback(feedbackDTO);
-        userFeedbackService.addFeedback(feedback);
+        feedback = userFeedbackService.addFeedback(feedback);
         feedbackDTO.setId(feedback.getId());
+
         userFeedbackEventService.addEvent(new UserFeedbackEvent(feedbackDTO));
         smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Feedback on visitor", feedbackDTO.getEventDescription());
         List<EventDTO> list = new ArrayList<>();
@@ -100,9 +104,7 @@ public class UserPageController {
         }
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(list);
-
         }
-
     }
 
     @RequestMapping(value="/info",method = RequestMethod.GET)
@@ -113,8 +115,6 @@ public class UserPageController {
 
     @RequestMapping("/byFeedback")
     public long getUserId(@RequestParam String id) {
-        long userId = userService.getUserIdByFeedbackId(id);
-        return userId;
+        return userService.getUserIdByFeedbackId(id);
     }
-
 }
