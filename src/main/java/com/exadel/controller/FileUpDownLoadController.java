@@ -2,12 +2,10 @@ package com.exadel.controller;
 
 import com.exadel.model.entity.FileLoadStatus;
 import com.exadel.model.entity.training.Attachment;
-import com.exadel.model.entity.training.Training;
 import com.exadel.service.AttachmentService;
 import com.exadel.service.TrainingService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +45,7 @@ public class FileUpDownLoadController {
 
                 attachment.setName(file.getOriginalFilename());
                 attachment.setTraining(trainingService.getTrainingById(trainingId));
-                attachmentService.addAttachment(attachment);
+                attachmentService.addAttachmentFile(attachment);
 
                 stream.write(bytes);
                 stream.close();
