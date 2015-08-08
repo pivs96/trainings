@@ -13,7 +13,7 @@ public interface TrainingFeedbackService {
 
     Collection<TrainingFeedback> getTrainingFeedbacksByTrainingId(long trainingId);
 
-    Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback);
+    long addTrainingFeedback(TrainingFeedback trainingFeedback);
 
     void deleteById(long id);
 }
