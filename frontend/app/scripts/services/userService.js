@@ -19,13 +19,6 @@ angular.module('frontendApp').factory('userService', function ($resource, $q) {
     },
     getUser: {
       method: 'GET'
-    },
-    getUserStatistics: {
-      url: 'http://localhost:8080/user/stats?userId=:id',
-      method: 'GET',
-      params: {
-        id: '@id'
-      }
     }
   });
   return {

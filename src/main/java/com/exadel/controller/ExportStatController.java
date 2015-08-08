@@ -36,7 +36,7 @@ public class ExportStatController {
     private static String FILE =  System.getProperty("user.dir") + File.separator;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HHmmss");
     private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final String path = System.getProperty("user.dir") + File.separator + "temp";
+    private static final String path = System.getProperty("user.dir");
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public void getUserPdf(@RequestParam String userId, HttpServletResponse response) {

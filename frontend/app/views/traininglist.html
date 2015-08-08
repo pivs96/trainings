@@ -43,7 +43,8 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="row in trainingsList" ng-click="openTraining(row.id)">
+  <tr ng-if="isAdmin() || (row.status === 'DRAFTED' || row.status === 'APPROVED')"
+      ng-repeat="row in trainingsList" ng-click="openTraining(row.id)">
     <td>{{row.name}}</td>
 
     <td>{{row.trainer.name}}</td>

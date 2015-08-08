@@ -55,9 +55,9 @@
         </a>
       </div>
       <div>
-        <button ng-if="isAdmin()" class="btn btn-primary btn-user-profile-edit"
-                ng-click="getStatistics()">{{translation.STATISTICS}}
-        </button>
+        <a ng-if="isAdmin()"href="{{_url}}" class="btn btn-primary btn-user-profile-edit">
+          {{translation.STATISTICS}}
+        </a>
       </div>
     </div>
 
