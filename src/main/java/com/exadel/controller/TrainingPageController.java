@@ -241,9 +241,9 @@ public class TrainingPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
-        feedback = trainingFeedbackService.addTrainingFeedback(feedback).get();
+        long id = trainingFeedbackService.addTrainingFeedback(feedback);
 
-        feedbackDTO.setId(feedback.getId());
+        feedbackDTO.setId(id);
         trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(getEvents());

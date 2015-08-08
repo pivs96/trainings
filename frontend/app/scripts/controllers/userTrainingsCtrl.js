@@ -31,7 +31,7 @@ angular.module('frontendApp').controller('UserTrainingsCtrl', ['$location', '$sc
 
     $scope.filtreData = function() {
       for(var i = 0; i < $scope.userTrainings.length; ++i){
-        $scope.userTrainings[i].rating = Math.floor($scope.userTrainings[i].rating+1);
+        $scope.userTrainings[i].rating = Math.floor($scope.userTrainings[i].rating);
       }
       return $scope.userTrainings;
     };
