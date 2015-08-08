@@ -13,6 +13,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static com.exadel.export.PdfExporter.*;
 
 import java.io.File;
@@ -36,7 +38,7 @@ public class ExportStatController {
     private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
-    public void getUserPdf(@RequestParam String userId) {
+    public void getUserPdf(@RequestParam String userId, HttpServletResponse response) {
         User user = userService.getUserById(userId);
 
         long creatorId = userService.getCurrentId();
