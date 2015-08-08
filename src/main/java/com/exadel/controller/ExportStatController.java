@@ -1,5 +1,6 @@
 package com.exadel.controller;
 
+import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.*;
@@ -19,6 +20,7 @@ import static com.exadel.export.PdfExporter.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -33,10 +35,11 @@ public class ExportStatController {
     @Autowired
     private AbsenteeService absenteeService;
 
-    private static String FILE =  System.getProperty("user.dir") + File.separator;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HHmmss");
-    private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final String path = System.getProperty("user.dir") + File.separator + "temp";
+    private static SimpleDateFormat prefaceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static DecimalFormat doubleFormat = new DecimalFormat("#.##");
+    private static final String path = System.getProperty("user.dir");
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public void getUserPdf(@RequestParam String userId, HttpServletResponse response) {
@@ -49,7 +52,7 @@ public class ExportStatController {
             Document document = new Document();
             Date creatingDate = new Date();
             String time = format.format(creatingDate);
-            String name = user.getName() + " " + user.getSurname();
+            String name = "Statistics of " + user.getName() + " " + user.getSurname();
 
             String filePath = path + File.separator + name + " " + time + ".pdf";
             File downloadFile = new File(filePath);
@@ -57,7 +60,7 @@ public class ExportStatController {
             PdfWriter.getInstance(document, new FileOutputStream(downloadFile));
 
             document.open();
-            addMetaDataAndTitlePage(document, creator, name, prefaceformat.format(creatingDate));
+            addMetaDataAndTitlePage(document, creator, name, prefaceFormat.format(creatingDate));
             addContent(document, user);
             document.close();
 
@@ -70,101 +73,45 @@ public class ExportStatController {
 
     private void addContent(Document document, User user) throws DocumentException {
         int chapterNumber = 1;
+        com.itextpdf.text.List summaryContent = new com.itextpdf.text.List(false, false, 15);
 
-        if (addVisitingTrainings(document, user, chapterNumber))
+        if (addVisitingTrainings(document, user, chapterNumber, summaryContent))
             chapterNumber++;
 
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
+        if (addMentoringTrainings(document, user, chapterNumber, summaryContent))
+            chapterNumber++;
 
-        // Second parameter is the number of the chapter
-        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
-
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
-
-        subPara = new Paragraph("Subcategory 2", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
-
-        // add a list
-        createList(subCatPart);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subCatPart.add(paragraph);
-
-        // now add all this to the document
-        document.add(catPart);
-
-        // Next section
-        anchor = new Anchor("Second Chapter", catFont);
-        anchor.setName("Second Chapter");
-
-        // Second parameter is the number of the chapter
-        catPart = new Chapter(new Paragraph(anchor), 2);
-
-        subPara = new Paragraph("Subcategory", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // now add all this to the document
-        document.add(catPart);
-
+        if (chapterNumber != 0)
+            addSummary(document, summaryContent, chapterNumber);
     }
 
-    private boolean addVisitingTrainings(Document document, User user, int chapterNumber) throws DocumentException {
-        List<Training> visitingTrainings;
-
+    private boolean addVisitingTrainings(Document document, User user, int chapterNumber, com.itextpdf.text.List summaryContent) throws DocumentException {
+        List<Training> trainings;
         if (user.getRole() == UserRole.EXTERNAL_VISITOR)
-            visitingTrainings = ((ExternalVisitor)user).getVisitingTrainings();
+            trainings = ((ExternalVisitor) user).getVisitingTrainings();
         else if (user.getRole() == UserRole.EMPLOYEE)
-            visitingTrainings = ((Employee)user).getVisitingTrainings();
+            trainings = ((Employee) user).getVisitingTrainings();
         else
             return false;
 
-        Anchor anchor = new Anchor("Visited trainings", catFont);
-        anchor.setName("Visited trainings");
+        document.newPage();
+        Anchor anchor = new Anchor("Visiting trainings", catFont);
+        anchor.setName("Visiting trainings");
         Chapter chapter = new Chapter(new Paragraph(anchor), chapterNumber);
 
         Paragraph emptyLine = new Paragraph();
-        addEmptyLine(emptyLine, 2);
+        addEmptyLine(emptyLine, 1);
         chapter.add(emptyLine);
 
-        PdfPTable trainingsTable = new PdfPTable(3);
+        List<String> headers = Arrays.asList("Name", "Absences", "All");
+        PdfPTable trainingsTable = createTableWithHeader(headers);
+        chapter.add(trainingsTable);
 
-        PdfPCell cell = new PdfPCell(new Phrase("Name"));
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        trainingsTable.addCell(cell);
+        List<String> absenceHeaders = Arrays.asList("Day", "Absence reason");
+        int allAbsenceCount = 0;
+        int lecturesCount = 0;
 
-//        cell = new PdfPCell(new Phrase("Begin"));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        trainingsTable.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase("End"));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        trainingsTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Absences"));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        trainingsTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("All"));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        trainingsTable.addCell(cell);
-        trainingsTable.setHeaderRows(1);
-
-        List<Paragraph> trainingParagraphs = new ArrayList<>();
-        List<List<String>> days = new ArrayList<>();
-        List<List<String>> reasons = new ArrayList<>();
-
-        for (Training training : visitingTrainings) {
-            trainingsTable.addCell(training.getName());
-
-            trainingParagraphs.add(new Paragraph(training.getName(), subFont));
-
+        for (Training training : trainings) {
             List<String> trainingDays = new ArrayList<>();
             List<String> trainingReasons = new ArrayList<>();
             List<Entry> entries = entryService.getAllEntriesByTrainingId(training.getId());
@@ -174,64 +121,130 @@ public class ExportStatController {
                 Absentee absentee = absenteeService.getAbsentee(user.getId(), entry.getId());
                 if (absentee != null) {
                     absentCount++;
-                    trainingDays.add(format.format(entry.getBeginTime()));
+                    trainingDays.add(dateFormat.format(entry.getBeginTime()));
                     trainingReasons.add(absentee.getReason());
                 }
             }
 
-            days.add(trainingDays);
-            reasons.add(trainingReasons);
+            lecturesCount += entries.size();
+            allAbsenceCount += absentCount;
 
-            trainingsTable.setHorizontalAlignment(Element.ALIGN_CENTER);
-            trainingsTable.addCell(String.valueOf(absentCount));
-            trainingsTable.addCell(String.valueOf(entries.size()));
+            if (absentCount > 0) {
+                Paragraph paragraph = new Paragraph(training.getName(), subFont);
+                addEmptyLine(paragraph, 1);
+                Section subSection = chapter.addSection(paragraph);
 
-            trainingsTable.setHorizontalAlignment(Element.ALIGN_LEFT);
-        }
+                PdfPTable absenceTable = createTableWithHeader(absenceHeaders);
 
-        chapter.add(trainingsTable);
+                for (int j = 0; j < trainingDays.size(); j++) {
+                    absenceTable.addCell(trainingDays.get(j));
+                    absenceTable.addCell(trainingReasons.get(j));
+                }
 
-        for (int i = 0; i < trainingParagraphs.size(); i++) {
-            Paragraph paragraph = trainingParagraphs.get(i);
-            Section subSection = chapter.addSection(paragraph);
-
-            addEmptyLine(emptyLine, 2);
-            subSection.add(emptyLine);
-
-            PdfPTable absenceTable = new PdfPTable(2);
-            PdfPCell absenceCell = new PdfPCell(new Phrase("Day"));
-            absenceCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            absenceTable.addCell(absenceCell);
-
-            absenceCell = new PdfPCell(new Phrase("Absence reason"));
-            absenceCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            absenceTable.addCell(absenceCell);
-
-            List<String> dayStrings = days.get(i);
-            List<String> absenceStrings = reasons.get(i);
-            for (int j = 0; j < dayStrings.size(); j++) {
-                String day = dayStrings.get(j);
-                String reason = absenceStrings.get(j);
-
-                absenceTable.addCell(day);
-                absenceTable.addCell(reason);
+                subSection.add(absenceTable);
             }
 
-            subSection.add(absenceTable);
+            trainingsTable.addCell(training.getName());
+            trainingsTable.addCell(String.valueOf(absentCount));
+            trainingsTable.addCell(String.valueOf(entries.size()));
         }
 
-        /*subParagraph = new Paragraph("Subcategory 2", subFont);
-        subSection = chapter.addSection(subParagraph);
-        subSection.add(new Paragraph("Paragraph 1"));
-        subSection.add(new Paragraph("Paragraph 2"));
-        subSection.add(new Paragraph("Paragraph 3"));
 
-        // add a list
-        createList(subSection);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subSection.add(paragraph);*/
+        double percent = (double) allAbsenceCount / lecturesCount * 100;
+        summaryContent.add(new ListItem("Lectures attended: " + lecturesCount));
+        summaryContent.add(new ListItem("Lectures skipped: " + allAbsenceCount
+                + " (" + doubleFormat.format(percent) + "%)"));
+
         document.add(chapter);
         return true;
+    }
+
+    private PdfPTable createTableWithHeader(List<String> headers) {
+        PdfPTable table = new PdfPTable(headers.size());
+
+        for (String header : headers) {
+            PdfPCell cell = new PdfPCell(new Phrase(header));
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(cell);
+        }
+
+        table.setHeaderRows(1);
+        return table;
+    }
+
+    private boolean addMentoringTrainings(Document document, User user, int chapterNumber, com.itextpdf.text.List summaryContent) throws DocumentException {
+        List<Training> mentoringTrainings;
+        if (user.getRole() != UserRole.EXTERNAL_VISITOR)
+            mentoringTrainings = ((ExternalTrainer) user).getMentoringTrainings();
+        else
+            return false;
+
+        document.newPage();
+        Anchor anchor = new Anchor("Mentoring trainings", catFont);
+        anchor.setName("Mentoring trainings");
+        Chapter chapter = new Chapter(new Paragraph(anchor), chapterNumber);
+
+        Paragraph emptyLine = new Paragraph();
+        addEmptyLine(emptyLine, 1);
+        chapter.add(emptyLine);
+
+        List<String> headers = Arrays.asList("Name", "Lectures mentored", "Responses");
+        PdfPTable trainingsTable = createTableWithHeader(headers);
+        chapter.add(trainingsTable);
+
+        List<String> feedbackHeaders = Arrays.asList("Day", "Feedback", "Positive");
+        int eventsSum = 0;
+        int feedbackSum = 0;
+        int positiveFeedbackSum = 0;
+
+        for (Training training : mentoringTrainings) {
+            trainingsTable.addCell(training.getName());
+
+            int eventsCount = training.getEntries().size();
+            eventsSum += eventsCount;
+            trainingsTable.addCell(String.valueOf(eventsCount));
+
+            int feedbackCount = training.getFeedbacks().size();
+            feedbackSum += feedbackCount;
+            trainingsTable.addCell(String.valueOf(feedbackCount));
+
+            if (feedbackCount > 0) {
+                Paragraph paragraph = new Paragraph(training.getName(), subFont);
+                addEmptyLine(paragraph, 1);
+                Section subSection = chapter.addSection(paragraph);
+                PdfPTable feedbackTable = createTableWithHeader(feedbackHeaders);
+                subSection.add(feedbackTable);
+
+                for (TrainingFeedback feedback : training.getFeedbacks()) {
+                    feedbackTable.addCell(dateFormat.format(feedback.getDate()));
+                    feedbackTable.addCell(feedback.getOtherInfo());
+
+                    if (feedback.isStudyWithTrainer()) {
+                        feedbackTable.addCell("+");
+                        positiveFeedbackSum++;
+                    }
+                    else
+                        feedbackTable.addCell("-");
+                }
+            }
+        }
+
+        summaryContent.add(new ListItem("Lectures mentored: " + eventsSum));
+        summaryContent.add(new ListItem("Feedbacks (as trainer) received: " + feedbackSum));
+        double percent = (double) positiveFeedbackSum / feedbackSum * 100;
+        summaryContent.add(new ListItem("Positive feedbacks (as trainer) received: "
+                + positiveFeedbackSum + " (" + doubleFormat.format(percent) + "%)"));
+
+        document.add(chapter);
+        return true;
+    }
+
+    private void addSummary(Document document, com.itextpdf.text.List summaryContent, int chapterNumber) throws DocumentException {
+        document.newPage();
+        Anchor anchor = new Anchor("Summary", catFont);
+        anchor.setName("Summary");
+        Chapter chapter = new Chapter(new Paragraph(anchor), chapterNumber);
+        chapter.add(summaryContent);
+        document.add(chapter);
     }
 }
