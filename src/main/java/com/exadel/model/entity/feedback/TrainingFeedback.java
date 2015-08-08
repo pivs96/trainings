@@ -58,8 +58,6 @@ public class TrainingFeedback {
         this.otherInfo = feedbackDTO.getOtherInfo();
         this.date = feedbackDTO.getDate();
 
-        this.training = new Training();
-        this.training.setId(feedbackDTO.getTrainingId());
         this.feedbacker = new User(feedbackDTO.getFeedbacker());
     }
 

@@ -126,6 +126,21 @@ public class Training {
         this.membersCountMax = trainingDTO.getMembersCountMax();
     }
 
+    public void updateTraining(Training training) {
+        this.name = training.getName();
+        this.trainer = training.getTrainer();
+        this.targetAudience = training.getTargetAudience();
+        this.isExternal = training.isExternal();
+        this.language = training.getLanguage();
+        this.description = training.getDescription();
+        this.status = training.getStatus();
+        this.membersCountMax = training.getMembersCountMax();
+        this.rating = training.getRating();
+        this.ratingSum = training.getRatingSum();
+        this.valuerCount = training.getValuerCount();
+        this.repeated = training.isRepeated();
+    }
+
     public void addFeedback(TrainingFeedback feedback) {
         feedback.setTraining(this);
         feedbacks.add(feedback);

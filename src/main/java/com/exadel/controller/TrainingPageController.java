@@ -237,6 +237,8 @@ public class TrainingPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public TrainingDTO createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
+        feedback.setTraining(trainingService.getTrainingById(String.valueOf(feedbackDTO.getId())));
+
         long id = trainingFeedbackService.addTrainingFeedback(feedback);
 
         feedbackDTO.setId(id);
@@ -246,7 +248,10 @@ public class TrainingPageController {
         }
 
         ratingService.addRating(new Rating(feedback.getTraining(), feedback.getFeedbacker()));
-        return new TrainingDTO(feedback.getTraining().addRating(feedback.getEffectiveness()));
+        Training training = feedback.getTraining();
+        training.addRating(feedback.getEffectiveness());
+        trainingService.updateTraining(training);
+        return new TrainingDTO(training);
     }
 
     @PreAuthorize("hasRole('0')")

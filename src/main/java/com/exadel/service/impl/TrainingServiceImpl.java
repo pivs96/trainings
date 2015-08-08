@@ -95,10 +95,8 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     @Modifying
     public void updateTraining(Training training) {
-        if (trainingRepository.exists(training.getId())) {
-            trainingRepository.save(training);
-        } else
-            throw new TrainingNotFoundException(String.valueOf(training.getId()));
+        Training oldTraining = trainingRepository.getOne(training.getId());
+        oldTraining.updateTraining(training);
     }
 
     @Override
