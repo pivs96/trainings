@@ -48,7 +48,6 @@ public class PdfExporter {
         preface.add(new Paragraph(link));
 
         document.add(preface);
-        document.newPage();
     }
 
     public static void createList(Section subCatPart) {
