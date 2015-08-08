@@ -33,19 +33,19 @@ public class AttachmentController {
         return attachmentDTOs;
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
+    @PreAuthorize("@trainerControlBean.isTrainerByAttachments(#attachmentDTOs) or hasRole('0')")
     @RequestMapping(value = "attachments", method = RequestMethod.POST)
     public void createAttachmentLinks(@RequestBody List<AttachmentDTO> attachmentDTOs) {
         if (attachmentDTOs != null) {
             for (AttachmentDTO attachmentDTO : attachmentDTOs) {
                 Attachment attachment = new Attachment(attachmentDTO);
                 attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
-                attachmentService.addAttachment(attachment);
+                attachmentService.addAttachmentLink(attachment);
             }
         }
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#attachmentDTO) or hasRole('0') or @visitControlBean.isVisit(#attachmentDTO) and hasAnyRole('1','2')")
+    @PreAuthorize("@trainerControlBean.isTrainerByAttachmentId(#id) or hasRole('0')")
     @RequestMapping(value = "attachment", method = RequestMethod.DELETE)
     public void deleteAttachment(@RequestParam String id) {
         Attachment attachment = attachmentService.getAttachmentById(id);

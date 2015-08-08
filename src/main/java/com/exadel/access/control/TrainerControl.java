@@ -4,8 +4,10 @@ import com.exadel.dto.AbsenteeDTO;
 import com.exadel.dto.AttachmentDTO;
 import com.exadel.dto.EntryDTO;
 import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.training.Attachment;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
+import com.exadel.service.AttachmentService;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
@@ -20,12 +22,15 @@ public class TrainerControl {
     public final UserService userService;
     public final TrainingService trainingService;
     public final EntryService entryService;
+    public final AttachmentService attachmentService;
 
     @Autowired
-    public TrainerControl(UserService userService, TrainingService trainingService, EntryService entryService) {
+    public TrainerControl(UserService userService, TrainingService trainingService,
+                          EntryService entryService, AttachmentService attachmentService) {
         this.userService = userService;
         this.trainingService = trainingService;
         this.entryService = entryService;
+        this.attachmentService = attachmentService;
     }
 
     public boolean isTrainer(long trainingId) {
@@ -51,12 +56,18 @@ public class TrainerControl {
             return false;
     }
 
-    public boolean isTrainer(AttachmentDTO attachmentDTO) {
-        long trainingId = attachmentDTO.getTrainingId();
-        if (userService.getCurrentId() == trainingService.getTrainerId(trainingId))
-            return true;
-        else
+    public boolean isTrainerByAttachments(List<AttachmentDTO> attachmentDTOs) {
+        if (attachmentDTOs == null)
             return false;
+
+        for (AttachmentDTO attachmentDTO : attachmentDTOs) {
+            if (attachmentDTO != null) {
+                long trainingId = attachmentDTO.getTrainingId();
+                if (userService.getCurrentId() == trainingService.getTrainerId(trainingId))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public boolean isTrainerByEntryId(String entryId) {
@@ -96,5 +107,10 @@ public class TrainerControl {
             return false;
 
         return isTrainer(training.getId());
+    }
+
+    private boolean isTrainerByAttachment(String id) {
+        Attachment attachment = attachmentService.getAttachmentById(id);
+        return isTrainer(attachment.getTraining().getId());
     }
 }

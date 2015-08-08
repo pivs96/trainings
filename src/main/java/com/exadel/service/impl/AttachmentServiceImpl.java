@@ -25,9 +25,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Modifying
-    public void addAttachment(Attachment attachment) {
+    public void addAttachmentFile(Attachment attachment) {
         attachmentRepository.save(attachment);
         attachment.setLink("http://localhost:8080/files/download?id=" + attachment.getId());
+    }
+
+    @Override
+    public void addAttachmentLink(Attachment attachment) {
+        attachmentRepository.save(attachment);
     }
 
     @Override

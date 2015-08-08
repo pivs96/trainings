@@ -26,12 +26,6 @@ public class VisitControl {
         this.trainingService = trainingService;
     }
 
-    public boolean isVisit(AttachmentDTO attachmentDTO) {
-        long currentId = userService.getCurrentId();
-        List<Long> participants = trainingService.getParticipants(attachmentDTO.getTrainingId());
-        return participants.contains(currentId);
-    }
-
     public boolean isVisit(long trainingId) {
         long currentId = userService.getCurrentId();
         List<Long> participants = trainingService.getParticipants(trainingId);
