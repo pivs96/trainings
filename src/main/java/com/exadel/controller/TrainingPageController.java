@@ -260,8 +260,8 @@ public class TrainingPageController {
         trainingFeedbackEventService.deleteByTrainingFeedbackId(Long.parseLong(feedbackId));
         trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
 
-        TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
-        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));
+       /* TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
+        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));*/
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
