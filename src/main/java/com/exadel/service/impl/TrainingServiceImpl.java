@@ -129,14 +129,6 @@ public class TrainingServiceImpl implements TrainingService {
             throw new TrainingNotFoundException(id);
     }
 
-    @Override
-    public double addRating(int grade, String trainingId) {
-        Training training = getTrainingById(trainingId);
-        training.setValuerCount(training.getValuerCount() + 1);
-        training.setRatingSum(training.getRatingSum() + grade);
-        return (double) (training.getRatingSum() / training.getValuerCount());
-    }
-
     public Page<Training> getTrainings(Integer first, Integer size) {
         Integer pageNumber = first / size;
         PageRequest request =

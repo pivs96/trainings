@@ -245,6 +245,13 @@ public class Training {
         this.rating = rating;
     }
 
+    public Training addRating(int grade) {
+        setValuerCount(getValuerCount() + 1);
+        setRatingSum(getRatingSum() + grade);
+        rating = getRatingSum() / getValuerCount();
+        return this;
+    }
+
     public List<Attachment> getAttachments() {
         return attachments;
     }
