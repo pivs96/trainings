@@ -25,8 +25,6 @@ public interface TrainingService {
 
     void cancelById(String id);
 
-    double addRating(int rating, String trainingId);
-
     long getTrainerId(long id);
 
     List<Long> getParticipants(long id);

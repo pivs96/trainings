@@ -33,7 +33,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/training")
 public class TrainingPageController {
-
     @Autowired
     private TrainingFeedbackService trainingFeedbackService;
     @Autowired
@@ -54,7 +53,6 @@ public class TrainingPageController {
     private SmtpMailSender smtpMailSender;
     @Autowired
     private EmailMessages emailMessages;
-
     @Autowired
     private ParticipationService participationService;
     @Autowired
@@ -215,15 +213,6 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value = "/rating", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public double addTrainingRating(@RequestBody RatingDTO ratingDTO) {
-        String trainingId = String.valueOf(ratingDTO.getTrainingId());
-        ratingService.addRating(new Rating(trainingService.getTrainingById(trainingId),
-                userService.getUserById(String.valueOf(ratingDTO.getUserId()))));
-        return trainingService.addRating(ratingDTO.getRating(), trainingId);
-    }
-
-    @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
     public List<TrainingFeedbackDTO> getFeedbacks(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -239,7 +228,7 @@ public class TrainingPageController {
 
     @PreAuthorize("@visitControlBean.isVisiting(#feedbackDTO) and hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
-    public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
+    public TrainingDTO createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
         long id = trainingFeedbackService.addTrainingFeedback(feedback);
 
@@ -248,6 +237,9 @@ public class TrainingPageController {
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(getEvents());
         }
+
+        ratingService.addRating(new Rating(feedback.getTraining(), feedback.getFeedbacker()));
+        return new TrainingDTO(feedback.getTraining().addRating(feedback.getEffectiveness()));
     }
 
     @PreAuthorize("hasRole('0')")
