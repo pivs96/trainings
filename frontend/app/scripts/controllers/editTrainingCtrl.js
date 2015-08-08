@@ -8,6 +8,10 @@ angular.module('frontendApp')
 
     $scope.newTraining = false;
 
+      $scope.attachments = [];
+      $scope.attachment = {};
+
+
       $scope.statuses = ['DRAFTED', 'APPROVED', 'CANCELED'];
 
       $scope.data = angular.copy(data);

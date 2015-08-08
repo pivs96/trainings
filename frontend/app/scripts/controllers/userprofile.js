@@ -39,7 +39,9 @@ angular.module('frontendApp')
   };
 
   $scope.getStatistics = function() {
-
+    userService.getUserStatistics({id: $scope.selectedUser.id}, function(resp) {
+      console.log(resp);
+    });
   };
 
   $scope.wathchFeedback = function(){
