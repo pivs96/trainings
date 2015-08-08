@@ -19,8 +19,6 @@ angular.module('frontendApp')
           $scope.entry = null;
         };
 
-        $scope.minDate = new Date();
-
         $scope.toggleMin = function() {
           $scope.minDate = $scope.minDate ? null : new Date();
         };
@@ -57,6 +55,7 @@ angular.module('frontendApp')
             }
           ];
 
+
         $scope.getDayClass = function(date, mode) {
           if (mode === 'day') {
             var dayToCheck = new Date(date).setHours(0,0,0,0);
@@ -74,6 +73,11 @@ angular.module('frontendApp')
         };
       }],
       link: function(scope, element, attrs) {
+        scope.$watch('req', function(newVal, oldVal) {
+          if(newVal !== oldVal) {
+            scope.entry = new Date();
+          }
+        });
       }
     };
   });

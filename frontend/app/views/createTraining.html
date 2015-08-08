@@ -35,7 +35,7 @@
                 ng-model="data.description"></textarea>
     </div>
     <div align="center" class="create-training-submit">
-      <button type="submit" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
+      <button type="submit" ng-disabled="pendingR" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
     </div>
   </div>
 

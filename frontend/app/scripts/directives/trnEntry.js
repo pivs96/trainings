@@ -42,7 +42,11 @@ angular.module('frontendApp')
 
         scope.$watch('time', function(newVal) {
           if(newVal) {
-            scope.entries[scope.index].beginTime = new Date(scope.date);
+            if(!scope.repeating) {
+              scope.entries[scope.index].beginTime = new Date(scope.date);
+            } else {
+              scope.entries[scope.index].beginTime = new Date(0);
+            }
             scope.entries[scope.index].beginTime.setHours(newVal.getHours());
             scope.entries[scope.index].beginTime.setMinutes(newVal.getMinutes());
           }
@@ -58,7 +62,7 @@ angular.module('frontendApp')
 
         scope.$watch('repeating', function(newVal, oldVal) {
           if(oldVal !== newVal) {
-            scope.date = null;
+            //scope.date = new Date();
             scope.time = null;
             scope.duration = null;
           }

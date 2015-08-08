@@ -39,19 +39,20 @@ public class VisitControl {
         return participants.contains(currentId);
     }
 
-    public boolean isStarted(String id, boolean isRepeated) {
+    public boolean isStarted(String id) {
+        Training training = trainingService.getTrainingById(id);
+        boolean isRepeated = training.isRepeated();
         if(isRepeated) {
             return true;
         }
-        Training training = trainingService.getTrainingById(id);
         List<Entry> list =training.getEntries();
-            Entry firstEntry = list.get(0);
-            Date beginDate = firstEntry.getBeginTime();
-            Date currentDate = new Date();
-            if(beginDate.before(currentDate))
-                return false;
-            else
-                return true;
+        Entry firstEntry = list.get(0);
+        Date beginDate = firstEntry.getBeginTime();
+        Date currentDate = new Date();
+        if(beginDate.before(currentDate))
+            return false;
+        else
+            return true;
 
     }
 }

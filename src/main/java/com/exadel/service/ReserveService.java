@@ -18,5 +18,7 @@ public interface ReserveService {
 
     void deleteReserve(long id);
 
+    void deleteReserve(Reserve reserve);
+
     Reserve getReserveByTrainingIdAndUserId(long trainingId, long userId);
 }

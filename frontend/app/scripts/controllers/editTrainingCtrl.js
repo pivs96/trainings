@@ -22,6 +22,8 @@ angular.module('frontendApp')
       var constEntries = angular.copy($scope.data.entries);
       $scope.entryNum = 1;
 
+      $scope.pendingR = false;
+
       $scope.compareEntryData = function() {
         if(constEntries){
           for (var i = 0; i < constEntries.length; i++) {
@@ -71,7 +73,7 @@ angular.module('frontendApp')
 
       $scope.save = function() {
         $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
-
+        $scope.pendingR = true;
         var edit = new editTraining();
         edit.data = angular.copy($scope.data);
         console.log(edit.data);
@@ -90,6 +92,7 @@ angular.module('frontendApp')
         postAttachLinks.save($scope.attachments).$promise.then(function(resp) {});
         editTraining.updateTraining($scope.data).$promise.then(function(resp) {
           console.log(resp);
+          $scope.pendingR = false;
           $location.path('/training/' + $route.current.params.trainingId);
         });
       };

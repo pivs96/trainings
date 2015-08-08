@@ -1,12 +1,14 @@
 package com.exadel.model.entity.training;
 
 import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -95,6 +97,23 @@ public class Training {
         this.feedbacks = new ArrayList<>();
         this.entries = new ArrayList<>();
         this.reserves = new ArrayList<>();
+    }
+
+    public boolean isParticipant(long userId) {
+        for (User participant : participants) {
+            if (participant.getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isReservist(long userId) {
+        for (Reserve reserve : reserves) {
+            if (reserve.getReservist().getId() == userId)
+                return true;
+        }
+        return false;
     }
 
     public void updateTraining(TrainingDTO trainingDTO) {
@@ -194,6 +213,7 @@ public class Training {
     }
 
     public List<Entry> getEntries() {
+        Collections.sort(entries);
         return entries;
     }
 

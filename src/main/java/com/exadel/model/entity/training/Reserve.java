@@ -12,11 +12,11 @@ public class Reserve {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "training_id", nullable = false)
+    @JoinColumn(name = "training_id")
     private Training training;
 
     @ManyToOne
-    @JoinColumn(name = "reservist_id", nullable = false)
+    @JoinColumn(name = "reservist_id")
     private User reservist;
 
     public Reserve() {

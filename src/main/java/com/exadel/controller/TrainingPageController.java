@@ -103,12 +103,11 @@ public class TrainingPageController {
 
     @RequestMapping(value = "/waitList", method = RequestMethod.GET)
     public List<UserDTO> getWaitList(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        List<Reserve> reserves = reserveService.getAllReservesByTrainingId(training.getId());
+        List<Reserve> reserves = reserveService.getAllReservesByTrainingId(Long.parseLong(trainingId));
         List<UserDTO> userDTOs = new ArrayList<>();
 
         for (Reserve reserve : reserves) {
-            userDTOs.add(new UserDTO(userService.getUserById(reserve.getId())));
+            userDTOs.add(new UserDTO(userService.getUserById(reserve.getReservist().getId())));
         }
         return userDTOs;
     }
@@ -138,23 +137,31 @@ public class TrainingPageController {
         }
     }
 
-    @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId,#isRepeated)")
+    @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId)")
     @RequestMapping(value = "/unregister", method = RequestMethod.POST)
     public synchronized void unregister(@RequestParam String userId, @RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
-        Participation participation = participationService.getParticipationByTrainingAndUserId(training.getId(), visitor.getId());
 
-        if (training.isRepeated()) {
-            participation.setEndDay(new Date());
-        } else {
-            participationService.deleteParticipation(participation.getId());
-        }
+        if (training.isParticipant(visitor.getId())) {
+            Participation participation = participationService.getParticipationByTrainingAndUserId(training.getId(), visitor.getId());
+            List<Entry> entries = training.getEntries();
 
-        Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
-        if (reserve != null) {
-            smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
-                    emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+            if (training.isRepeated() && new Date().after(entries.get(0).getBeginTime())) {
+                participation.setEndDay(new Date());
+            } else {
+                participationService.deleteParticipation(participation.getId());
+            }
+
+            Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
+            if (reserve != null) {
+                smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
+                        emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+            }
+        } else if (training.isReservist(visitor.getId())) {
+            Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(training.getId(), visitor.getId());
+            training.getReserves().remove(reserve);
+            reserveService.deleteReserve(reserve);
         }
     }
 

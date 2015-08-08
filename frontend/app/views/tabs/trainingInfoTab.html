@@ -65,10 +65,10 @@
 </div>
 <div align="center" ng-if="training.status === 'APPROVED' && !isTrainer()">
   <div ng-show="!registrated" align="center">
-    <button class="btn btn-success btn-lg" ng-click="register();">{{translation.REGISTER}}</button>
+    <button class="btn btn-success btn-lg" ng-disabled="pendingR" ng-click="register();">{{translation.REGISTER}}</button>
   </div>
   <div ng-show="registrated" align="center">
-    <button class="btn btn-danger btn-lg" ng-click="unregister();">{{translation.UNREGISTER}}</button>
+    <button class="btn btn-danger btn-lg" ng-disabled="pendingR" ng-click="unregister();">{{translation.UNREGISTER}}</button>
   </div>
 </div>
 
