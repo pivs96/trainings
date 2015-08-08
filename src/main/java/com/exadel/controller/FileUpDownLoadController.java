@@ -23,7 +23,7 @@ public class FileUpDownLoadController {
     @Autowired
     private TrainingService trainingService;
 
-    private static final String path = System.getProperty("user.dir") + File.separator + "Attachments";
+    private static final String path = System.getProperty("user.dir") + File.separator + "attachments";
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public FileLoadStatus handleFileUpload(@RequestParam String trainingId,
