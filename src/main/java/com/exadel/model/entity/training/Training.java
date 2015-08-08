@@ -273,7 +273,7 @@ public class Training {
     }
 
     public double getRating() {
-        return rating;
+        return (double) ratingSum / valuerCount;
     }
 
     public void setRating(double rating) {

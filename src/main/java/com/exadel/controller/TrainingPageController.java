@@ -237,7 +237,7 @@ public class TrainingPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public TrainingDTO createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
-        feedback.setTraining(trainingService.getTrainingById(String.valueOf(feedbackDTO.getId())));
+        feedback.setTraining(trainingService.getTrainingById(String.valueOf(feedbackDTO.getTrainingId())));
 
         long id = trainingFeedbackService.addTrainingFeedback(feedback);
 
