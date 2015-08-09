@@ -99,7 +99,7 @@ public class UserPageController {
         events.addAll(trainingEventService.getUnwatchedEvents());
         events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
         events.addAll(userFeedbackEventService.getUnwatchedEvents());
-        for (Event event: events){
+        for (Event event : events) {
             list.add(event.toEventDTO());
         }
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
@@ -107,7 +107,7 @@ public class UserPageController {
         }
     }
 
-    @RequestMapping(value="/info",method = RequestMethod.GET)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public UserDTO showUserInfo(@RequestParam String name) {
         User user = userService.getUserByLogin(name);
         return new UserDTO(user);

@@ -120,7 +120,11 @@ public class TrainingPageController {
         User visitor = userService.getUserById(userId);
         List<User> participants = training.getParticipants();
 
-        if (participants.size() < training.getMembersCountMax() && reserveService.getNextReserveByTrainingId(training.getId())==null) {
+        int participantsCount = participants.size();
+        participantsCount -= participationService.countCompletedParticipants(training.getId());
+
+        if (participantsCount < training.getMembersCountMax()
+                && reserveService.getNextReserveByTrainingId(training.getId()) == null) {
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
 
             smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
@@ -187,8 +191,7 @@ public class TrainingPageController {
 
             smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
                     emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.MEMBER));
-        }
-        else{
+        } else {
             smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
                     emailMessages.register(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.RESERVE));
         }
@@ -200,7 +203,7 @@ public class TrainingPageController {
         events.addAll(trainingEventService.getUnwatchedEvents());
         events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
         events.addAll(userFeedbackEventService.getUnwatchedEvents());
-        for (Event event: events){
+        for (Event event : events) {
             list.add(event.toEventDTO());
         }
         return list;
@@ -280,8 +283,7 @@ public class TrainingPageController {
         training.updateTraining(trainingDTO);
         if (UserUtil.hasRole(0)) {
             smtpMailSender.sendToUsers(training.getParticipants(), "Trainings", emailMessages.modifyTraining(training));
-        }
-        else {
+        } else {
             training.setStatus(TrainingStatus.DRAFTED);
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -302,8 +304,7 @@ public class TrainingPageController {
         if (UserUtil.hasRole(0)) {
             trainingService.cancelById(id);
             smtpMailSender.sendToUsers(training.getParticipants(), "Trainings", emailMessages.deleteTraining(training));
-        }
-        else {
+        } else {
             TrainingDTO trainingDTO = new TrainingDTO(training);
             trainingDTO.setEventDescription(emailMessages.deleteTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -316,7 +317,7 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasRole('0')")
-    @RequestMapping(value="/userFeedback",method = RequestMethod.POST)
+    @RequestMapping(value = "/userFeedback", method = RequestMethod.POST)
     public void askUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
@@ -325,10 +326,10 @@ public class TrainingPageController {
 
     @Autowired
     TrainingFeedbackRepository trainingFeedbackRepository;
+
     @RequestMapping("/byFeedback")
-    public TrainingDTO getTrainingId(@RequestParam String id)
-    {
-        TrainingFeedback feedback=trainingFeedbackRepository.findById(Long.parseLong(id));
+    public TrainingDTO getTrainingId(@RequestParam String id) {
+        TrainingFeedback feedback = trainingFeedbackRepository.findById(Long.parseLong(id));
         TrainingDTO trainingDTO = new TrainingDTO(feedback.getTraining());
         return trainingDTO;
     }
