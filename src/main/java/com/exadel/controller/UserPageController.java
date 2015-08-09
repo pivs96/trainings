@@ -51,11 +51,13 @@ public class UserPageController {
         User user = userService.getUserById(id);
         return new UserDTO(user);
     }
+
     @PreAuthorize("hasRole('0') or @userControlBean.isMyAccount(#userId) and hasAnyRole('1','2')")
     @RequestMapping(value = "/mentoringTrainings", method = RequestMethod.GET)
     public List<TrainingDTO> showMentoringTrainings(@RequestParam String userId) {
         return getTrainingDTOs(userService.getMentoringTrainings(userId));
     }
+
     @PreAuthorize("hasRole('0') or  @userControlBean.isMyAccount(#userId) and hasRole('1')")
     @RequestMapping(value = "/visitingTrainings", method = RequestMethod.GET)
     public List<TrainingDTO> showVisitingTrainings(@RequestParam String userId) {
@@ -70,6 +72,7 @@ public class UserPageController {
         return trainingDTOs;
 
     }
+
     @PreAuthorize("hasRole('0') or @userControlBean.isMyAccount(#userId) and hasAnyRole('1','2')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
     public List<UserFeedbackDTO> getFeedbacks(@RequestParam String userId) {
@@ -81,6 +84,7 @@ public class UserPageController {
         }
         return feedbackDTOs;
     }
+
     @PreAuthorize("hasAnyRole('1','2')")
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody UserFeedbackDTO feedbackDTO) {
@@ -95,7 +99,7 @@ public class UserPageController {
         events.addAll(trainingEventService.getUnwatchedEvents());
         events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
         events.addAll(userFeedbackEventService.getUnwatchedEvents());
-        for (Event event: events){
+        for (Event event : events) {
             list.add(event.toEventDTO());
         }
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
@@ -105,7 +109,7 @@ public class UserPageController {
 
     }
 
-    @RequestMapping(value="/info",method = RequestMethod.GET)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public UserDTO showUserInfo(@RequestParam String name) {
         User user = userService.getUserByLogin(name);
         return new UserDTO(user);
@@ -116,5 +120,4 @@ public class UserPageController {
         long userId = userService.getUserIdByFeedbackId(id);
         return userId;
     }
-
 }

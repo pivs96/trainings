@@ -13,4 +13,6 @@ public interface ParticipationService {
     Participation getParticipationByTrainingAndUserId(long trainingId, long userId);
 
     void deleteParticipation(long id);
+
+    long countCompletedParticipants(long trainingId);
 }

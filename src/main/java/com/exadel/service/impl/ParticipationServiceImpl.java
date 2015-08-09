@@ -36,4 +36,9 @@ public class ParticipationServiceImpl implements ParticipationService {
     public void deleteParticipation(long id) {
         participationRepository.delete(id);
     }
+
+    @Override
+    public long countCompletedParticipants(long trainingId) {
+        return participationRepository.countByTrainingIdAndEndDayNotNull(trainingId);
+    }
 }
