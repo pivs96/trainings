@@ -7,7 +7,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
   var _beginDate = _endDate - MONTH_IN_MSECS;
 
   var ABSENT = 'н';
-  var PRESENT = 'б';
+  var PRESENT = ' ';
   var NOT_ATTEND = 'x';
 
   $q.all({
