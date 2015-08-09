@@ -8,7 +8,14 @@ angular.module('frontendApp').service('userServiceDelegate', function ($http) {
     return $http.get(_url);
   };
   this.getPage = function (pageStart, number, tableState) {
-    return $http.get('http://localhost:8080/users/pages/'+pageStart+'?size='+number+'&state='+tableState);
+    var _url = 'http://localhost:8080/users/pages/'+pageStart+'?size='+number;
+    angular.forEach(tableState.search.predicateObject, function(value, key) {
+      _url += '&' + key + '=' + value;
+    });
+    if(!_.isEmpty(tableState.sort)) {
+      _url += '&sort=' + tableState.sort.predicate + '&isReversed=' + tableState.sort.reverse;
+    }
+    return $http.get(_url);
   };
   this.getPageCount = function(start, number) {
     return $http.get('http://localhost:8080/users/pages/count/'+start+'?size='+number);
