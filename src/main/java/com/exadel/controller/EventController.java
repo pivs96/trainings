@@ -95,7 +95,10 @@ public class EventController {
             eventDTOs.add(event.toEventDTO());
         }
         result.addAll(eventDTOs);
-        List <Event> updates = events.subList(eventIndex,events.size());
+        List <Event> updates = new ArrayList<>();
+        if(eventIndex<=events.size()) {
+            updates = events.subList(eventIndex, events.size());
+        }
         if (updates.size()!=0) {
             deferredResult.setResult(result);
         }
@@ -115,6 +118,16 @@ public class EventController {
         }
         else {
             userFeedbackEventService.addEvent(eventDTO.toUserFeedbackEvent());
+        }
+        for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+            List<Event> events = new ArrayList<>();
+            events.addAll(trainingEventService.getUnwatchedEvents());
+            events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
+            List<EventDTO> result = new ArrayList<>();
+            for (Event event: events){
+                result.add(event.toEventDTO());
+            }
+            entry.getKey().setResult(result);
         }
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(new ArrayList<>());
