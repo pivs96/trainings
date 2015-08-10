@@ -3,7 +3,7 @@
     <h2 class="feedback-name">{{translation.LEAVE_TRAINING_FEEDBACK}}</h2>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" ng-submit="leaveTrainingFeedback()">
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
           <p>{{translation.UNDERSTANDABLE}}</p>
@@ -121,7 +121,7 @@
         </div>
         <div class="col-sm-8">
           <label for="feedbackInputId"></label>
-          <textarea rows="9" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
+          <textarea rows="9" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo" required></textarea>
         </div>
       </div>
 
@@ -130,5 +130,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">{{translation.FEEDBACK_CANCEL}}</button>
-  <button type="button" class="btn btn-primary" ng-click="leaveTrainingFeedback()">{{translation.FEEDBACK_OK}}</button>
+  <button type="submit" class="btn btn-primary">{{translation.FEEDBACK_OK}}</button>
 </div>

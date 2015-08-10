@@ -3,13 +3,13 @@
     <h2 class="feedback-name">{{translation.LEAVE_ON_USER}}</h2>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" role="form" ng-submit="leaveUserFeedback()">
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
           <p>{{translation.ATTENDANCE}}</p>
         </div>
         <div class="col-sm-8 feedback-field control-label">
-          <input type="text" class="form-control" data-ng-model="entity.attendance" value=""/>
+          <input type="text" class="form-control" data-ng-model="entity.attendance" value="" required/>
         </div>
       </div>
 
@@ -18,7 +18,7 @@
           <p>{{translation.ATTITUDE}}</p>
         </div>
         <div class="col-sm-8 feedback-field control-label">
-          <input type="text" class="form-control" data-ng-model="entity.attitude" value=""/>
+          <input type="text" class="form-control" data-ng-model="entity.attitude" value="" required/>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
           <p>{{translation.ENGLISH_LEVEL}}</p>
         </div>
         <div class="feedback-field col-sm-8">
-          <select class="form-control feedback-dropdown" ng-model="entity.level" ng-options="level.Name as level.Name for level in levels"></select>
+          <select class="form-control feedback-dropdown" required ng-model="entity.level" ng-options="level.Name as level.Name for level in levels"></select>
         </div>
       </div>
 
@@ -96,7 +96,7 @@
           <p>{{translation.MARK}}</p>
         </div>
         <div class="feedback-field col-sm-8">
-          <select  class="form-control feedback-dropdown" ng-model="entity.grade" ng-options="mark.grade as mark.grade for mark in marks"></select>
+          <select  class="form-control feedback-dropdown" required ng-model="entity.grade" ng-options="mark.grade as mark.grade for mark in marks"></select>
         </div>
       </div>
 
@@ -106,7 +106,7 @@
         </div>
         <div class="col-sm-8">
           <label for="feedbackInputId"></label>
-          <textarea rows="9" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
+          <textarea rows="9" required class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
         </div>
       </div>
 
@@ -115,6 +115,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">{{translation.FEEDBACK_CANCEL}}</button>
-  <button type="button" class="btn btn-primary" ng-click="leaveUserFeedback()">{{translation.FEEDBACK_OK}}</button>
+  <button type="submit" class="btn btn-primary">{{translation.FEEDBACK_OK}}</button>
 </div>
 

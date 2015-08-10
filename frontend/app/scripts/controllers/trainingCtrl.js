@@ -43,7 +43,8 @@ angular.module('frontendApp')
             trainingData: function () {
               return {
                 userName: userName,
-                userId: userId
+                userId: userId,
+                trainingName : $scope.trainingName
               }
             }
           }
@@ -102,6 +103,7 @@ angular.module('frontendApp')
 
             $scope.training = angular.copy(resp);
             console.log($scope.training);
+            $scope.trainingName = $scope.training.name;
             $scope.ratings.current = $scope.training.rating;
 
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
