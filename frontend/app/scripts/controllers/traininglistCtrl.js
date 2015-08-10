@@ -10,8 +10,6 @@ angular.module('frontendApp').controller('TrainingListCtrl', ['$location', '$sco
       return $scope.trainingsList;
     };
 
-    //$scope.trainingsList = $scope.filterData();
-
     $scope.rating = 0;
     $scope.ratings = {
       current: 1,
@@ -31,7 +29,7 @@ angular.module('frontendApp').controller('TrainingListCtrl', ['$location', '$sco
         trainingListServiceDelegate.getPage(start, number, tableState).then(function (result) {
           console.log(result);
           $scope.trainingsList = result.data;
-          $scope.filterData();
+          //$scope.filterData();
           //set the number of pages so the pagination can update
           $scope.isLoading = false;
         });

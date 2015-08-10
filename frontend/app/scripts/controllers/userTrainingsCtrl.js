@@ -25,7 +25,7 @@ angular.module('frontendApp').controller('UserTrainingsCtrl', ['$location', '$sc
         visitingTrainings: userService.userResource.getVisitingTrainings().$promise
       }).then(function (values) {
         $scope.userTrainings = values.mentoringTrainings.concat(values.visitingTrainings);
-        $scope.userTrainings = $scope.filtreData();
+        //$scope.userTrainings = $scope.filtreData();
       });
     }
 
