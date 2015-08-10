@@ -24,8 +24,6 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    long addUserExt(User user);
-
     User addUser(User user);
 
     void updateUser(User user);

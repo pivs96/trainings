@@ -1,27 +1,18 @@
 package com.exadel.dto;
 
-import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
 
-public class UserDTO {
+public class NewTrainerDTO {
 
     private long id;
     private String name;
     private String surname;
+    private String username;
     private String phone;
     private String email;
     private UserRole role;
 
-    public UserDTO() {
-    }
-
-    public UserDTO(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.surname = user.getSurname();
-        this.phone = user.getPhone();
-        this.email = user.getEmail();
-        this.role = user.getRole();
+    public NewTrainerDTO() {
     }
 
     public String getName() {
@@ -70,5 +61,13 @@ public class UserDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

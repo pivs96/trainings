@@ -1,5 +1,6 @@
 package com.exadel.model.entity.user;
 
+import com.exadel.dto.NewTrainerDTO;
 import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
@@ -28,8 +29,8 @@ public class ExternalTrainer extends User {
         super.setRole(UserRole.EXTERNAL_TRAINER);
     }
 
-    public ExternalTrainer(UserDTO userDTO) {
-        super(userDTO);
+    public ExternalTrainer(NewTrainerDTO trainerDTO) {
+        super(trainerDTO);
         super.setRole(UserRole.EXTERNAL_TRAINER);
     }
 

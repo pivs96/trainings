@@ -100,12 +100,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long addUserExt(User user) {
-        userRepository.saveAndFlush(user);
-        return user.getId();
-    }
-
-    @Override
     @Modifying
     public void updateUser(User user) {
         User oldUser = userRepository.findOne(user.getId());

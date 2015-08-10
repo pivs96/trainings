@@ -1,5 +1,6 @@
 package com.exadel.model.entity.user;
 
+import com.exadel.dto.NewTrainerDTO;
 import com.exadel.dto.UserDTO;
 import org.apache.lucene.analysis.core.KeywordTokenizerFactory;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
@@ -84,6 +85,15 @@ public class User {
         this.phone = userDTO.getPhone();
         this.email = userDTO.getEmail();
         this.role = userDTO.getRole();
+    }
+
+    public User(NewTrainerDTO newTrainerDTO) {
+        this.id = newTrainerDTO.getId();
+        this.name = newTrainerDTO.getName();
+        this.surname = newTrainerDTO.getSurname();
+        this.phone = newTrainerDTO.getPhone();
+        this.email = newTrainerDTO.getEmail();
+        this.role = newTrainerDTO.getRole();
     }
 
     public void update(UserDTO userDTO) {

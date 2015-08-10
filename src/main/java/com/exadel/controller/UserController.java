@@ -1,8 +1,10 @@
 package com.exadel.controller;
 
+import com.exadel.dto.NewTrainerDTO;
 import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.Authentification;
+import com.exadel.model.entity.user.ExternalVisitor;
 import com.exadel.model.entity.user.User;
 import com.exadel.search.UserSearch;
 import com.exadel.service.AuthentificationService;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +37,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.NoSuchElementException;
-
 
 
 @PreAuthorize("hasRole('0')")
@@ -47,44 +49,41 @@ public class UserController {
     private SmtpMailSender smtpMailSender;
     @Autowired
     private EmailMessages emailMessages;
-
+    @Autowired
     private AuthentificationService authentificationService;
     @Autowired
     SessionFactory sessionFactory;
+    @Autowired
+    private UserSearch userSearch;
 
     public static int size;
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    private UserSearch userSearch;
 
-public String generatePass(UserDTO userDTO) {
-     Long id = userDTO.getId();
-     String password = "";
-     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-     String hashedPassword = passwordEncoder.encode(password);
-     Authentification authentification = new Authentification(hashedPassword,userDTO.getId(),userDTO.getEmail());
-     authentificationService.addAuthentification(authentification);
-     return password;
-}
+    public String generatePass(NewTrainerDTO trainerDTO) {
+        String password = UUID.randomUUID().toString().substring(0, 16);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+
+        Authentification authentification = new Authentification(hashedPassword, trainerDTO.getId(), trainerDTO.getUsername());
+        authentificationService.addAuthentification(authentification);
+        return password;
+    }
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/newTrainer", method = RequestMethod.POST)
-    public void addExternalTrainer(@RequestBody UserDTO trainerDTO) {
-        ExternalTrainer trainer = (ExternalTrainer)userService.addUser(new ExternalTrainer(trainerDTO));
+    public void addExternalTrainer(@RequestBody NewTrainerDTO trainerDTO) {
+        ExternalTrainer trainer = (ExternalTrainer) userService.addUser(new ExternalTrainer(trainerDTO));
+        trainerDTO.setId(trainer.getId());
 
-        String password = UUID.randomUUID().toString().substring(0, 16);
+        String password = generatePass(trainerDTO);
         smtpMailSender.send(trainer.getEmail(), "Exadel-Trainings System", emailMessages.newExternalTrainer(trainer, password));
-        long id = userService.addUserExt(new User(trainerDTO));
-        trainerDTO.setId(id);
-        String pass=generatePass(trainerDTO);
-                //TODO: send password
     }
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/newVisitor", method = RequestMethod.POST)
     public void addExternalVisitor(@RequestBody UserDTO visitorDTO) {
-        userService.addUserExt(new User(visitorDTO));
+        userService.addUser(new ExternalVisitor(visitorDTO));
     }
 
     @PreAuthorize("hasRole('0')")
@@ -124,43 +123,43 @@ public String generatePass(UserDTO userDTO) {
     }
 
     @RequestMapping(value = "/pages/count/{pageNumber}", method = RequestMethod.GET)
-    public Integer getCount(@PathVariable Integer pageNumber, @RequestParam Integer size, @RequestParam String sortParam, @RequestParam (required = false) boolean isReversed) {
+    public Integer getCount(@PathVariable Integer pageNumber, @RequestParam Integer size, @RequestParam String sortParam, @RequestParam(required = false) boolean isReversed) {
         return this.size;
     }
 
     @Transactional
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
     public List<UserDTO> getUsersPaging(@PathVariable Integer pageNumber, @RequestParam Integer size,
-                                        @RequestParam (required = false)String name,
-                                        @RequestParam (required = false)String surname,
-                                        @RequestParam (required = false)String phone,
-                                        @RequestParam (required = false)String email,
-                                        @RequestParam (required = false) boolean isReversed,
-                                        @RequestParam (required = false) String sortParam) {
+                                        @RequestParam(required = false) String name,
+                                        @RequestParam(required = false) String surname,
+                                        @RequestParam(required = false) String phone,
+                                        @RequestParam(required = false) String email,
+                                        @RequestParam(required = false) boolean isReversed,
+                                        @RequestParam(required = false) String sortParam) {
 
-        this.size=0;
+        this.size = 0;
         List<User> users = new ArrayList<>();
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(User.class);
         Criterion nameCriterion, surnameCriterion, phoneCriterion, emailCriterion;
         List<User> userList = new ArrayList<>();
-        if(name != null) {
-          nameCriterion = userSearch.searchByName(name);
+        if (name != null) {
+            nameCriterion = userSearch.searchByName(name);
             criteria.add(nameCriterion);
         }
-        if(surname != null) {
+        if (surname != null) {
             surnameCriterion = userSearch.searchBySurname(surname);
             criteria.add(surnameCriterion);
         }
-        if(phone != null) {
+        if (phone != null) {
             phoneCriterion = userSearch.searchByPhone(phone);
             criteria.add(phoneCriterion);
         }
-        if(email != null) {
+        if (email != null) {
             emailCriterion = userSearch.searchByEmail(email);
             criteria.add(emailCriterion);
         }
-        if(sortParam!=null) {
+        if (sortParam != null) {
             Sort sort = new Sort(
                     new SortField(sortParam, SortField.Type.STRING));
 
@@ -169,18 +168,18 @@ public String generatePass(UserDTO userDTO) {
             } else
                 criteria.addOrder(Order.asc(sortParam));
         }
-            this.size = criteria.list().size();
-            if (this.size < size) {
-                this.size = 1;
-            } else
-                this.size = this.size / size;
-            criteria.setMaxResults(size);
-            criteria.setFirstResult(pageNumber);
-            users = criteria.list();
-            session.close();
+        this.size = criteria.list().size();
+        if (this.size < size) {
+            this.size = 1;
+        } else
+            this.size = this.size / size;
+        criteria.setMaxResults(size);
+        criteria.setFirstResult(pageNumber);
+        users = criteria.list();
+        session.close();
 
-        if(name == null && surname==null && email ==null && phone==null) {
-            Page<User> page = userService.getUsers(pageNumber, size,sortParam,isReversed);
+        if (name == null && surname == null && email == null && phone == null) {
+            Page<User> page = userService.getUsers(pageNumber, size, sortParam, isReversed);
             users = page.getContent();
             this.size = page.getTotalPages();
         }
