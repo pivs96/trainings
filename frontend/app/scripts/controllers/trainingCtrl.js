@@ -10,7 +10,7 @@ angular.module('frontendApp')
         return $localStorage.userData.id === $scope.training.trainer.id;
       };
 
-
+      $scope.pendingR = false;
 
       $scope.feedbacks = [];
       $scope.training = {};
@@ -99,8 +99,12 @@ angular.module('frontendApp')
             $scope.training = angular.copy(resp);
             console.log($scope.training);
             $scope.ratings.current = $scope.training.rating;
+
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
               _.extend($scope.training, {entry: angular.copy(resp)});
+              $scope.duration = new Date(0);
+              $scope.duration.setHours(new Date($scope.training.entry.endTime).getHours() - new Date($scope.training.entry.beginTime).getHours())
+              $scope.duration.setMinutes(new Date($scope.training.entry.endTime).getMinutes() - new Date($scope.training.entry.beginTime).getMinutes())
             });
             training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
               _.extend($scope.training, {attachments: angular.copy(resp)});
@@ -109,6 +113,7 @@ angular.module('frontendApp')
           training.checkParticipation({uid: $localStorage.userData.id, trainingId: $route.current.params.trainingId}, function(resp) {
 
             $scope.registrated = (angular.copy(resp)[0] !== 'N');
+            $scope.waitL = (angular.copy(resp)[0] === 'R')
           });
 
         }
@@ -143,7 +148,7 @@ angular.module('frontendApp')
         }
       };
 
-
+      $scope.waitL = false;
       $scope.registrated = false;
 
       $scope.edit = function() {
@@ -165,14 +170,21 @@ angular.module('frontendApp')
       };
 
       $scope.register = function() {
+        $scope.pendingR = true;
         training.register({uid: $localStorage.userData.id, id: $route.current.params.trainingId}, function(resp) {
-          $scope.registrated = !$scope.registrated;
+          training.checkParticipation({uid: $localStorage.userData.id, trainingId: $route.current.params.trainingId}, function(resp) {
+            $scope.registrated = (angular.copy(resp)[0] !== 'N');
+            $scope.waitL = (angular.copy(resp)[0] === 'R');
+            $scope.pendingR = false;
+          });
         });
       };
 
       $scope.unregister = function() {
+        $scope.pendingR = true;
         training.unregister({uid: $localStorage.userData.id, id: $route.current.params.trainingId}, function(resp) {
           $scope.registrated = !$scope.registrated;
+          $scope.pendingR = false;
         });
       };
 

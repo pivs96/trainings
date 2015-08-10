@@ -1,12 +1,14 @@
 package com.exadel.model.entity.training;
 
 import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -97,6 +99,23 @@ public class Training {
         this.reserves = new ArrayList<>();
     }
 
+    public boolean isParticipant(long userId) {
+        for (User participant : participants) {
+            if (participant.getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isReservist(long userId) {
+        for (Reserve reserve : reserves) {
+            if (reserve.getReservist().getId() == userId)
+                return true;
+        }
+        return false;
+    }
+
     public void updateTraining(TrainingDTO trainingDTO) {
         this.name = trainingDTO.getName();
         this.targetAudience = trainingDTO.getTargetAudience();
@@ -105,6 +124,21 @@ public class Training {
         this.description = trainingDTO.getDescription();
         this.status = trainingDTO.getStatus();
         this.membersCountMax = trainingDTO.getMembersCountMax();
+    }
+
+    public void updateTraining(Training training) {
+        this.name = training.getName();
+        this.trainer = training.getTrainer();
+        this.targetAudience = training.getTargetAudience();
+        this.isExternal = training.isExternal();
+        this.language = training.getLanguage();
+        this.description = training.getDescription();
+        this.status = training.getStatus();
+        this.membersCountMax = training.getMembersCountMax();
+        this.rating = training.getRating();
+        this.ratingSum = training.getRatingSum();
+        this.valuerCount = training.getValuerCount();
+        this.repeated = training.isRepeated();
     }
 
     public void addFeedback(TrainingFeedback feedback) {
@@ -194,6 +228,7 @@ public class Training {
     }
 
     public List<Entry> getEntries() {
+        Collections.sort(entries);
         return entries;
     }
 
@@ -238,11 +273,18 @@ public class Training {
     }
 
     public double getRating() {
-        return rating;
+        return (double) ratingSum / valuerCount;
     }
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public Training addRating(int grade) {
+        setValuerCount(getValuerCount() + 1);
+        setRatingSum(getRatingSum() + grade);
+        rating = getRatingSum() / getValuerCount();
+        return this;
     }
 
     public List<Attachment> getAttachments() {

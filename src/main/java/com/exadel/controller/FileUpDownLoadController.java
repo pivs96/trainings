@@ -2,12 +2,10 @@ package com.exadel.controller;
 
 import com.exadel.model.entity.FileLoadStatus;
 import com.exadel.model.entity.training.Attachment;
-import com.exadel.model.entity.training.Training;
 import com.exadel.service.AttachmentService;
 import com.exadel.service.TrainingService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +23,7 @@ public class FileUpDownLoadController {
     @Autowired
     private TrainingService trainingService;
 
-    private static final String path = System.getProperty("user.dir") + File.separator + "Attachments";
+    private static final String path = System.getProperty("user.dir") + File.separator + "attachments";
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public FileLoadStatus handleFileUpload(@RequestParam String trainingId,
@@ -47,7 +45,7 @@ public class FileUpDownLoadController {
 
                 attachment.setName(file.getOriginalFilename());
                 attachment.setTraining(trainingService.getTrainingById(trainingId));
-                attachmentService.addAttachment(attachment);
+                attachmentService.addAttachmentFile(attachment);
 
                 stream.write(bytes);
                 stream.close();
@@ -67,8 +65,14 @@ public class FileUpDownLoadController {
         String filePath = path + File.separator + attachment.getTraining().getId()
                 + File.separator + attachment.getName();
         File downloadFile = new File(filePath);
-        ServletContext context = request.getServletContext();
 
+        ServletContext context = request.getServletContext();
+        String mimeType = context.getMimeType(filePath);
+
+        return downloadFile(downloadFile, mimeType, response);
+    }
+
+    public static FileLoadStatus downloadFile(File downloadFile, String mimeType, HttpServletResponse response) {
         FileInputStream inputStream = null;
         OutputStream outStream = null;
 
@@ -76,10 +80,7 @@ public class FileUpDownLoadController {
             inputStream = new FileInputStream(downloadFile);
 
             response.setContentLength((int) downloadFile.length());
-//            response.setContentType("application/x-please-download-m");
-//            response.setContentType("application/octet-stream");
-
-            response.setContentType(context.getMimeType(filePath));
+            response.setContentType(mimeType);
 
             String headerKey = "Content-Disposition";
             String headerValue = String.format("attachment;filename=\"%s\"", downloadFile.getName());

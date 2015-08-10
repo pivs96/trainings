@@ -83,15 +83,14 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
-        Training createdTraining = null;
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
-            createdTraining = trainingService.addTraining(training);
+            training = trainingService.addTraining(training);
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
-            createdTraining = trainingService.addTraining(training);
-            trainingDTO.setId(createdTraining.getId());
+            training = trainingService.addTraining(training);
+            trainingDTO.setId(training.getId());
             trainingDTO.setEventDescription(emailMessages.newTrainingToAdmin(training));
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
@@ -123,7 +122,7 @@ public class TrainingsController {
             }
         }
 
-        return createdTraining;
+        return training;
     }
 
     void generateEntries(Date beginDay, Date endDay, Training training, List<EntryDTO> entryDTOs) {

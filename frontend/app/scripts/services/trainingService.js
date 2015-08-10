@@ -86,10 +86,7 @@ angular.module('frontendApp').factory('training',['$resource',
 
       getWaitList: {
         method: 'GET',
-        params: {
-          type: 'waitList',
-          id: '@id'
-        },
+        url: 'http://localhost:8080/training/waitList?trainingId=:id',
         isArray: true
       },
 

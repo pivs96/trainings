@@ -13,6 +13,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static com.exadel.export.PdfExporter.*;
 
 import java.io.File;
@@ -22,10 +24,8 @@ import java.util.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files/export")
+@RequestMapping("/user")
 public class ExportStatController {
-    /*@Autowired
-    private TrainingService trainingService;*/
     @Autowired
     private UserService userService;
     @Autowired
@@ -36,19 +36,10 @@ public class ExportStatController {
     private static String FILE =  System.getProperty("user.dir") + File.separator;
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HHmmss");
     private static SimpleDateFormat prefaceformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String path = System.getProperty("user.dir");
 
-   /* @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public boolean getTrainingPdf(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        long userId = userService.getCurrentId();
-        User creator = userService.getUserById(userId);
-
-        ExportTrainingToPdf.createPdf(training, creator);
-        return true;
-    }*/
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public void getUserPdf(@RequestParam String userId) {
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    public void getUserPdf(@RequestParam String userId, HttpServletResponse response) {
         User user = userService.getUserById(userId);
 
         long creatorId = userService.getCurrentId();
@@ -59,13 +50,19 @@ public class ExportStatController {
             Date creatingDate = new Date();
             String time = format.format(creatingDate);
             String name = user.getName() + " " + user.getSurname();
-            PdfWriter.getInstance(document, new FileOutputStream(FILE + "Statistics of "
-                    + name + " " + time + ".pdf"));
+
+            String filePath = path + File.separator + name + " " + time + ".pdf";
+            File downloadFile = new File(filePath);
+
+            PdfWriter.getInstance(document, new FileOutputStream(downloadFile));
 
             document.open();
             addMetaDataAndTitlePage(document, creator, name, prefaceformat.format(creatingDate));
             addContent(document, user);
             document.close();
+
+            FileUpDownLoadController.downloadFile(downloadFile, "application/pdf", response);
+            downloadFile.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }

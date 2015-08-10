@@ -33,7 +33,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/training")
 public class TrainingPageController {
-
     @Autowired
     private TrainingFeedbackService trainingFeedbackService;
     @Autowired
@@ -54,7 +53,6 @@ public class TrainingPageController {
     private SmtpMailSender smtpMailSender;
     @Autowired
     private EmailMessages emailMessages;
-
     @Autowired
     private ParticipationService participationService;
     @Autowired
@@ -105,12 +103,11 @@ public class TrainingPageController {
 
     @RequestMapping(value = "/waitList", method = RequestMethod.GET)
     public List<UserDTO> getWaitList(@RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        List<Reserve> reserves = reserveService.getAllReservesByTrainingId(training.getId());
+        List<Reserve> reserves = reserveService.getAllReservesByTrainingId(Long.parseLong(trainingId));
         List<UserDTO> userDTOs = new ArrayList<>();
 
         for (Reserve reserve : reserves) {
-            userDTOs.add(new UserDTO(userService.getUserById(reserve.getId())));
+            userDTOs.add(new UserDTO(userService.getUserById(reserve.getReservist().getId())));
         }
         return userDTOs;
     }
@@ -140,23 +137,31 @@ public class TrainingPageController {
         }
     }
 
-    @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId,#isRepeated)")
+    @PreAuthorize("@userControlBean.isMyAccount(#userId) and hasAnyRole('0','1','2') and @visitControlBean.isStarted(#trainingId)")
     @RequestMapping(value = "/unregister", method = RequestMethod.POST)
     public synchronized void unregister(@RequestParam String userId, @RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
-        Participation participation = participationService.getParticipationByTrainingAndUserId(training.getId(), visitor.getId());
 
-        if (training.isRepeated()) {
-            participation.setEndDay(new Date());
-        } else {
-            participationService.deleteParticipation(participation.getId());
-        }
+        if (training.isParticipant(visitor.getId())) {
+            Participation participation = participationService.getParticipationByTrainingAndUserId(training.getId(), visitor.getId());
+            List<Entry> entries = training.getEntries();
 
-        Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
-        if (reserve != null) {
-            smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
-                    emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+            if (training.isRepeated() && new Date().after(entries.get(0).getBeginTime())) {
+                participation.setEndDay(new Date());
+            } else {
+                participationService.deleteParticipation(participation.getId());
+            }
+
+            Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
+            if (reserve != null) {
+                smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
+                        emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+            }
+        } else if (training.isReservist(visitor.getId())) {
+            Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(training.getId(), visitor.getId());
+            training.getReserves().remove(reserve);
+            reserveService.deleteReserve(reserve);
         }
     }
 
@@ -215,15 +220,6 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value = "/rating", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public double addTrainingRating(@RequestBody RatingDTO ratingDTO) {
-        String trainingId = String.valueOf(ratingDTO.getTrainingId());
-        ratingService.addRating(new Rating(trainingService.getTrainingById(trainingId),
-                userService.getUserById(String.valueOf(ratingDTO.getUserId()))));
-        return trainingService.addRating(ratingDTO.getRating(), trainingId);
-    }
-
-    @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
     public List<TrainingFeedbackDTO> getFeedbacks(@RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
@@ -239,15 +235,23 @@ public class TrainingPageController {
 
     @PreAuthorize("@visitControlBean.isVisiting(#feedbackDTO) and hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
-    public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
+    public TrainingDTO createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
-        feedback = trainingFeedbackService.addTrainingFeedback(feedback).get();
+        feedback.setTraining(trainingService.getTrainingById(String.valueOf(feedbackDTO.getTrainingId())));
 
-        feedbackDTO.setId(feedback.getId());
+        long id = trainingFeedbackService.addTrainingFeedback(feedback);
+
+        feedbackDTO.setId(id);
         trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(getEvents());
         }
+
+        ratingService.addRating(new Rating(feedback.getTraining(), feedback.getFeedbacker()));
+        Training training = feedback.getTraining();
+        training.addRating(feedback.getEffectiveness());
+        trainingService.updateTraining(training);
+        return new TrainingDTO(training);
     }
 
     @PreAuthorize("hasRole('0')")
@@ -256,8 +260,8 @@ public class TrainingPageController {
         trainingFeedbackEventService.deleteByTrainingFeedbackId(Long.parseLong(feedbackId));
         trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
 
-        TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
-        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));
+       /* TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
+        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));*/
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")

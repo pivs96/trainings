@@ -4,6 +4,7 @@ import com.exadel.model.entity.training.Reserve;
 import com.exadel.repository.ReserveRepository;
 import com.exadel.service.ReserveService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +42,24 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
+    //@Modifying
     public void deleteReserve(long id) {
         reserveRepository.delete(id);
     }
 
     @Override
+    @Modifying
+    public void deleteReserve(Reserve reserve) {
+        reserve.getId();
+        reserve.setReservist(null);
+        reserve.setTraining(null);
+        reserveRepository.delete(reserve);
+        Reserve reserve1 = reserveRepository.findOne(reserve.getId());
+        //reserveRepository.delete(reserve1.getId());
+    }
+
+    @Override
+    @Modifying
     public Reserve getReserveByTrainingIdAndUserId(long trainingId, long userId) {
         return reserveRepository.findByTrainingIdAndReservistId(trainingId, userId);
     }

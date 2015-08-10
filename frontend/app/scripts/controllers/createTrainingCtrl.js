@@ -23,6 +23,8 @@ angular.module('frontendApp')
     $scope.attachments = [];
     $scope.attachment = {};
 
+    $scope.pendingR = false;
+
       $scope.removeEntry = function($event) {
       var index = angular.element($event.currentTarget).parents('.entry').children('[index]').attr('index');
       angular.element($event.currentTarget).parents('.entry').remove();
@@ -54,11 +56,14 @@ angular.module('frontendApp')
 
 
     $scope.save = function() {
+      $scope.pendingR = true;
       $scope.data.status = ($rootScope.isAdmin()) ? "APPROVED" : "DRAFTED";
       var create = new createTraining();
       create.data = angular.copy($scope.data);
       console.log(create.data);
       for(var i = 0; i < create.data.entries.length; i++) {
+        console.log(create.data.entries[i].beginTime);
+        console.log(create.data.entries[i].endTime);
         create.data.entries[i].beginTime = create.data.entries[i].beginTime.valueOf();
         create.data.entries[i].endTime = create.data.entries[i].endTime.valueOf();
       }
@@ -66,7 +71,7 @@ angular.module('frontendApp')
         create.data.begin = create.data.begin.valueOf();
         create.data.end = create.data.end.valueOf();
       }
-      createTraining.save({},$scope.data).$promise.then(function(resp){
+      createTraining.save($scope.data).$promise.then(function(resp){
         $scope.uploadUrl = 'http://localhost:8080/files/upload?trainingId=' + resp.id;
         $scope.trainingId = resp.id;
         for(var i = 0; i < $scope.attachments.length; i++) {
@@ -74,6 +79,7 @@ angular.module('frontendApp')
         }
         postAttachLinks.save($scope.attachments).$promise.then(function(resp) {
           uploader.uploadAll();
+          $scope.pendingR = false;
           if(_.isEmpty(uploader.queue)) {
             $location.path('/training/' + $scope.trainingId);
           }

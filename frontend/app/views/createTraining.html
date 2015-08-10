@@ -35,7 +35,7 @@
                 ng-model="data.description"></textarea>
     </div>
     <div align="center" class="create-training-submit">
-      <button type="submit" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
+      <button type="submit" ng-disabled="pendingR" class="btn btn-success btn-lg" >{{translation.SAVE}}</button>
     </div>
   </div>
 
@@ -160,7 +160,7 @@
         </ul>
         <input type="text" popover-template="'views/templates/attachLinkPopover.html'" ng-model="attachment.name"
                      placeholder="input name" class="form-control create-training-entry-label" popover-title="Input link">
-        <button type="button" class="btn btn-default create-training-entry-label" ng-click="addLink();">
+        <button type="button" ng-disabled="!attachment.name || !attachment.link" class="btn btn-default create-training-entry-label" ng-click="addLink();">
           {{translation.ADD_LINK}}
         </button>
       </div>
