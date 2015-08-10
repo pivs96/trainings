@@ -46,17 +46,17 @@
       <button ng-if="isAdmin()" class="btn btn-primary" ng-click="wathchFeedback()">
         {{translation.WATCH_USER_FEEDBACKS}}
       </button>
+      <div>
+        <a ng-if="isAdmin()"href="{{_url}}" class="btn btn-primary btn-user-profile-edit">
+          {{translation.STATISTICS}}
+        </a>
+      </div>
       <div class="btn-user-profile-edit" ng-if="isAdmin() && isUserExternal">
         <a class="btn btn-primary btn-sm" ng-click="startEdit()" ng-show="!editMode">
           <i class="fa fa-pencil"></i> {{translation.EDIT}}
         </a>
         <a class="btn btn-primary btn-sm" ng-click="saveChanges()" ng-show="editMode">
           <i class="fa fa-floppy-o"></i> {{translation.SAVE}}
-        </a>
-      </div>
-      <div>
-        <a ng-if="isAdmin()"href="{{_url}}" class="btn btn-primary btn-user-profile-edit">
-          {{translation.STATISTICS}}
         </a>
       </div>
     </div>
@@ -66,8 +66,9 @@
   <div class="row" ng-if="mentoringTrainingsList && mentoringTrainingsList.length">
   <trn-simple-training-table trainings-list='mentoringTrainingsList' table-label='translation.MENTORING_TRAINING_LIST'
                              translation = 'translation'></trn-simple-training-table>
+
   </div>
-    <div class="row" ng-if="visitingTrainingsList && visitingTrainingsList.length">
+    <div class="row table-wrapper" ng-if="visitingTrainingsList && visitingTrainingsList.length">
   <trn-simple-training-table trainings-list='visitingTrainingsList' table-label='translation.VISITING_TRAINING_LIST'
                              translation = 'translation'></trn-simple-training-table>
     </div>

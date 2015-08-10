@@ -4,14 +4,14 @@
           ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINING}}
   </button>
 </div>
-<table st-table="trainingsList" class="table table-striped text-center" >
+<table st-table="trainingsList" class="table table-striped" >
   <thead>
   <tr>
     <th st-sort="role">
       {{translation.USER_TRAINING_ROLE}}
       <i class="fa fa-sort-desc"></i>
     </th>
-    <th class="text-center" st-sort="name">
+    <th st-sort="name">
       {{translation.USER_TRAINING_NAME}}
       <i class="fa fa-sort-desc"></i>
     </th>
@@ -33,14 +33,16 @@
     </th>
   </tr>
   <tr class="tableTextAlignment">
-    <th> <input st-search="role" placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="name" placeholder="" class="input-sm form-control" type="search"/> </th>
-
-    <th> <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="trainingStatus" placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
-
+    <th></th>
+    <th><input st-search="name" placeholder="{{translation.SEARCH_BY_NAME}}" class="input-sm form-control"
+               type="search"/></th>
+    <th><input st-search="trainer" placeholder="{{translation.SEARCH_BY_TRAINER}}" class="input-sm form-control"
+               type="search"/></th>
+    <th><input st-search="targetAudience" placeholder="{{translation.SEARCH_BY_TARGET_AUDIENCE}}"
+               class="input-sm form-control" type="search"/></th>
+    <th></th>
+    <th><input st-search="rating" placeholder="{{translation.SEARCH_BY_RATING}}" class="input-sm form-control"
+               type="search"/></th>
   </tr>
   </thead>
   <tbody>

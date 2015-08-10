@@ -2,17 +2,17 @@
   <h2>{{translation.ENQUEUED}}: {{wlSize}}</h2>
 </div>
 <div class="ngdialog-message modal-body">
-  <table st-table="participants" class="table table-striped text-center">
+  <table st-table="participants" class="table table-striped">
     <thead>
-      <th class="text-center">{{translation.NAME}}</th>
-      <th class="text-center">{{translation.SURNAME}}</th>
-      <th class="text-center">{{translation.EXTERNAL}}</th>
+      <th>{{translation.NAME}}</th>
+      <th>{{translation.SURNAME}}</th>
+      <th>{{translation.EXTERNAL}}</th>
     </thead>
     <tbody>
       <tr ng-repeat="participant in participants">
-        <th class="text-center">{{participant.name}}</th>
-        <th class="text-center">{{participant.surname}}</th>
-        <th class="text-center">{{(participant.role === 'EXTERNAL_VISITOR') | yesNo}}</th>
+        <th>{{participant.name}}</th>
+        <th>{{participant.surname}}</th>
+        <th>{{(participant.role === 'EXTERNAL_VISITOR') | yesNo}}</th>
       </tr>
     </tbody>
   </table>
