@@ -194,4 +194,8 @@ angular.module('frontendApp')
         });
       };
 
+      $scope.checkAvailable = function() {
+        return ($scope.training.status !== 'COMPLETED') && ($scope.training.status !== 'CANCELLED');
+      }
+
     }]);
