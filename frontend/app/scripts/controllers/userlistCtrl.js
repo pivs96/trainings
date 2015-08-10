@@ -30,8 +30,10 @@ angular.module('frontendApp')
           template: "views/popups/createExternal.html",
           controller: 'CreateExternalUserCtrl',
           resolve: {
-            type: function () {
-              return type;
+            data: function () {
+              return {
+                type: type
+              };
             }
           }
         });
