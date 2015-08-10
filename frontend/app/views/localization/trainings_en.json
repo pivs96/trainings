@@ -8,7 +8,7 @@
   "NAME" : "Name",
   "SURNAME" : "Surname",
   "EMAIL" : "Email",
-  "PHONE" : "Phone", 
+  "PHONE" : "Phone",
   "ROLE" : "Role",
   "DESCRIPTION" : "Description",
   "RATING" : "Rating",
@@ -135,5 +135,6 @@
   "APP_DESCRITION": "Exadel training management system.",
   "FEEDBACK_FROM" : "From",
   "FEEDBACK_RECOMMEND" : "Recommendation to visit",
-  "FEEDBACK_RATINGS" : "Mark"
+  "FEEDBACK_RATINGS" : "Mark",
+  "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again."
 }

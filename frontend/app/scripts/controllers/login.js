@@ -14,6 +14,7 @@ angular.module('frontendApp')
           AuthenticationService.SetCredentials(response.name, response.details.sessionId, true);
           $scope.userData = UserDataService.getUserNameAndId({login : $localStorage.userName}, function(response) {
             $localStorage.userData = response;
+            $scope.autorized = true;
             $location.path("/myTainings");
           });
           if($rootScope.locationPath !== "/login" && $rootScope.locationPath){
@@ -21,7 +22,13 @@ angular.module('frontendApp')
           }
         } else {
           $location.path("/login");
+          $scope.showError();
         }
       });
-    }
+    };
+
+    $scope.showError = function(){
+      $scope.autorized = true;
+    };
+
   }]);

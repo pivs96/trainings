@@ -18,6 +18,7 @@ angular.module('frontendApp')
                   callback(response);
                 }
             }).error(function () {
+              $rootScope.authenticated = false;
               callback && callback();
           });
       };
