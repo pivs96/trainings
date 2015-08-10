@@ -38,6 +38,7 @@ public class AttachmentController {
     public void createAttachmentLinks(@RequestBody List<AttachmentDTO> attachmentDTOs) {
         if (attachmentDTOs != null) {
             for (AttachmentDTO attachmentDTO : attachmentDTOs) {
+                attachmentDTO.setName(attachmentDTO.getName() + " (external link)");
                 Attachment attachment = new Attachment(attachmentDTO);
                 attachment.setTraining(trainingService.getTrainingById(attachmentDTO.getTrainingId()));
                 attachmentService.addAttachmentLink(attachment);

@@ -83,7 +83,6 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
-        Training createdTraining = null;
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
             training = trainingService.addTraining(training);
@@ -127,29 +126,23 @@ public class TrainingsController {
     }
 
     void generateEntries(Date beginDay, Date endDay, Training training, List<EntryDTO> entryDTOs) {
-
         if (beginDay == null || endDay == null)
             return;
 
         Calendar begin = new GregorianCalendar();
         begin.setTime(beginDay);
-        int beginDayOfWeek = begin.get(Calendar.DAY_OF_MONTH);
+        int beginDayOfWeek = begin.get(Calendar.DAY_OF_WEEK);
 
-        Calendar calendar = new GregorianCalendar();
+        Calendar generator = new GregorianCalendar();
+
         for (EntryDTO entryDTO : entryDTOs) {
-            calendar.clear();
-            calendar.setTime(entryDTO.getBeginTime());
-            calendar.set(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH),
-                    begin.get(Calendar.DAY_OF_WEEK));
-            calendar.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
-            entryDTO.setBeginTime(calendar.getTime());
+            generateTime(generator, entryDTO.getBeginTime(), begin);
+            generator.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
+            entryDTO.setBeginTime(generator.getTime());
 
-            calendar.clear();
-            calendar.setTime(entryDTO.getEndTime());
-            calendar.set(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH),
-                    begin.get(Calendar.DAY_OF_WEEK));
-            calendar.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
-            entryDTO.setEndTime(calendar.getTime());
+            generateTime(generator, entryDTO.getEndTime(), begin);
+            generator.add(Calendar.DATE, getDayNumberToAdd(beginDayOfWeek, entryDTO.getDayOfWeek()));
+            entryDTO.setEndTime(generator.getTime());
         }
 
         Collections.sort(entryDTOs);
@@ -167,5 +160,12 @@ public class TrainingsController {
 
             entryDTO = duplicates.remove();
         }
+    }
+
+    private void generateTime(Calendar calendar, Date time, Calendar beginDay) {
+        calendar.clear();
+        calendar.setTime(time);
+        calendar.set(beginDay.get(Calendar.YEAR), beginDay.get(Calendar.MONTH),
+                beginDay.get(Calendar.DAY_OF_MONTH));
     }
 }
