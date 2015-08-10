@@ -64,6 +64,7 @@ angular
         resolve: {
           userProfileData: function (userService) {
             var id = userService.getRedirectUserId();
+            userService.setUserId(id);
             return userService.getUserProfileDataById(id);
           }
         }

@@ -52,11 +52,11 @@ angular.module('frontendApp')
         $event.stopPropagation();
       };
 
-      $scope.openUserpage = function (userId) {
+      $scope.openUserpage = function (trainerId) {
         if ($scope.isAdmin()) {
-          console.log(userId);
-          userService.setRedirectUserId(userId);
-          $location.path('/userprofile/' + userId);
+          console.log(trainerId);
+          userService.setRedirectUserId(trainerId);
+          $location.path('/userprofile/' + trainerId);
         }
       };
 

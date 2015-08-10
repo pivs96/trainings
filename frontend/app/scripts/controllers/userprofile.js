@@ -7,7 +7,7 @@ angular.module('frontendApp')
   $scope.editMode = false;
   $scope.selectedUser = userProfileData;
   $scope.isUserExternal = $scope.selectedUser.role == appConstants.EXT_TRAINER || $scope.selectedUser.role == appConstants.EXT_VISITOR;
-  $scope._url = 'http://localhost:8080/user/stats?userId=' + userProfileData.id
+  $scope._url = 'http://localhost:8080/user/stats?userId=' + userProfileData.id;
 
   if($scope.selectedUser.role != appConstants.EXT_VISITOR) {
     userService.userResource.getMentoringTrainings(function (mentoringTrainings) {
