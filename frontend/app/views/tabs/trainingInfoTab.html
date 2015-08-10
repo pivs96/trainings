@@ -13,7 +13,7 @@
 
   </div>
 
-  <div class="col-sm-8 training-info-entry ">
+  <div ng-if="training.status !== 'COMPLETED'" class="col-sm-8 training-info-entry ">
     <label class="col-sm-4 text-right"> {{translation.DURATION}}: </label>
 
     <p class="col-sm-7">{{duration | date:'HH:mm'}}</p>
