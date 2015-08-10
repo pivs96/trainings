@@ -58,13 +58,16 @@ angular.module('frontendApp')
         }
       };
 
-      $scope.openCreatePopup = function(type) {
+      $scope.openCreatePopup = function(type, trainingId) {
         ngDialog.open({
           template: "views/popups/createExternal.html",
           controller: 'CreateExternalUserCtrl',
           resolve: {
-            type: function() {
-              return type;
+            data: function() {
+              return {
+                type : type,
+                trainingId : trainingId
+              };
             }
           }
         });
