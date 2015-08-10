@@ -27,28 +27,27 @@
   </tr>
   <tr class="tableTextAlignment">
     <th>
-      <input st-search="name" placeholder="" class="input-sm form-control" type="search"/>
-    </th>
-
-    <th>
-      <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/>
+      <input st-search="name" placeholder="{{translation.SEARCH_BY_NAME}}" class="input-sm form-control" type="search"/>
     </th>
     <th>
-      <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/>
+      <input st-search="trainer" placeholder="{{translation.SEARCH_BY_TRAINER}}" class="input-sm form-control"
+             type="search"/>
     </th>
-    <th> </th>
-    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
-
+    <th>
+      <input st-search="targetAudience" placeholder="{{translation.SEARCH_BY_TARGET_AUDIENCE}}"
+             class="input-sm form-control" type="search"/>
+    </th>
+    <th></th>
+    <th><input st-search="rating" placeholder="{{translation.SEARCH_BY_RATING}}" class="input-sm form-control"
+               type="search"/></th>
   </tr>
   </thead>
   <tbody>
   <tr ng-if="isAdmin() || (row.status === 'DRAFTED' || row.status === 'APPROVED')"
       ng-repeat="row in trainingsList" ng-click="openTraining(row.id)">
     <td>{{row.name}}</td>
-
     <td>{{row.trainer.name}}</td>
     <td>{{row.targetAudience}}</td>
-
     <td>{{row.status}}</td>
 
     <td>

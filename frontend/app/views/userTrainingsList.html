@@ -33,14 +33,16 @@
     </th>
   </tr>
   <tr class="tableTextAlignment">
-    <th> <input st-search="role" placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="name" placeholder="" class="input-sm form-control" type="search"/> </th>
-
-    <th> <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/></th>
-    <th> <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> </th>
-    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
-
+    <th></th>
+    <th><input st-search="name" placeholder="{{translation.SEARCH_BY_NAME}}" class="input-sm form-control"
+               type="search"/></th>
+    <th><input st-search="trainer" placeholder="{{translation.SEARCH_BY_TRAINER}}" class="input-sm form-control"
+               type="search"/></th>
+    <th><input st-search="targetAudience" placeholder="{{translation.SEARCH_BY_TARGET_AUDIENCE}}"
+               class="input-sm form-control" type="search"/></th>
+    <th></th>
+    <th><input st-search="rating" placeholder="{{translation.SEARCH_BY_RATING}}" class="input-sm form-control"
+               type="search"/></th>
   </tr>
   </thead>
   <tbody>
