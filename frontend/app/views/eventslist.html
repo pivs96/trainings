@@ -1,38 +1,38 @@
 <div class="training-menu">
   {{translation.EVENTS_LIST}}
 </div>
-<table st-table="eventsList" class="table table-striped text-center">
+<table st-table="eventsList" class="table table-striped">
   <thead>
   <!-- {"id":2,"description":"qwerty","date":1435307072000,"subjectId":2,"eventType":"USER_FEEDBACK","watched":false}] -->
   <tr>
-    <th class="text-center" st-sort="description">
+    <th st-sort="description">
       {{translation.DESCRIPTION}}
       <i class="fa fa-sort-desc"></i>
     </th>
-    <th class="text-center" st-sort="date">
-      {{translation.DATE}}
-      <i class="fa fa-sort-desc"></i>
-    </th>
-    <th class="text-center" st-sort="eventType">
+    <th st-sort="eventType">
       {{translation.TYPE}}
       <i class="fa fa-sort-desc"></i>
     </th>
-    <th class="text-center" st-sort="watched">
+    <th st-sort="date">
+      {{translation.DATE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th st-sort="watched">
       {{translation.WATCHED}}
       <i class="fa fa-sort-desc"></i>
     </th>
   </tr>
   <tr>
-    <th colspan="2"><input st-search="description" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+    <th><input st-search="description" placeholder="{{translation.SEARCH_BY_DESCR}}" class="input-sm form-control" type="search"/></th>
     <!--th SEARCH works by timestamps ><input st-search="date" class="input-sm form-control" type="search"/></th-->
-    <th colspan="2"><input st-search="eventType" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+    <th><input st-search="eventType" placeholder="{{translation.SEARCH_BY_TYPE}}" class="input-sm form-control" type="search"/></th>
     <!-- SEARCH works by boolean true-false values th><input st-search="watched" class="input-sm form-control" type="search"/></th-->
   </tr>
   <tbody>
     <tr ng-repeat="_event in eventsList" ng-click="openEvent(_event)">
         <td>{{_event.description}}</td>
-        <td>{{_event.date | date:'dd-MM-yyyy HH:mm'}}</td>
         <td>{{_event.eventType}}</td>
+        <td>{{_event.date | date:'dd-MM-yyyy HH:mm'}}</td>
         <td>{{_event.watched ? translation.YES : translation.NO}}</td>
     </tr>
   </tbody>
