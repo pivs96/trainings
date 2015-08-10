@@ -99,8 +99,12 @@ angular.module('frontendApp')
             $scope.training = angular.copy(resp);
             console.log($scope.training);
             $scope.ratings.current = $scope.training.rating;
+
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
               _.extend($scope.training, {entry: angular.copy(resp)});
+              $scope.duration = new Date(0);
+              $scope.duration.setHours(new Date($scope.training.entry.endTime).getHours() - new Date($scope.training.entry.beginTime).getHours())
+              $scope.duration.setMinutes(new Date($scope.training.entry.endTime).getMinutes() - new Date($scope.training.entry.beginTime).getMinutes())
             });
             training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
               _.extend($scope.training, {attachments: angular.copy(resp)});
