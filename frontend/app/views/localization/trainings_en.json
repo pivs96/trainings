@@ -30,6 +30,8 @@
   "SEARCH_BY_PHONE" :  "Search by phone",
   "SEARCH_BY_DESCR" : "Search by description",
   "SEARCH_BY_TYPE" : "Search by type",
+  "SEARCH_BY_BEGIN_DATE": "Search by begin date",
+  "SEARCH_BY_PLACE": "Search by place",
   "LEAVE_TRAINING_FEEDBACK" : "Leave feedback on this training",
   "UNDERSTANDABLE" : "Was the training understandable?",
   "INTERESTING" : "Was it interesting for you?",

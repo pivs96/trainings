@@ -30,6 +30,8 @@
   "SEARCH_BY_PHONE" :  "Поиск по номеру телефона",
   "SEARCH_BY_DESCR" : "Поиск по описанию",
   "SEARCH_BY_TYPE" : "Поиск по типу",
+  "SEARCH_BY_BEGIN_DATE": "Поиск по дате начала",
+  "SEARCH_BY_PLACE": "Поиск по месту проведения",
   "LEAVE_TRAINING_FEEDBACK" : "Оставить отзыв на этот тренинг",
   "UNDERSTANDABLE" : "Все ли было понятно?",
   "INTERESTING" : "Было ли интересно?",

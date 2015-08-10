@@ -19,8 +19,9 @@
     <th>
       {{translation.ALL_TRAININGS_TRAINING_STATUS}}
     </th>
-    <th>
+    <th st-sort="rating">
       {{translation.ALL_TRAININGS_RAITINGS}}
+      <i class="fa fa-sort-desc"></i>
     </th>
 
   </tr>
@@ -35,8 +36,8 @@
     <th>
       <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/>
     </th>
-    <th></th>
-    <th></th>
+    <th> </th>
+    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
 
   </tr>
   </thead>

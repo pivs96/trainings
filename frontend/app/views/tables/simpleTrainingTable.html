@@ -1,13 +1,13 @@
-<div style="margin-bottom: 100px">
-  <div class="col-sm-12 text-center">
-  <label>{{tableLabel}}</label>
+<div>
+  <div class="text-center header-table-user-profile">
+    <label>{{tableLabel}}</label>
   </div>
-  <table st-table="trainingsList" class="table table-striped text-center">
+  <table st-table="trainingsList" class="table table-striped">
     <thead>
     <tr>
-      <th class="text-center" st-sort="name">{{translation.NAME}}</th>
-      <th class="text-center" st-sort="description">{{translation.DESCRIPTION}}</th>
-      <th class="text-center" st-sort="rating">{{translation.RATING}}</th>
+      <th st-sort="name">{{translation.NAME}}</th>
+      <th st-sort="description">{{translation.DESCRIPTION}}</th>
+      <th st-sort="rating">{{translation.RATING}}</th>
     </tr>
     </thead>
     <tbody>
